@@ -2,46 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import axios from 'axios';
-
+import { ScrollView } from 'react-native';
 export default function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     async function fetchNews() {
-      try {
-        const response = await axios.get('http://192.168.1.12:3000/getNews');
-        console.log("API Response:", response.data);
-        if (Array.isArray(response.data)) {
-          setData(response.data.slice(0, 20));  // Slice the array to get only the first 20 items
+        try {
+            const response = await axios.get('http://130.215.213.15:3000/getNews');// dont forget to change ip every time network errors 
+            console.log("API Response:", response.data);
+            if (response.data.content && Array.isArray(response.data.content)) {
+                setData(response.data.content);
+            }
+        } catch (error) {
+            console.error('Error fetching news:', error);
         }
-      } catch (error) {
-        console.error('Error fetching news from me:', error);
-      }
     }
     fetchNews();
-  }, []);
+}, []);
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.url}
-        renderItem={({ item }) => (
-          <View style={styles.newsItem}>
-            <Text style={styles.symbol}>{item.symbol}</Text>
-            <Text style={styles.headline}>{item.headline}</Text>
-          </View>
-        )}
-      />
-      <StatusBar style="auto" />
-    </View>
+return (
+    <ScrollView style={styles.container}>
+    {data.map((item, index) => (
+       <View key={index} style={styles.newsItem}>
+          <Text style={styles.symbol}>{item.symbol}</Text>
+          <Text style={styles.headline}>{item.headline}</Text>
+       </View>
+    ))}
+ </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 16, // top green bar
+    paddingBottom: 16, // bottom green bar
+    paddingHorizontal: 16,
+    backgroundColor: "#FFFFFF", // White background
   },
   newsItem: {
     padding: 12,
