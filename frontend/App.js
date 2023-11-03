@@ -74,42 +74,42 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Aligns children vertically in the middle
-    alignItems: 'center', // Aligns children horizontally in the middle
-    backgroundColor: '#F2E8CF', // White background
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    backgroundColor: '#F2E8CF', 
     paddingTop:5,
   },
   header: {
     flexDirection: 'row',
-    alignItems: 'center', // This will align items vertically in the center.
-    alignSelf: 'flex-start', // Aligns the header view to the start of the cross axis (left side).
-    padding: 0, // Adjust padding as needed.
+    alignItems: 'center', 
+    alignSelf: 'flex-start', 
+    padding: 0, 
   },
   newsItem: {
-    width: '100%', // Takes up 80% of the container width
+    width: '100%', 
     height:'70%',
-    padding: 20, // Inner spacing for the news item
-    marginBottom:5, // Outer spacing for the news item
-    backgroundColor: '#A7C957', // Changed color for the news item to be visible
-    borderRadius: 10, // Rounded corners
-    shadowColor: '#000', // Shadow color
+    padding: 20, 
+    marginBottom:5, 
+    backgroundColor: '#A7C957', 
+    borderRadius: 10, 
+    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // Elevation for Android (shadow for iOS is handled above)
+    elevation: 5, 
   },
   symbol: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8, // Space between the symbol and headline
+    marginBottom: 8, 
   },
   headline: {
     fontSize: 16,
   },
   logo: {
-    width: 70, // Set the width as needed.
-    height: 70, // Set the height as needed.
-    resizeMode: 'contain', // Keeps the aspect ratio of the image.
+    width: 70, 
+    height: 70, 
+    resizeMode: 'contain', 
   },
   name: {
     fontWeight: 'bold',
