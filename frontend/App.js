@@ -13,20 +13,20 @@ export default function App() {
   const [firstItem, setFirstItem] = useState(null);
  
 
-  // useEffect(() => {
-  //   async function fetchNews() {
-  //     try {
-  //       const response = await axios.get('http://192.168.1.12:3000/getNews'); // Make sure the IP is correct and if using on phone look up the IP on the expo app 
-  //       const newsContent = response.data.content;
-  //       if (newsContent && Array.isArray(newsContent) && newsContent.length > 0) {
-  //         setFirstItem(newsContent[0]);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching news:', error);
-  //     }
-  //   }
-  //   fetchNews();
-  // }, []);
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const response = await axios.get('http://192.168.56.1:3000/getNews'); // Make sure the IP is correct and if using on phone look up the IP on the expo app 
+        const newsContent = response.data.content;
+        if (newsContent && Array.isArray(newsContent) && newsContent.length > 0) {
+          setFirstItem(newsContent[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    }
+    fetchNews();
+  }, []);
   const handleButton1Press = () => {
     console.log('Button 1 pressed');
     // Handle Button 1 Press
@@ -60,8 +60,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>StockADE</Text> 
+      <View style={styles.header}>
         <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
+        <Text style={styles.name}>StockADE</Text> 
+      </View>
       <View style={styles.newsItem}>
         <Text style={styles.symbol}>{firstItem.symbol}</Text>
         <Text style={styles.headline}>{firstItem.headline}</Text>
