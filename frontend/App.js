@@ -92,13 +92,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    zIndex: 1, // Ensures this card is below the topCard
+    zIndex: 1, 
   },
   topCard: {
     position: 'absolute',
     width: '100%',
     height: '100%',
-    zIndex: 2, // Ensures this card is above the others
+    zIndex: 2, 
   },
   header: {
     flexDirection: 'row',

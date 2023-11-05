@@ -3,13 +3,8 @@ import React, { useRef } from 'react';
 import { Animated, PanResponder, Dimensions, StyleSheet, View, Text } from 'react-native';
 
 const SwipeableCard = ({ item,onSwipe,style}) => {
-  // Set up animated values
   const pan = useRef(new Animated.ValueXY()).current;
-
-  // Get the screen's width and height for later use
   const { width, height } = Dimensions.get('screen');
-
-  // Create a pan responder to handle the gesture
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: Animated.event(
@@ -47,13 +42,13 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     transform: [
       { translateX: pan.x },
       { translateY: pan.y },
-      // ... you might want to add rotation or other transforms
+      
     ],
   };
 
   return (
     <Animated.View
-      style={[styles.card, cardAnimatedStyle, style]} // make sure to include the `style` prop
+      style={[styles.card, cardAnimatedStyle, style]} 
       {...panResponder.panHandlers}
     >
       {/* Render Content Graph and stuff Here */}
