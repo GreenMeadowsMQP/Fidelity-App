@@ -1,75 +1,76 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
-
+import { View, StyleSheet, Image, Text } from 'react-native';
 import axios from 'axios';
-import Toolbar from './Toolbar.js'; 
-
-
-
-
+import SwipeableCard from './SwipeableCard'; // Make sure the path is correct
+import Toolbar from './Toolbar';
 
 export default function App() {
-  
-  const [firstItem, setFirstItem] = useState(null);
- 
+  const [newsContent, setNewsContent] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await axios.get('http://192.168.56.1:3000/getNews'); // Make sure the IP is correct and if using on phone look up the IP on the expo app 
-        const newsContent = response.data.content;
-        if (newsContent && Array.isArray(newsContent) && newsContent.length > 0) {
-          setFirstItem(newsContent[0]);
-        }
+        const response = await axios.get('http://192.168.1.12:3000/getNews');
+        setNewsContent(response.data.content);
       } catch (error) {
         console.error('Error fetching news:', error);
       }
     }
     fetchNews();
   }, []);
-  const handleButton1Press = () => {
-    console.log('Button 1 pressed');
-    // Handle Button 1 Press
-  };
 
-  const handleButton2Press = () => {
-    console.log('Button 2 pressed');
-    // Handle Button 2 Press
+  const handleSwipe = () => {
+    setCurrentIndex((prevIndex) => {
+      // Increment the index unless we're at the last card.
+      const nextIndex = prevIndex + 1;
+      return nextIndex < newsContent.length ? nextIndex : prevIndex;
+    });
   };
-
-  const handleButton3Press = () => {
-    console.log('Button 3 pressed');
-    // Handle Button 3 Press
+  
+  const renderCards = () => {
+    const cards = [];
+  
+    // Add the current card to the cards array.
+    if (newsContent[currentIndex]) {
+      cards.push(
+        <SwipeableCard
+          key={`card-${currentIndex}`}
+          item={newsContent[currentIndex]}
+          onSwipe={currentIndex < newsContent.length - 1 ? handleSwipe : null}
+          style={styles.topCard}
+        />
+      );
+    }
+    
+    // Add the next card to the cards array if it exists.
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < newsContent.length) {
+      cards.push(
+        <SwipeableCard
+          key={`card-${nextIndex}`}
+          item={newsContent[nextIndex]}
+          style={styles.behindCard}
+        />
+      );
+    }
+    
+    return cards;
   };
-
-  // If there is no data yet placeholder 
-  if (!firstItem) {
-    return (
-      <View style={styles.container}>
-         <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.name}>StockADE</Text> 
-      </View>
-        <View style={styles.newsItem}>
-        <Text>Loading...</Text>
-        </View>
-        <Toolbar />
-      </View>
-    );
-  }
+  
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.name}>StockADE</Text> 
-      </View>
-      <View style={styles.newsItem}>
-        <Text style={styles.symbol}>{firstItem.symbol}</Text>
-        <Text style={styles.headline}>{firstItem.headline}</Text>
-      </View>
-      <Toolbar />
+    <View style={styles.header}>
+      <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
+      <Text style={styles.name}>StockADE</Text>
     </View>
+    <View style={styles.cardStack}>
+      {renderCards()}
+      
+    </View>
+    <Toolbar />
+  </View>
   );
 }
 
@@ -80,33 +81,30 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     backgroundColor: '#F2E8CF', 
     paddingTop:5,
+    zIndex:0,
+  },
+  cardStack: {
+    width: '100%',
+    height: '70%',
+    position: 'relative',
+  },
+  behindCard: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    zIndex: 1, // Ensures this card is below the topCard
+  },
+  topCard: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    zIndex: 2, // Ensures this card is above the others
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center', 
     alignSelf: 'flex-start', 
     padding: 0, 
-  },
-  newsItem: {
-    width: '100%', 
-    height:'70%',
-    padding: 20, 
-    marginBottom:5, 
-    backgroundColor: '#A7C957', 
-    borderRadius: 10, 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5, 
-  },
-  symbol: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8, 
-  },
-  headline: {
-    fontSize: 16,
   },
   logo: {
     width: 70, 
@@ -119,5 +117,5 @@ const styles = StyleSheet.create({
     marginLeft:-15,
     
   }
-
+  
 });
