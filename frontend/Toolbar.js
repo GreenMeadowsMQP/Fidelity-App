@@ -12,6 +12,20 @@ const Toolbar = ({ onButton1Press, onButton2Press, onButton3Press }) => {
     overlay3: require('./assets/images/ToolbarImages/Ellipse2.png'),
   };
 
+  onButton1Press = () => {
+    console.log('Make left swipe')
+    
+  }
+
+  onButton2Press = () => {
+    console.log('Make up swipe')
+    
+  }
+  onButton3Press = () => {
+    console.log('Make right swipe')
+    
+  }
+
   return (
     <View style={styles.toolbar}>
       {/* Button 1 */}

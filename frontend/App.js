@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     zIndex:0,
   },
   cardStack: {
-    width: '100%',
+    width: '98%',
     height: '70%',
     position: 'relative',
   },
