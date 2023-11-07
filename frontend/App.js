@@ -4,6 +4,8 @@ import axios from 'axios';
 import SwipeableCard from './SwipeableCard'; // Make sure the path is correct
 import Toolbar from './Toolbar';
 
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+
 export default function App() {
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,7 +13,7 @@ export default function App() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await axios.get('http://192.168.1.12:3000/getNews');
+        const response = await axios.get('http://'+ myIP +':3000/getNews');
         setNewsContent(response.data.content);
       } catch (error) {
         console.error('Error fetching news:', error);
