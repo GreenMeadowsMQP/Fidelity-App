@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { cards } from './App';
 
 const Toolbar = ({ onButton1Press, onButton2Press, onButton3Press }) => {
   // Define your button and overlay images
@@ -13,8 +14,10 @@ const Toolbar = ({ onButton1Press, onButton2Press, onButton3Press }) => {
   };
 
   onButton1Press = () => {
-    console.log('Make left swipe')
-    
+    console.log('Make left swipe');
+    let curCard = cards[0];
+    console.log(curCard);
+    curCard.panResponder.onPanResponderRelease(null, {dx:-width, dy:0});
   }
 
   onButton2Press = () => {

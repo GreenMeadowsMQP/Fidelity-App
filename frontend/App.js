@@ -5,10 +5,12 @@ import SwipeableCard from './SwipeableCard'; // Make sure the path is correct
 import Toolbar from './Toolbar';
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+export let cards = [];
 
 export default function App() {
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  
 
   useEffect(() => {
     async function fetchNews() {
@@ -31,7 +33,10 @@ export default function App() {
   };
   
   const renderCards = () => {
-    const cards = [];
+    // cards = [];
+    if(cards.length > 1){
+      cards = [];
+    }
   
     // Add the current card to the cards array.
     if (newsContent[currentIndex]) {
@@ -59,6 +64,7 @@ export default function App() {
     
     return cards;
   };
+  
   
 
   return (
@@ -121,3 +127,4 @@ const styles = StyleSheet.create({
   }
   
 });
+
