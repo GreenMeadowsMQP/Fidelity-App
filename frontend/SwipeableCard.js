@@ -115,7 +115,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     }
 
     try {
-      const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols=${symbol}&startDate=${startDate}&endDate=${endDate}');
+      const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols='+symbol+'&startDate='+startDate+'&endDate='+ endDate);
       const newGraphData = response.data.content[0].records;
       setTimeframeGraphData(newGraphData); // Update the state with the new graph data
     } catch (error) {
