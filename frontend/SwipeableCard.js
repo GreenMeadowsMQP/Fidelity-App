@@ -1,14 +1,12 @@
 
 import React, { useState,useRef,useEffect } from 'react';
 import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,TouchableOpacity} from 'react-native';
-// import Toolbar from './Toolbar';
-
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import moment from 'moment';
-
+const myIP = '192.168.1.29'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style}) => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState('1M'); // Default to 1M
+  const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
   const { width, height } = Dimensions.get('screen');
@@ -117,7 +115,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     }
 
     try {
-      const response = await axios.get(`http://192.168.1.29:3000/getGraphData?symbols=${symbol}&startDate=${startDate}&endDate=${endDate}`);
+      const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols=${symbol}&startDate=${startDate}&endDate=${endDate}');
       const newGraphData = response.data.content[0].records;
       setTimeframeGraphData(newGraphData); // Update the state with the new graph data
     } catch (error) {
