@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {getGraphData, getToken, getNews } = require('./api.js');
+const { addToWatchlist } = require('./db')
 
 const app = express();
 const PORT = 3000;
@@ -64,3 +65,10 @@ try {
 } catch (error) {
     console.error("Error starting server:", error);
 }
+
+
+app.post('/storeData', (req, res) => {
+    const { Symbol, Headline } = req.body;
+    addToWatchlist(Symbol, Headline);
+
+  });
