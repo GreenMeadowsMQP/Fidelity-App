@@ -4,7 +4,7 @@ import axios from 'axios';
 import SwipeableCard from './SwipeableCard'; // Make sure the path is correct
 import Toolbar from './Toolbar';
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = '192.168.1.29'; //CHANGE IP TO RUN LOCALLY
 export let cards = [];
 
 export default function App() {
