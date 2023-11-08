@@ -10,7 +10,6 @@ export let cards = [];
 export default function App() {
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
 
   useEffect(() => {
     async function fetchNews() {
@@ -23,7 +22,6 @@ export default function App() {
     }
     fetchNews();
   }, []);
-
   const handleSwipe = () => {
     setCurrentIndex((prevIndex) => {
       // Increment the index unless we're at the last card.
@@ -31,7 +29,6 @@ export default function App() {
       return nextIndex < newsContent.length ? nextIndex : prevIndex;
     });
   };
-  
   const renderCards = () => {
     // cards = [];
     if(cards.length > 1){
@@ -44,6 +41,7 @@ export default function App() {
         <SwipeableCard
           key={`card-${currentIndex}`}
           item={newsContent[currentIndex]}
+          
           onSwipe={currentIndex < newsContent.length - 1 ? handleSwipe : null}
           style={styles.topCard}
         />
@@ -57,6 +55,7 @@ export default function App() {
         <SwipeableCard
           key={`card-${nextIndex}`}
           item={newsContent[nextIndex]}
+          
           style={styles.behindCard}
         />
       );
