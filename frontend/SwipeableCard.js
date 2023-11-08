@@ -7,11 +7,6 @@ import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import moment from 'moment';
 
-
-
-  
-
-  
 const SwipeableCard = ({ item,onSwipe,style}) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('1M'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
@@ -196,25 +191,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       {/* Render Content Graph and stuff Here */}
       <Text style={styles.symbol}>{item.symbol}</Text>
       <Text style={styles.headline}>{item.headline}</Text>
-      <View style={styles.toolbar}>
-        {/* Button 1 */}
-        <TouchableOpacity style={styles.button} onPress={onButton1Press}>
-          <Image source={buttonImages.button1} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay1} style={styles.buttonOverlay} />
-        </TouchableOpacity>
-
-        {/* Button 2 */}
-        <TouchableOpacity style={styles.button} onPress={onButton2Press}>
-          <Image source={buttonImages.button2} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay2} style={styles.buttonOverlay} />
-        </TouchableOpacity>
-
-        {/* Button 3 */}
-        <TouchableOpacity style={styles.button} onPress={onButton3Press}>
-          <Image source={buttonImages.button3} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay3} style={styles.buttonOverlay} />
-        </TouchableOpacity>
-      </View>
+      
       <LineChart
         data={data}
         width={Dimensions.get('window').width * 0.9}
@@ -239,6 +216,26 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       selectedTimeframe={selectedTimeframe}
       onSelectTimeframe={handleTimeframeChange}
       />
+      <View style={styles.toolbar}>
+        {/* Button 1 */}
+        <TouchableOpacity style={styles.button} onPress={onButton1Press}>
+          <Image source={buttonImages.button1} style={styles.buttonBackground} />
+          <Image source={buttonImages.overlay1} style={styles.buttonOverlay} />
+        </TouchableOpacity>
+
+        {/* Button 2 */}
+        <TouchableOpacity style={styles.button} onPress={onButton2Press}>
+          <Image source={buttonImages.button2} style={styles.buttonBackground} />
+          <Image source={buttonImages.overlay2} style={styles.buttonOverlay} />
+        </TouchableOpacity>
+
+        {/* Button 3 */}
+        <TouchableOpacity style={styles.button} onPress={onButton3Press}>
+          <Image source={buttonImages.button3} style={styles.buttonBackground} />
+          <Image source={buttonImages.overlay3} style={styles.buttonOverlay} />
+        </TouchableOpacity>
+      </View>
+
     </Animated.View>
   );
 };
