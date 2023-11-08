@@ -72,17 +72,14 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   };
 
   const onButton1Press = () => {
-    console.log('Make left swipe !');
     acceptSwipe(-width, 0);
   }
 
   const onButton2Press = () => {
-    console.log('Make up swipe !')
     acceptSwipe(0, -height);
     
   }
   const onButton3Press = () => {
-    console.log('Make right swipe !')
     acceptSwipe(width, 0);
   }
 
@@ -107,24 +104,24 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       <Text style={styles.symbol}>{item.symbol}</Text>
       <Text style={styles.headline}>{item.headline}</Text>
       <View style={styles.toolbar}>
-      {/* Button 1 */}
-      <TouchableOpacity style={styles.button} onPress={onButton1Press}>
-        <Image source={buttonImages.button1} style={styles.buttonBackground} />
-        <Image source={buttonImages.overlay1} style={styles.buttonOverlay} />
-      </TouchableOpacity>
+        {/* Button 1 */}
+        <TouchableOpacity style={styles.button} onPress={onButton1Press}>
+          <Image source={buttonImages.button1} style={styles.buttonBackground} />
+          <Image source={buttonImages.overlay1} style={styles.buttonOverlay} />
+        </TouchableOpacity>
 
-      {/* Button 2 */}
-      <TouchableOpacity style={styles.button} onPress={onButton2Press}>
-        <Image source={buttonImages.button2} style={styles.buttonBackground} />
-        <Image source={buttonImages.overlay2} style={styles.buttonOverlay} />
-      </TouchableOpacity>
+        {/* Button 2 */}
+        <TouchableOpacity style={styles.button} onPress={onButton2Press}>
+          <Image source={buttonImages.button2} style={styles.buttonBackground} />
+          <Image source={buttonImages.overlay2} style={styles.buttonOverlay} />
+        </TouchableOpacity>
 
-      {/* Button 3 */}
-      <TouchableOpacity style={styles.button} onPress={onButton3Press}>
-        <Image source={buttonImages.button3} style={styles.buttonBackground} />
-        <Image source={buttonImages.overlay3} style={styles.buttonOverlay} />
-      </TouchableOpacity>
-    </View>
+        {/* Button 3 */}
+        <TouchableOpacity style={styles.button} onPress={onButton3Press}>
+          <Image source={buttonImages.button3} style={styles.buttonBackground} />
+          <Image source={buttonImages.overlay3} style={styles.buttonOverlay} />
+        </TouchableOpacity>
+      </View>
     </Animated.View>
   );
 };
@@ -154,7 +151,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'center', 
   },
   button: {
     // Set the dimensions large enough to fit the background and overlay.

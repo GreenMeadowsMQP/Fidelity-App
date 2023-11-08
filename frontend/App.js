@@ -71,13 +71,13 @@ export default function App() {
     <View style={styles.container}>
     <View style={styles.header}>
       <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-      <Text style={styles.name}>StockADE</Text>
+      <Text style={styles.appTitle}>StockADE</Text>
     </View>
     <View style={styles.cardStack}>
       {renderCards()}
       
     </View>
-    <Toolbar />
+    {/* <Toolbar /> */}
   </View>
   );
 }
@@ -119,11 +119,10 @@ const styles = StyleSheet.create({
     height: 70, 
     resizeMode: 'contain', 
   },
-  name: {
+  appTitle: {
     fontWeight: 'bold',
     fontSize: 30, 
     marginLeft:-15,
-    
   }
   
 });
