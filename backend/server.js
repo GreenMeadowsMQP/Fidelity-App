@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { getToken, getNews } = require('./api.js');
+const {getGraphData, getToken, getNews } = require('./api.js');
 
 const app = express();
 const PORT = 3000;
@@ -17,6 +17,27 @@ app.get('/getToken', async (req, res) => {
         res.status(500).send('Error fetching token.');
     }
 });
+app.get('/getGraphData', async (req, res) => {
+    try {
+        // Extract query parameters from the request
+        const { symbols, startDate, endDate } = req.query;
+
+        // Validate the required parameters
+        if (!symbols || !startDate || !endDate) {
+            return res.status(400).send('Missing required query parameters: symbols, startDate, endDate');
+        }
+
+        // Call getGraphData with the query parameters
+        const graphData = await getGraphData(symbols, startDate, endDate);
+
+        // Send the graph data back to the client
+        res.json(graphData);
+    } catch (error) {
+        console.error('Error fetching graph data:', error);
+        res.status(500).send('Error fetching graph data.');
+    }
+});
+
 
 app.get('/getNews', async (req, res) => {
     try {

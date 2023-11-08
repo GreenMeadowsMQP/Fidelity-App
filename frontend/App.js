@@ -4,14 +4,15 @@ import axios from 'axios';
 import SwipeableCard from './SwipeableCard'; // Make sure the path is correct
 import Toolbar from './Toolbar';
 
+
 export default function App() {
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await axios.get('http://192.168.1.12:3000/getNews');
+        const response = await axios.get('http://192.168.1.29:3000/getNews');
         setNewsContent(response.data.content);
       } catch (error) {
         console.error('Error fetching news:', error);
@@ -19,7 +20,6 @@ export default function App() {
     }
     fetchNews();
   }, []);
-
   const handleSwipe = () => {
     setCurrentIndex((prevIndex) => {
       // Increment the index unless we're at the last card.
@@ -27,7 +27,6 @@ export default function App() {
       return nextIndex < newsContent.length ? nextIndex : prevIndex;
     });
   };
-  
   const renderCards = () => {
     const cards = [];
   
@@ -37,6 +36,7 @@ export default function App() {
         <SwipeableCard
           key={`card-${currentIndex}`}
           item={newsContent[currentIndex]}
+          
           onSwipe={currentIndex < newsContent.length - 1 ? handleSwipe : null}
           style={styles.topCard}
         />
@@ -50,6 +50,7 @@ export default function App() {
         <SwipeableCard
           key={`card-${nextIndex}`}
           item={newsContent[nextIndex]}
+          
           style={styles.behindCard}
         />
       );
