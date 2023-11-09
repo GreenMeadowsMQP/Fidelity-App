@@ -34,8 +34,8 @@ app.get('/getGraphData', async (req, res) => {
         // Send the graph data back to the client
         res.json(graphData);
     } catch (error) {
-        console.error('Error fetching graph data:', error);
-        res.status(500).send('Error fetching graph data.');
+        console.error('Error fetching graph data in express:', error);
+        res.status(500).send('Error fetching graph data in express.');
     }
 });
 
@@ -45,8 +45,8 @@ app.get('/getNews', async (req, res) => {
         const news = await getNews();
         res.json(news);
     } catch (error) {
-        console.error('Error fetching news:', error);
-        res.status(500).send('Error fetching news.');
+        console.error('Error fetching news in express:', error);
+        res.status(500).send('Error fetching news in express.');
     }
 });
 
