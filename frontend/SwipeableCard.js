@@ -1,6 +1,6 @@
 
 import React, { useState,useRef,useEffect } from 'react';
-import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,TouchableOpacity} from 'react-native';
+import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Pressable} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import moment from 'moment';
@@ -154,7 +154,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
         {timeframes.map((timeframe) => {
           const isSelected = selectedTimeframe === timeframe;
           return (
-            <TouchableOpacity
+            <Pressable
               key={timeframe}
               style={[
                 styles.timeframeButton,
@@ -168,7 +168,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
               ]}>
                 {timeframe}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           );
         })}
       </View>
@@ -234,22 +234,22 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       />
       <View style={styles.toolbar}>
         {/* Button 1 */}
-        <TouchableOpacity style={styles.button} onPress={onButton1Press}>
+        <Pressable style={styles.button} onPress={onButton1Press}>
           <Image source={buttonImages.button1} style={styles.buttonBackground} />
           <Image source={buttonImages.overlay1} style={styles.buttonOverlay} />
-        </TouchableOpacity>
+        </Pressable>
 
         {/* Button 2 */}
-        <TouchableOpacity style={styles.button} onPress={onButton2Press}>
+        <Pressable style={styles.button} onPress={onButton2Press}>
           <Image source={buttonImages.button2} style={styles.buttonBackground} />
           <Image source={buttonImages.overlay2} style={styles.buttonOverlay} />
-        </TouchableOpacity>
+        </Pressable>
 
         {/* Button 3 */}
-        <TouchableOpacity style={styles.button} onPress={onButton3Press}>
+        <Pressable style={styles.button} onPress={onButton3Press}>
           <Image source={buttonImages.button3} style={styles.buttonBackground} />
           <Image source={buttonImages.overlay3} style={styles.buttonOverlay} />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
     </Animated.View>
@@ -264,10 +264,10 @@ const styles = StyleSheet.create({
     marginBottom:5, 
     backgroundColor: '#A7C957', 
     borderRadius: 10, 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    boxShadowColor: '#000', 
+    boxShadowOffset: { width: 0, height: 2 },
+    boxShadowOpacity: 0.25,
+    boxShadowRadius: 3.84,
     elevation: 5, 
   },
   symbol: {
@@ -320,11 +320,11 @@ const styles = StyleSheet.create({
   },
   selectedTimeframeButton: {
     backgroundColor: '#386641', // Background color for selected button
-    // Add shadow or other styling for "smoothed rectangular shading" here
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    // Add boxShadow or other styling for "smoothed rectangular shading" here
+    boxShadowColor: '#000',
+    boxShadowOffset: { width: 0, height: 2 },
+    boxShadowOpacity: 0.2,
+    boxShadowRadius: 3,
     elevation: 2,
   },
   timeframeButtonText: {

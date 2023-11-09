@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Pressable, StyleSheet, Image } from 'react-native';
 
 const HomeBar = () => {
     
@@ -12,19 +12,19 @@ const HomeBar = () => {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
         {/* Watchlist Button */}
-      <TouchableOpacity style={styles.button} >
+      <Pressable style={styles.button} >
         <Image source={buttonImages.watchlist} style={styles.buttonBackground} />
-      </TouchableOpacity>
+      </Pressable>
 
         {/* Home Button */}
-      <TouchableOpacity style={styles.button} >
+      <Pressable style={styles.button} >
         <Image source={buttonImages.home} style={styles.buttonBackground} />
-      </TouchableOpacity>
+      </Pressable>
 
         {/* Profile Button */}
-      <TouchableOpacity style={styles.button} >
+      <Pressable style={styles.button} >
         <Image source={buttonImages.profile} style={styles.buttonBackground} />
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
