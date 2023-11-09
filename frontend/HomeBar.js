@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Pressable, StyleSheet, Image } from 'react-native';
 
-const HomeBar = () => {
+
+const HomeBar = ({navigation}) => {
     
     const buttonImages = {
         watchlist: require('./assets/images/HomebarImages/watchlist.png'),
@@ -12,12 +13,12 @@ const HomeBar = () => {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
         {/* Watchlist Button */}
-      <Pressable style={styles.button} >
+      <Pressable style={styles.button} onPress={() => navigation.navigate('WatchList')} >
         <Image source={buttonImages.watchlist} style={styles.buttonBackground} />
       </Pressable>
 
         {/* Home Button */}
-      <Pressable style={styles.button} >
+      <Pressable style={styles.button} onPress={() => navigation.navigate('HomePage')} >
         <Image source={buttonImages.home} style={styles.buttonBackground} />
       </Pressable>
 
