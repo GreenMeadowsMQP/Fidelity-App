@@ -50,6 +50,12 @@ app.get('/getNews', async (req, res) => {
     }
 });
 
+app.post('/storeData', (req, res) => {
+    const { Symbol, Headline } = req.body;
+    addToWatchlist(Symbol, Headline);
+    res.send('Data received successfully'); // Send a response back to the client
+  });
+
 console.log("About to fetch initial token...");
 getToken().then(token => {
     console.log('Received token');
@@ -67,8 +73,3 @@ try {
 }
 
 
-app.post('/storeData', (req, res) => {
-    const { Symbol, Headline } = req.body;
-    addToWatchlist(Symbol, Headline);
-
-  });

@@ -20,9 +20,10 @@ async function run() {
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
@@ -60,7 +61,7 @@ async function insertDocument(symbol, headline) {
       // Call the function to insert a document
       await insertDocument(symbol, headline);
     } finally {
-      await client.close();
+      // await client.close();
     }
   }
 

@@ -74,7 +74,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       Headline: hdln,
     };
 
-    axios.post('/storeData', dataToSend)
+    axios.post('http://localhost:3000/storeData', dataToSend)
   .then((response) => {
     // Handle the response from the server, e.g., show a success message to the user
     console.log(response.data);
