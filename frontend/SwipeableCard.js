@@ -43,6 +43,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
           //Right swipe
           //TODO: HANDLE ADDING TO WATCHLIST 
           console.log('Right swipe: Handle adding to watchlist');
+          sendDataToServer(item.symbol, item.headline)
         } else{
           console.log('Left swipe: Nothing to do here');
         }
@@ -63,6 +64,23 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
         useNativeDriver: true,
       }).start();
     }
+  }
+
+  const sendDataToServer = (symb, hdln) => {
+    const dataToSend = {
+      Symbol: symb,
+      Headline: hdln,
+    };
+
+    axios.post('http://localhost:3000/storeData', dataToSend)
+  .then((response) => {
+    // Handle the response from the server, e.g., show a success message to the user
+    console.log(response.data);
+  })
+  .catch((error) => {
+    // Handle any errors, e.g., display an error message to the user
+    console.error(error);
+  });
   }
 
   const buttonImages = {

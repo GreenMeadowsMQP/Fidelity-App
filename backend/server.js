@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {getGraphData, getToken, getNews } = require('./api.js');
+const { addToWatchlist } = require('./db')
 
 const app = express();
 const PORT = 3000;
@@ -49,6 +50,12 @@ app.get('/getNews', async (req, res) => {
     }
 });
 
+app.post('/storeData', (req, res) => {
+    const { Symbol, Headline } = req.body;
+    addToWatchlist(Symbol, Headline);
+    res.send('Data received successfully'); // Send a response back to the client
+  });
+
 console.log("About to fetch initial token...");
 getToken().then(token => {
     console.log('Received token');
@@ -64,3 +71,5 @@ try {
 } catch (error) {
     console.error("Error starting server:", error);
 }
+
+
