@@ -69,7 +69,7 @@ export default function App() {
   return (
     <View style={styles.container}>
     <View style={styles.header}>
-      <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
+      <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} resizeMode="contain" />
       <Text style={styles.appTitle}>StockADE</Text>
     </View>
     <View style={styles.cardStack}>
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 70, 
     height: 70, 
-    resizeMode: 'contain', 
   },
   appTitle: {
     fontWeight: 'bold',

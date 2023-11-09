@@ -34,19 +34,19 @@ const Toolbar = ({ onButton1Press, onButton2Press, onButton3Press }) => {
       {/* Button 1 */}
       <TouchableOpacity style={styles.button} onPress={onButton1Press}>
         <Image source={buttonImages.button1} style={styles.buttonBackground} />
-        <Image source={buttonImages.overlay1} style={styles.buttonOverlay} />
+        <Image source={buttonImages.overlay1} style={styles.buttonOverlay}resizeMode="contain" />
       </TouchableOpacity>
 
       {/* Button 2 */}
       <TouchableOpacity style={styles.button} onPress={onButton2Press}>
         <Image source={buttonImages.button2} style={styles.buttonBackground} />
-        <Image source={buttonImages.overlay2} style={styles.buttonOverlay} />
+        <Image source={buttonImages.overlay2} style={styles.buttonOverlay}resizeMode="contain" />
       </TouchableOpacity>
 
       {/* Button 3 */}
       <TouchableOpacity style={styles.button} onPress={onButton3Press}>
         <Image source={buttonImages.button3} style={styles.buttonBackground} />
-        <Image source={buttonImages.overlay3} style={styles.buttonOverlay} />
+        <Image source={buttonImages.overlay3} style={styles.buttonOverlay}resizeMode="contain" />
       </TouchableOpacity>
     </View>
   );
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
       position: 'absolute',
       width: 80, // Width of the overlay in pixels.
       height: 80, // Height of the overlay in pixels.
-      resizeMode: 'contain', // 'cover' will fill the area and might cut off parts, 'contain' will make sure all parts are visible.
       borderRadius: 32, // Half of the overlay size to make it circular.
       // Remove top and left percentages. Instead, center using the following technique:
       alignSelf: 'center',
