@@ -50,7 +50,7 @@ async function getNews() {
         console.log("Succesfully Got News API")
         return response.data;
     } catch (error) {
-        console.error('Error fetching news:', error);
+        console.error('Error fetching news in API:', error);
         console.error(error.response ? error.response.data : error.message); 
         throw error;
     }
@@ -76,7 +76,7 @@ async function getGraphData(symbols, startDate, endDate){
         console.log("Successfully Got Graph Data");
         return graphData;
     } catch(error) {
-        console.error("Error fetching Graph Data");
+        console.error("Error fetching Graph Data in API");
         console.error(error.response ? error.response.data : error.message);
         throw error;
     }

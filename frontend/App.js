@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import axios from 'axios';
 import SwipeableCard from './SwipeableCard'; // Make sure the path is correct
-import Toolbar from './Toolbar';
 import HomeBar from './homebar';
+
 
 const myIP = '192.168.1.29'; //CHANGE IP TO RUN LOCALLY
 export let cards = [];
