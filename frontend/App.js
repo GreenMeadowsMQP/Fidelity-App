@@ -14,9 +14,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="HomePage">
-        <Stack.Screen name="HomePage" component={HomePage}/>
-        <Stack.Screen name="WatchList" component={Watchlist} 
-        />
+        <Stack.Screen name="HomePage" component={HomePage} options={{ headerShown: false }}/>
+        <Stack.Screen name="WatchList" component={Watchlist }  options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
 
