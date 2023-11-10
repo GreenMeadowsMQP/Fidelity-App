@@ -3,15 +3,38 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import SwipeableCard from './SwipeableCard';
 import HomeBar from './HomeBar';
+import axios from 'axios';
+
+
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+
 
 export let cards = [];
 
 const HomePage = ({ route, navigation }) => {
-  
-  const { params } = route;
-  const { newsContent = [], currentIndex = 0, handleSwipe } = params || {};
 
-  //NEED TO FIX CARD DISPLAY AT SOME POINT
+  const [newsContent, setNewsContent] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const response = await axios.get('http://' + myIP + ':3000/getNews');
+        setNewsContent(response.data.content);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    }
+    fetchNews();
+  }, []);
+
+  const handleSwipe = () => {
+    setCurrentIndex((prevIndex) => {
+      // Increment the index unless we're at the last card.
+      const nextIndex = prevIndex + 1;
+      return nextIndex < newsContent.length ? nextIndex : prevIndex;
+    });
+  };
 
     const renderCards = () => {
     if (newsContent.length > 1) {
