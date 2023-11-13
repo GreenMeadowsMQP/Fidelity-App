@@ -4,7 +4,7 @@ import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Press
 import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-native-responsive-linechart';
 import axios from 'axios';
 import moment from 'moment';
-const myIP = '192.168.1.32'; //CHANGE IP TO RUN LOCALLY
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style}) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
