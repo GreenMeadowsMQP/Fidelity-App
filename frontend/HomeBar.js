@@ -23,7 +23,7 @@ const HomeBar = ({navigation}) => {
       </Pressable>
 
         {/* Profile Button */}
-      <Pressable style={styles.button} >
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Profile')} >
         <Image source={buttonImages.profile} style={styles.buttonBackground} />
       </Pressable>
     </View>

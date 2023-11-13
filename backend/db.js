@@ -65,6 +65,33 @@ async function insertDocument(symbol, headline) {
     }
   }
 
+  async function getUniqueStocksymbols() {
+    // Use connect method to connect to the server
+    // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  
+    try {
+      // await client.connect();  
+      const db = client.db("StockADE");
+      const collection = db.collection('Watchlist');
+
+      // Use aggregation pipeline to get unique stock symbols
+      const result = await collection.aggregate([
+        { $group: { _id: '$Symbol', count: { $sum: 1 } } },
+        { $match: { count: { $gte: 1 } } },
+        { $project: { _id: 0, symbol: '$_id' } }
+      ]).toArray();
+  
+      const uniqueStocksymbols = result.map(item => item.symbol);
+  
+      console.log('Getting Unique Stock symbols:', uniqueStocksymbols);
+      return uniqueStocksymbols.sort();
+
+    } finally {
+      // await client.close();
+    }
+  }
+
   module.exports = {
     addToWatchlist,
+    getUniqueStocksymbols
   };

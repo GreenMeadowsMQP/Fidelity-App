@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginLeft: -15,
   },
+  
 });
 
 export default HomePage;
