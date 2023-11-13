@@ -103,6 +103,19 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   const onButton3Press = () => {
     acceptSwipe(width, 0);
   }
+  // const fetchLastTrade = async (symbol)=>{
+  //   try {
+  //     const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols='+symbol+'&startDate='+startDate+'&endDate='+ endDate);
+  //     const newGraphData = response.data.content[0].records
+  //     console.log("Fetched data: ", newGraphData);
+  //     setTimeframeGraphData(newGraphData);
+  //     console.log("State update called");
+      
+  //   } catch (error) {
+  //     console.error('Error fetching Last Trade data:', error);
+      
+  //   }
+  // }
   // Function to fetch graph data
   const fetchGraphData = async (symbol, timeframe) => {
     let startDate;

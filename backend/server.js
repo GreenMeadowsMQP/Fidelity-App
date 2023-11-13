@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -39,7 +39,16 @@ app.get('/getGraphData', async (req, res) => {
         res.status(500).send('Error fetching graph data in express.');
     }
 });
-
+app.get('/getLastTrade',async(req,res)=>{
+    try {
+        console.log("Getting LastTrade")
+        const news = await getLastTrade();
+        res.json(news);
+    } catch (error) {
+        console.error('Error fetching Last Trade in express:', error);
+        res.status(500).send('Error fetching Last Trade in express.');
+    }
+})
 
 app.get('/getNews', async (req, res) => {
     try {

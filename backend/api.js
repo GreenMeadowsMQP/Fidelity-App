@@ -82,9 +82,29 @@ async function getGraphData(symbols, startDate, endDate){
         throw error;
     }
 }
+async function getLastTrade(symbols){
+    try{
+        console.log("getting Last Trade Product")
+        const response = await axios.get("https:///gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v2/equity/last-trade",{
+            headers:{
+                'accept': '*/*',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols,
+                display:true
+            }
+        })
+    }catch(error){
+        console.error("Error fetchin LastTradeProduct")
+        console.error(error.response ? error.response.data:error.message);
+    }
+}
 
 module.exports = {
     getToken,
     getNews,
-    getGraphData
+    getGraphData,
+    getLastTrade
 };
