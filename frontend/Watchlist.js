@@ -10,6 +10,7 @@ const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
   const handleButtonPress = (symbol) => {
     console.log(`Button ${symbol} pressed`);
     // Add your logic for handling button press here
+    //Will go to stock page for each symb
   };
 
 
@@ -89,14 +90,14 @@ const styles = StyleSheet.create({
       elevation: 5, 
     },
     button: {
-      backgroundColor: '#3498db',
+      backgroundColor: '#386641',
       padding: 10,
       marginVertical: 8,
       borderRadius: 8,
-      alignItems: 'center',
     },
     buttonText: {
-      color: '#fff',
+      color: '#F2E8CF',
+      fontWeight: 'bold',
       fontSize: 16,
     },
   });

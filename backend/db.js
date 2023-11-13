@@ -84,7 +84,7 @@ async function insertDocument(symbol, headline) {
       const uniqueStocksymbols = result.map(item => item.symbol);
   
       console.log('Getting Unique Stock symbols:', uniqueStocksymbols);
-      return uniqueStocksymbols;
+      return uniqueStocksymbols.sort();
 
     } finally {
       // await client.close();
