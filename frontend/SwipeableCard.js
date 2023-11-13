@@ -1,10 +1,10 @@
 
 import React, { useState,useRef,useEffect } from 'react';
 import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Pressable} from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
+import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-native-responsive-linechart';
 import axios from 'axios';
 import moment from 'moment';
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = '192.168.1.32'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style}) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
@@ -129,7 +129,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       startDate = moment().subtract(5, 'years').format('YYYY-MM-DD');
       break;
     default:
-      startDate = moment().subtract(1, 'years').format('YYYY-MM-DD');
+      startDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
     }
 
     try {
@@ -143,7 +143,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   };
   useEffect(() => {
     if (item && item.symbol) {
-      fetchGraphData(item.symbol, selectedTimeframe);
+      // fetchGraphData(item.symbol, selectedTimeframe);
     }
   }, [item, selectedTimeframe]); 
   const TimeframeButtons = ({ selectedTimeframe, onSelectTimeframe }) => {
@@ -198,6 +198,13 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       
     ],
   };
+  // const transformDataForChart = (apiData) => {
+  //   return apiData.map((item, index) => ({
+  //     x: index, // or convert the date to a timestamp if needed
+  //     y: item.price
+  //   }));
+  // };
+  
 
   return (
     <Animated.View
@@ -207,27 +214,38 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       {/* Render Content Graph and stuff Here */}
       <Text style={styles.symbol}>{item.symbol}</Text>
       <Text style={styles.headline}>{item.headline}</Text>
-      
-      <LineChart
-        data={data}
-        width={Dimensions.get('window').width * 0.9}
-        height={220}
-        chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
+      <Text style={styles.price}>Price</Text>
+        <Chart
+            style={{ height: 200, width: '100%' }}
+            data={[
+              { x: -2, y: 15 },
+              { x: -1, y: 10 },
+              { x: 0, y: 12 },
+              { x: 1, y: 7 },
+              { x: 2, y: 6 },
+              { x: 3, y: 3 },
+              { x: 4, y: 5 },
+              { x: 5, y: 8 },
+              { x: 6, y: 12 },
+              { x: 7, y: 14 },
+              { x: 8, y: 12 },
+              { x: 9, y: 13.5 },
+              { x: 10, y: 18 },
+              ]}
+            padding={{ left: 0, bottom: 20, right: 0, top: 20 }}
+            xDomain={{ min: -2, max: 10 }}
+            yDomain={{ min: -4, max: 20 }}
+        >
+            <VerticalAxis tickCount={10} theme={{ labels:{ formatter: (v) => v.toFixed(2)},grid:{visible:false},axis:{visible:false},ticks:{visible:false} }} />
+            <HorizontalAxis tickCount={5} theme={{axis:{visible:false},ticks:{visible:false},grid:{visible:false},labels:{visible:false}}} />
+            <Area smoothing='cubic-spline' theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
+            <Line
+            tooltipComponent={<Tooltip  />}
+            
+            theme={{ stroke: { color: '#BC4749', width: 5 } }}
+            />
+            
+        </Chart>     
       <TimeframeButtons
       selectedTimeframe={selectedTimeframe}
       onSelectTimeframe={handleTimeframeChange}
@@ -260,7 +278,7 @@ const styles = StyleSheet.create({
   card: {
     width: '100%', 
     height:'70%',
-    padding: 20, 
+    padding: 0, 
     marginBottom:5, 
     backgroundColor: '#A7C957', 
     borderRadius: 10, 
@@ -273,15 +291,22 @@ const styles = StyleSheet.create({
   symbol: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8, 
+    marginBottom: 8,
+    marginTop:20,
+    marginLeft:20, 
   },
   headline: {
     fontSize: 16,
+    margin:20,
+  },
+  price:{
+    marginTop:10,
   },
   toolbar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center', 
+    
   },
   button: {
     // Set the dimensions large enough to fit the background and overlay.

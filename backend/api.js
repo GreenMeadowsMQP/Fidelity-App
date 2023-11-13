@@ -46,7 +46,7 @@ async function getNews() {
             }
         });
         const newsData = response.data;
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
         console.log("Succesfully Got News API")
         return response.data;
     } catch (error) {
@@ -71,7 +71,8 @@ async function getGraphData(symbols, startDate, endDate){
             }
         });
         const graphData = response.data;
-        console.log("API Response:", graphData);
+        console.log("Respone Length",response.data.content[0].records.length)
+        console.log("Respone Length",response.data.content[0].records)
         console.log("API Response:", response.data);
         console.log("Successfully Got Graph Data");
         return graphData;
