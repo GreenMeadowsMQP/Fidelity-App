@@ -33,7 +33,7 @@ app.get('/getGraphData', async (req, res) => {
 
         // Send the graph data back to the client
         res.json(graphData);
-        console.log("Server Printing",graphData)
+        // console.log("Server Printing",graphData)
     } catch (error) {
         console.error('Error fetching graph data in express:', error);
         res.status(500).send('Error fetching graph data in express.');
@@ -42,8 +42,8 @@ app.get('/getGraphData', async (req, res) => {
 app.get('/getLastTrade',async(req,res)=>{
     try {
         console.log("Getting LastTrade")
-        const news = await getLastTrade();
-        res.json(news);
+        const lastTrade = await getLastTrade();
+        res.json(lastTrade);
     } catch (error) {
         console.error('Error fetching Last Trade in express:', error);
         res.status(500).send('Error fetching Last Trade in express.');

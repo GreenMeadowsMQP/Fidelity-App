@@ -71,9 +71,9 @@ async function getGraphData(symbols, startDate, endDate){
             }
         });
         const graphData = response.data;
-        console.log("Respone Length",response.data.content[0].records.length)
-        console.log("Respone Length",response.data.content[0].records)
-        console.log("API Response:", response.data);
+        // console.log("Respone Length",response.data.content[0].records.length)
+        // console.log("Respone Length",response.data.content[0].records)
+        // console.log("API Response:", response.data);
         console.log("Successfully Got Graph Data");
         return graphData;
     } catch(error) {
@@ -92,10 +92,13 @@ async function getLastTrade(symbols){
                 'x_gm_ext_token': apiToken
             },
             params:{
-                symbols: symbols,
-                display:true
+                symbols: "AAPL",
+                display:false //change this later on
             }
         })
+        const lastTradeData = response.data;
+        console.log(lastTradeData)
+        return lastTradeData;
     }catch(error){
         console.error("Error fetchin LastTradeProduct")
         console.error(error.response ? error.response.data:error.message);
