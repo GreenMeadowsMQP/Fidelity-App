@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {getGraphData, getToken, getNews } = require('./api.js');
-const { addToWatchlist } = require('./db')
+const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
 const PORT = 3000;
@@ -51,11 +51,23 @@ app.get('/getNews', async (req, res) => {
     }
 });
 
+app.get('/getWatchlist', async(req, res) => {
+    try {
+        console.log("Fetching watchlist data...")
+        const symbs = await getUniqueStocksymbols();
+        res.header('Content-Type', 'application/json');
+        res.json(symbs);
+    } catch (error) {
+        console.error('Error fetching watchlist symbols in express:', error);
+        res.status(500).send('Error fetching watchlist symbols in express.');
+    }
+});
+
 app.post('/storeData', (req, res) => {
     const { Symbol, Headline } = req.body;
     addToWatchlist(Symbol, Headline);
     res.send('Data received successfully'); // Send a response back to the client
-  });
+});
 
 console.log("About to fetch initial token...");
 getToken().then(token => {
