@@ -41,8 +41,12 @@ app.get('/getGraphData', async (req, res) => {
 });
 app.get('/getLastTrade',async(req,res)=>{
     try {
+        const {symbols} = req.query;
+        if (!symbols) {
+            return res.status(400).send('Missing required query parameters: symbols');
+        }
         console.log("Getting LastTrade")
-        const lastTrade = await getLastTrade();
+        const lastTrade = await getLastTrade(symbols);
         res.json(lastTrade);
     } catch (error) {
         console.error('Error fetching Last Trade in express:', error);

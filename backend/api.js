@@ -84,7 +84,7 @@ async function getGraphData(symbols, startDate, endDate){
 }
 async function getLastTrade(symbols){
     try{
-        console.log("getting Last Trade Product")
+        console.log("getting Last Trade Product for "+ symbols)
         const response = await axios.get("https:///gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v2/equity/last-trade",{
             headers:{
                 'accept': '*/*',
@@ -92,7 +92,7 @@ async function getLastTrade(symbols){
                 'x_gm_ext_token': apiToken
             },
             params:{
-                symbols: "AAPL",
+                symbols: symbols,
                 display:false //change this later on
             }
         })
