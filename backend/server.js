@@ -33,6 +33,7 @@ app.get('/getGraphData', async (req, res) => {
 
         // Send the graph data back to the client
         res.json(graphData);
+        console.log("Server Printing",graphData)
     } catch (error) {
         console.error('Error fetching graph data in express:', error);
         res.status(500).send('Error fetching graph data in express.');

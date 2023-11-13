@@ -6,7 +6,7 @@ import HomeBar from './HomeBar';
 import axios from 'axios';
 
 
-const myIP = '192.168.1.32'; //CHANGE IP TO RUN LOCALLY
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 
 
 export let cards = [];

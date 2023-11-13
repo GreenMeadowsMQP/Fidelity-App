@@ -4,7 +4,7 @@ import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Press
 import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-native-responsive-linechart';
 import axios from 'axios';
 import moment from 'moment';
-const myIP = '192.168.1.32'; //CHANGE IP TO RUN LOCALLY
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style}) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
@@ -91,7 +91,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     overlay2: require('./assets/images/ToolbarImages/Ellipse3.png'),
     overlay3: require('./assets/images/ToolbarImages/Ellipse2.png'),
   };
-
+  
   const onButton1Press = () => {
     acceptSwipe(-width, 0);
   }
@@ -111,7 +111,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     switch (timeframe) {
     case 'Live':
       // For live data, you might want to fetch the most recent data or set a very short interval
-      startDate = moment().subtract(1, 'years').format('YYYY-MM-DD');
+      startDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
       break;
     case '1W':
       startDate = moment().subtract(1, 'weeks').format('YYYY-MM-DD');
@@ -134,8 +134,11 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
 
     try {
       const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols='+symbol+'&startDate='+startDate+'&endDate='+ endDate);
-      const newGraphData = response.data.content[0].records;
-      setTimeframeGraphData(newGraphData); // Update the state with the new graph data
+      const newGraphData = response.data.content[0].records
+      console.log("Fetched data: ", newGraphData);
+      setTimeframeGraphData(newGraphData);
+      console.log("State update called");
+      
     } catch (error) {
       console.error('Error fetching graph data:', error);
       // Handle the error, e.g., by setting an error message in the state and displaying it to the user
@@ -143,9 +146,10 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   };
   useEffect(() => {
     if (item && item.symbol) {
-      // fetchGraphData(item.symbol, selectedTimeframe);
+      fetchGraphData(item.symbol, selectedTimeframe);
     }
-  }, [item, selectedTimeframe]); 
+  }, [item, selectedTimeframe]);
+  
   const TimeframeButtons = ({ selectedTimeframe, onSelectTimeframe }) => {
     const timeframes = ['Live', '1W', '1M', '3M', '1Y', '5Y'];
   
@@ -174,14 +178,18 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       </View>
     );
   };
-  const data = {
-    labels: timeframeGraphData.map((record) => record.date), // Replace with your actual data keys
-    datasets: [
-      {
-        data: timeframeGraphData.map((record) => record.price), // Replace with your actual data keys
-      },
-    ],
-  };
+  const transformedData = timeframeGraphData.map((item,index) => {
+    return {
+      x: index, // or convert the date to a more suitable format if needed
+      y: item.price,
+    };
+    
+  });
+  useEffect(() => {
+    console.log('Graph Data:', timeframeGraphData);
+    console.log("Data", transformedData);
+  }, [timeframeGraphData,item,selectedTimeframe]);
+ 
   const handleTimeframeChange = (timeframe) => {
     setSelectedTimeframe(timeframe);
     fetchGraphData(item.symbol, timeframe);
@@ -198,13 +206,12 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       
     ],
   };
-  // const transformDataForChart = (apiData) => {
-  //   return apiData.map((item, index) => ({
-  //     x: index, // or convert the date to a timestamp if needed
-  //     y: item.price
-  //   }));
-  // };
-  
+  const maxYValue = Math.max(...transformedData.map(item => item.y));
+  const maxXValue = Math.max(...transformedData.map(item => item.x));
+  if (!transformedData || transformedData.length === 0) {
+    // Handle the case where data is not available
+    return <Text>Loading data...</Text>; // Or any other placeholder
+  }
 
   return (
     <Animated.View
@@ -215,29 +222,16 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       <Text style={styles.symbol}>{item.symbol}</Text>
       <Text style={styles.headline}>{item.headline}</Text>
       <Text style={styles.price}>Price</Text>
+      
         <Chart
             style={{ height: 200, width: '100%' }}
-            data={[
-              { x: -2, y: 15 },
-              { x: -1, y: 10 },
-              { x: 0, y: 12 },
-              { x: 1, y: 7 },
-              { x: 2, y: 6 },
-              { x: 3, y: 3 },
-              { x: 4, y: 5 },
-              { x: 5, y: 8 },
-              { x: 6, y: 12 },
-              { x: 7, y: 14 },
-              { x: 8, y: 12 },
-              { x: 9, y: 13.5 },
-              { x: 10, y: 18 },
-              ]}
-            padding={{ left: 0, bottom: 20, right: 0, top: 20 }}
-            xDomain={{ min: -2, max: 10 }}
-            yDomain={{ min: -4, max: 20 }}
+            data={transformedData}
+            padding={{ left: 0, bottom: 0, right: 0, top: 20 }}
+            xDomain={{ min: (Math.min(...transformedData.map(item => item.x))), max: (Math.max(...transformedData.map(item => item.x)))}}
+            yDomain={{ min: (Math.min(...transformedData.map(item => item.y))), max:( Math.max(...transformedData.map(item => item.y))) }}
         >
-            <VerticalAxis tickCount={10} theme={{ labels:{ formatter: (v) => v.toFixed(2)},grid:{visible:false},axis:{visible:false},ticks:{visible:false} }} />
-            <HorizontalAxis tickCount={5} theme={{axis:{visible:false},ticks:{visible:false},grid:{visible:false},labels:{visible:false}}} />
+            <VerticalAxis tickCount={10} theme={{grid:{visible:false},axis:{visible:false},ticks:{visible:false}, labels:{visible:false} }} />
+            <HorizontalAxis tickCount={transformedData.length} theme={{axis:{visible:false},ticks:{visible:false},grid:{visible:false},labels:{visible:false}}} />
             <Area smoothing='cubic-spline' theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
             <Line
             tooltipComponent={<Tooltip  />}
