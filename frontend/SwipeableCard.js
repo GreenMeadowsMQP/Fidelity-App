@@ -8,6 +8,7 @@ const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style}) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
+  const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
   const { width, height } = Dimensions.get('screen');
   const panResponder = PanResponder.create({
@@ -103,6 +104,20 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   const onButton3Press = () => {
     acceptSwipe(width, 0);
   }
+  const fetchLastTrade = async (symbol)=>{
+    try {
+      const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+symbol);
+      const lastTradeData = response.data.content[0];
+      if (lastTradeData && lastTradeData.price) {
+        console.log("Fetched data: ", lastTrade);
+        setLastTrade(lastTradeData.price); // Update state with the price
+      } else {
+        console.log("No price data available");
+      }
+    } catch (error) {
+      console.error('Error fetching Last Trade data:', error);
+    }
+  }
   // Function to fetch graph data
   const fetchGraphData = async (symbol, timeframe) => {
     let startDate;
@@ -147,6 +162,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   useEffect(() => {
     if (item && item.symbol) {
       fetchGraphData(item.symbol, selectedTimeframe);
+      fetchLastTrade(item.symbol); 
     }
   }, [item, selectedTimeframe]);
   
@@ -221,8 +237,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       {/* Render Content Graph and stuff Here */}
       <Text style={styles.symbol}>{item.symbol}</Text>
       <Text style={styles.headline}>{item.headline}</Text>
-      <Text style={styles.price}>Price</Text>
-      
+      <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text>
         <Chart
             style={{ height: 200, width: '100%' }}
             data={transformedData}
