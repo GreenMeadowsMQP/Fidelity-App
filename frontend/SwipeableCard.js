@@ -106,7 +106,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
   }
   const fetchLastTrade = async (symbol)=>{
     try {
-      const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+symbol);
+      const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+ symbol);
       const lastTradeData = response.data.content[0];
       if (lastTradeData && lastTradeData.price) {
         console.log("Fetched data: ", lastTrade);
@@ -115,7 +115,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
         console.log("No price data available");
       }
     } catch (error) {
-      console.error('Error fetching Last Trade data:', error);
+      console.error('Error fetching Last Trade data for:', error);
     }
   }
   // Function to fetch graph data
@@ -201,10 +201,10 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     };
     
   });
-  useEffect(() => {
-    console.log('Graph Data:', timeframeGraphData);
-    console.log("Data", transformedData);
-  }, [timeframeGraphData,item,selectedTimeframe]);
+  // useEffect(() => {
+  //   console.log('Graph Data:', timeframeGraphData);
+  //   console.log("Data", transformedData);
+  // }, [timeframeGraphData,item,selectedTimeframe]);
  
   const handleTimeframeChange = (timeframe) => {
     setSelectedTimeframe(timeframe);
