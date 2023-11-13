@@ -42,6 +42,7 @@ app.get('/getGraphData', async (req, res) => {
 
 app.get('/getNews', async (req, res) => {
     try {
+        console.log("Getting News")
         const news = await getNews();
         res.json(news);
     } catch (error) {
