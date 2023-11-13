@@ -22,10 +22,7 @@ const Watchlist = ({navigation}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://' + myIP + ':3000/getWatchlist');
-        console.log("response: ", response)
-        console.log("Response data: ", response.data);
         setSymbolNames(response.data); // Assuming the response is an array of button names
-        console.log("Symbol Names: ", symbolNames);
       } catch (error) {
         console.error('Error fetching button names:', error);
       }

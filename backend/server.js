@@ -55,7 +55,6 @@ app.get('/getWatchlist', async(req, res) => {
     try {
         console.log("Fetching watchlist data...")
         const symbs = await getUniqueStocksymbols();
-        console.log('Symbols: ', symbs)
         res.header('Content-Type', 'application/json');
         res.json(symbs);
     } catch (error) {
