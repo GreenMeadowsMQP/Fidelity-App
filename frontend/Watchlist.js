@@ -23,6 +23,7 @@ const Watchlist = ({navigation}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://' + myIP + ':3000/getWatchlist');
+        console.log(response)
         setSymbolNames(response.data); // Assuming the response is an array of button names
       } catch (error) {
         console.error('Error fetching button names:', error);
@@ -32,6 +33,8 @@ const Watchlist = ({navigation}) => {
     fetchData();
   }, []);
 
+  console.log('symbolData: ', symbolNames);
+
   return( 
   <View style={styles.container}>
     <View style={styles.header}>
@@ -39,10 +42,11 @@ const Watchlist = ({navigation}) => {
       <Text style={styles.appTitle}>Watchlist</Text>
     </View>
     <ScrollView style={styles.tickerList}>
-    {Array.isArray(symbolNames) && symbolNames.map((symbol, index) => (
-        <Pressable key={index} onPress={() => handleButtonPress(symbol)}>
+    {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
+        <Pressable key={index} onPress={() => handleButtonPress(symbolData.symbol)}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{symbol}</Text>
+            <Text style={styles.buttonText}>{symbolData.symbol}</Text>
+            <Text style={styles.buttonText}>{symbolData.price}</Text>
           </View>
         </Pressable>
       ))}
