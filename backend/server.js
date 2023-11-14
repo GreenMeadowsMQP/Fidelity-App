@@ -43,7 +43,7 @@ app.get('/getLastTrade',async(req,res)=>{
     try {
         const {symbols} = req.query;
         if (!symbols) {
-            return res.status(400).send('Missing required query parameters: symbols');
+            return res.status(400).send('Missing required query parameters: symbols');x
         }
         console.log("Getting LastTrade")
         const lastTrade = await getLastTrade(symbols);
