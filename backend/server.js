@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -69,8 +69,10 @@ app.get('/getWatchlist', async(req, res) => {
     try {
         console.log("Fetching watchlist data...")
         const symbs = await getUniqueStocksymbols();
+        const prices = await pricesFromSymbols(symbs);
+
         res.header('Content-Type', 'application/json');
-        res.json(symbs);
+        res.json(prices);
     } catch (error) {
         console.error('Error fetching watchlist symbols in express:', error);
         res.status(500).send('Error fetching watchlist symbols in express.');

@@ -105,9 +105,31 @@ async function getLastTrade(symbols){
     }
 }
 
+async function pricesFromSymbols(symbs) {
+    try {
+        const prices = await Promise.all(symbs.map(async (symbol) => {
+            try {
+                const lastTradeData = await getLastTrade(symbol);
+                const price = lastTradeData.content[0].price;
+                const change = lastTradeData.content[0].netChange;                
+                return { symbol, price, change };
+            } catch (error) {
+                // Handle errors for individual symbols, e.g., if getLastTrade fails for a symbol
+                console.error(`Error fetching price for symbol ${symbol}:`, error);
+                return { symbol, price: null, change:null }; // You can adjust this as needed
+            }
+        }));
+        return prices;
+    } catch (error) {
+        console.error('Error fetching prices for symbols:', error);
+        throw error; // You might want to handle or log this error in the calling code
+    }
+}
+
 module.exports = {
     getToken,
     getNews,
     getGraphData,
-    getLastTrade
+    getLastTrade,
+    pricesFromSymbols
 };
