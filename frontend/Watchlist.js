@@ -47,6 +47,7 @@ const Watchlist = ({navigation}) => {
           <View style={styles.button}>
             <Text style={styles.buttonText}>{symbolData.symbol}</Text>
             <Text style={styles.buttonText}>{symbolData.price}</Text>
+            <Text style={styles.buttonText}>{symbolData.change}</Text>
           </View>
         </Pressable>
       ))}
