@@ -118,8 +118,8 @@ function StockGraph(item) {
                 style={{ height: 200, width: '100%' }}
                 data={transformedData}
                 padding={{ left: 0, bottom: 0, right: 0, top: 20 }}
-                xDomain={{ min: (Math.min(...transformedData.map(item => item.x))), max: (Math.max(...transformedData.map(item => item.item.x))) }}
-                yDomain={{ min: (Math.min(...transformedData.map(item => item.y))), max: (Math.max(...transformedData.map(item => item.item.y))) }}
+                xDomain={{ min: (Math.min(...transformedData.map(item => item.x))), max: (Math.max(...transformedData.map(item => item.x))) }}
+                yDomain={{ min: (Math.min(...transformedData.map(item => item.y))), max: (Math.max(...transformedData.map(item => item.y))) }}
             >
                 <VerticalAxis tickCount={10} theme={{ grid: { visible: false }, axis: { visible: false }, ticks: { visible: false }, labels: { visible: false } }} />
                 <HorizontalAxis tickCount={transformedData.length} theme={{ axis: { visible: false }, ticks: { visible: false }, grid: { visible: false }, labels: { visible: false } }} />
