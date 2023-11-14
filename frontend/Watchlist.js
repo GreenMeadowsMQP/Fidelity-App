@@ -47,13 +47,27 @@ const Watchlist = ({navigation}) => {
           <View style={styles.button}>
             <Text style={styles.buttonText}>{symbolData.symbol}</Text>
             <Text style={styles.buttonText}>{symbolData.price}</Text>
-            <Text style={styles.buttonText}>{symbolData.change}</Text>
+            <Text style={[styles.buttonText, getButtonStyle(symbolData.change)]}>{symbolData.change}</Text>
           </View>
         </Pressable>
       ))}
     </ScrollView>
     <HomeBar navigation={navigation} />
   </View>)
+};
+
+const getButtonStyle = (change) => {
+  if (parseFloat(change) > 0) {
+    return {
+      backgroundColor: '#00FF00', // Make Green
+    };
+  } else if (parseFloat(change) < 0) {
+    return {
+      backgroundColor: '#FF0000', // Make Red
+    };
+  }
+  // Default style for no change
+  return {};
 };
 
 const styles = StyleSheet.create({
@@ -101,6 +115,11 @@ const styles = StyleSheet.create({
       borderRadius: 8,
     },
     buttonText: {
+      color: '#F2E8CF',
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
+    priceChangeText:{
       color: '#F2E8CF',
       fontWeight: 'bold',
       fontSize: 16,
