@@ -13,9 +13,9 @@ function StockGraph(item) {
 
     useEffect(() => {
         if (item.item && item.item.symbol) {
-            fetchGraphData(item.symbol, selectedTimeframe);
+            fetchGraphData(item.item.symbol, selectedTimeframe);
         }
-    }, [item, selectedTimeframe]);
+    }, [item.item, selectedTimeframe]);
 
     const fetchGraphData = async (symbol, timeframe) => {
         let startDate;
@@ -103,7 +103,7 @@ function StockGraph(item) {
 
     const handleTimeframeChange = (timeframe) => {
         setSelectedTimeframe(timeframe);
-        fetchGraphData(item.symbol, timeframe);
+        fetchGraphData(item.item.symbol, timeframe);
     };
 
 
