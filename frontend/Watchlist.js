@@ -6,16 +6,17 @@ import axios from 'axios';
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 
-
-  const handleButtonPress = (symbol) => {
-    console.log(`Button ${symbol} pressed`);
-    // Add your logic for handling button press here
-    //Will go to stock page for each symb
-  };
-
-
 const Watchlist = ({navigation}) => {
   const [symbolNames, setSymbolNames] = useState([]);
+
+  const handleButtonPress = (symbolData) => {
+    console.log(`Button ${symbolData.symbol} pressed`);
+    // Add your logic for handling button press here
+    //Will go to stock page for each symb
+    const symbol = symbolData.symbol;
+    const price = symbolData.price;
+    navigation.navigate('StockPage', {symbol, price});
+  };
 
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const Watchlist = ({navigation}) => {
     </View>
     <ScrollView style={styles.tickerList}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
-        <Pressable key={index} onPress={() => handleButtonPress(symbolData.symbol)}>
+        <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>{symbolData.symbol}</Text>
             <Text style={styles.buttonText}>{symbolData.price}</Text>
