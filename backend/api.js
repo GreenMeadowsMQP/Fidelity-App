@@ -70,6 +70,7 @@ async function getGraphData(symbols, startDate, endDate){
                 endDate:endDate
             }
         });
+        console.log('API.JS RESPONSE: ', response)
         const graphData = response.data;
         // console.log("Respone Length",response.data.content[0].records.length)
         // console.log("Respone Length",response.data.content[0].records)
