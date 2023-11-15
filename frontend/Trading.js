@@ -1,79 +1,53 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Picker, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, Button, TextInput, Picker, Animated, Dimensions, PanResponder } from 'react-native';
 
-const StockTransactionForm = () => {
-  const [ticker, setTicker] = useState('');
-  const [amount, setAmount] = useState('');
-  const [shares, setShares] = useState('');
-  const [account, setAccount] = useState('');
+const Trading = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(-Dimensions.get('window').height)).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return gestureState.dy < 0;
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        if (gestureState.dy < 0) {
+          setIsVisible(true);
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true
+          }).start();
+        }
+      }
+    })
+  ).current;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>BUY/SELL</Text>
-      <Text/>AAPL<TextInput
-        style={styles.input}
-        onChangeText={setAmount}
-        value={amount}
-        placeholder="$"
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={setShares}
-        value={shares}
-        placeholder="Shares"
-        keyboardType="numeric"
-      />
-      <Picker
-        selectedValue={account}
-        style={styles.input}
-        onValueChange={(itemValue) => setAccount(itemValue)}
+    <View style={{ flex: 1 }} {...panResponder.panHandlers}>
+      <Animated.View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          transform: [{ translateY: slideAnim }],
+          // Add more styles for the card here
+        }}
       >
-        {/* Add Picker.Item for each account */}
-        <Picker.Item label="Select Account" value="" />
-        <Picker.Item label="Account 1" value="account1" />
-        <Picker.Item label="Account 2" value="account2" />
-        {/* ... other accounts */}
-      </Picker>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Buy</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Sell</Text>
-        </TouchableOpacity>
-      </View>
+        <Text>Text Element 1</Text>
+        <Text>Text Element 2</Text>
+        <Button title="Button 1" onPress={() => {}} />
+        <Button title="Button 2" onPress={() => {}} />
+        <Picker
+          selectedValue={''}
+          onValueChange={(itemValue, itemIndex) => {}}
+          // Add Picker.Item components here
+        />
+        <TextInput placeholder="Input 1" />
+        <TextInput placeholder="Input 2" />
+      </Animated.View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    borderRadius: 6,
-    backgroundColor: 'darkgreen',
-    alignItems: 'stretch',
-  },
-  header: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  input: {
-    backgroundColor: 'white',
-    marginBottom: 10,
-    padding: 8,
-    borderRadius: 4,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  button: {
-    flex: 1,
-   
-  }
-});
-export default StockTransactionForm;
-
+export default Trading;

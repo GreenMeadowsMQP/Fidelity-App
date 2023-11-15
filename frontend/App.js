@@ -15,16 +15,13 @@ export default function App() {
   
 
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="HomePage">
-    //     <Stack.Screen name="HomePage" component={HomePage} options={{ headerShown: false }}/>
-    //     <Stack.Screen name="WatchList" component={Watchlist}  options={{ headerShown: false }}/>
-    //     <Stack.Screen name="Profile" component={Profile}  options={{ headerShown: false }}/>
-    //   </Stack.Navigator>
-    // </NavigationContainer> 
-    <View>
-      <Trading></Trading>
-    </View>
-
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="HomePage">
+        <Stack.Screen name="HomePage" component={HomePage} options={{ headerShown: false }}/>
+        <Stack.Screen name="WatchList" component={Watchlist}  options={{ headerShown: false }}/>
+        <Stack.Screen name="Profile" component={Profile}  options={{ headerShown: false }}/>
+      </Stack.Navigator>
+    </NavigationContainer> 
+   
   );
 }
