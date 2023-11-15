@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, Animated, Text, Button, TextInput, Picker ,StyleSheet,TouchableOpacity} from 'react-native';
+import { View, Modal, Animated, Text, Button, TextInput,StyleSheet,TouchableOpacity} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 const TradeActionModal = ({ visible, onClose }) => {
   const [animation] = useState(new Animated.Value(0)); // Initial value for bottom: 0
-
+  const fetchAccountData = async ()=>{
+    try {
+      const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
+      if (response) {
+        console.log("Fetched data: ", response);
+        
+      } else {
+        console.log("No account data available");
+      }
+    } catch (error) {
+      console.error('Error fetching account data for:', error);
+    }
+  }
   useEffect(() => {
     if (visible) {
       Animated.timing(animation, {
@@ -47,7 +59,7 @@ const TradeActionModal = ({ visible, onClose }) => {
           {/* Dropdown for account selection */}
           <Picker
             selectedValue={selectedAccount}
-            onValueChange={(itemValue, itemIndex) => setSelectedAccount(itemValue)}
+            // onValueChange={(itemValue, itemIndex) => setSelectedAccount(itemValue)}
           >
             {accounts.map(account => (
               <Picker.Item key={account.id} label={account.number} value={account.id} />

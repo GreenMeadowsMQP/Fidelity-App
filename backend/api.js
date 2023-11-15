@@ -125,11 +125,32 @@ async function pricesFromSymbols(symbs) {
         throw error; // You might want to handle or log this error in the calling code
     }
 }
+async function getAccountNumber(){
+    try{
+        console.log("getting Account Info")
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/customer/v2/accounts/search",{
+            headers:{
+                'accept': 'application/json',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            
+        })
+        const lastTradeData = response.data;
+        console.log(lastTradeData)
+        return lastTradeData;
+    }catch(error){
+    console.error('Error fetching Accounts:', error);
+    }throw error;
+
+
+}
 
 module.exports = {
     getToken,
     getNews,
     getGraphData,
     getLastTrade,
-    pricesFromSymbols
+    pricesFromSymbols,
+    getAccountNumber
 };
