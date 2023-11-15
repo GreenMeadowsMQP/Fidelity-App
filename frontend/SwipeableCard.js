@@ -5,7 +5,7 @@ import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-n
 import axios from 'axios';
 import moment from 'moment';
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
-const SwipeableCard = ({ item,onSwipe,style}) => {
+const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
   const [timeframeGraphData, setTimeframeGraphData] = useState([]);
   const[lastTrade,setLastTrade]=useState([]);
@@ -45,17 +45,21 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
           //TODO: HANDLE ADDING TO WATCHLIST 
           console.log('Right swipe: Handle adding to watchlist');
           sendDataToServer(item.symbol, item.headline)
+          onSwipe();
         } else{
           console.log('Left swipe: Nothing to do here');
+          onSwipe();
         }
 
         // Call function to go to next card or handle the swipe off logic
         } else{
           // Handle vertical swipe
           console.log('Up swipe: Handle Trade action');
+          onSwipe();
+          onUpSwipe();
           
         }
-        onSwipe();
+        
       });
     } else {
       // Snap back if not swiped off
@@ -249,7 +253,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
             <HorizontalAxis tickCount={transformedData.length} theme={{axis:{visible:false},ticks:{visible:false},grid:{visible:false},labels:{visible:false}}} />
             <Area theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
             <Line
-            tooltipComponent={<Tooltip  />}
+            tooltipComponent={<Tooltip/>}
             
             theme={{ stroke: { color: '#BC4749', width: 5 } }}
             />

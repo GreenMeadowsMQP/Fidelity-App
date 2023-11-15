@@ -51,7 +51,7 @@ async function getNews() {
         return response.data;
     } catch (error) {
         console.error('Error fetching news in API:', error);
-        console.error(error.response ? error.response.data : error.message); 
+        // console.error(error.response ? error.response.data : error.message); 
         throw error;
     }
 }
@@ -78,7 +78,7 @@ async function getGraphData(symbols, startDate, endDate){
         return graphData;
     } catch(error) {
         console.error("Error fetching Graph Data in API");
-        console.error(error.response ? error.response.data : error.message);
+        // console.error(error.response ? error.response.data : error.message);
         throw error;
     }
 }
@@ -101,7 +101,7 @@ async function getLastTrade(symbols){
         return lastTradeData;
     }catch(error){
         console.error("Error fetchin LastTradeProduct")
-        console.error(error.response ? error.response.data:error.message);
+        // console.error(error.response ? error.response.data:error.message);
     }
 }
 
@@ -116,7 +116,7 @@ async function pricesFromSymbols(symbs) {
             } catch (error) {
                 // Handle errors for individual symbols, e.g., if getLastTrade fails for a symbol
                 console.error(`Error fetching price for symbol ${symbol}:`, error);
-                return { symbol, price: null, change:null }; // You can adjust this as needed
+                // return { symbol, price: null, change:null }; // You can adjust this as needed
             }
         }));
         return prices;

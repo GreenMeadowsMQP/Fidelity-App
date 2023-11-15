@@ -5,8 +5,7 @@ import Watchlist from './Watchlist';
 import Profile from './Profile';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Trading from './Trading.js';
-import { View } from 'react-native';
+
 
 
 const Stack = createStackNavigator();
