@@ -15,7 +15,8 @@ const Watchlist = ({navigation}) => {
     //Will go to stock page for each symb
     const symbol = symbolData.symbol;
     const price = symbolData.price;
-    navigation.navigate('StockPage', {symbol, price});
+    const change = symbolData.change;
+    navigation.navigate('StockPage', {symbol, price, change});
   };
 
 
@@ -47,8 +48,8 @@ const Watchlist = ({navigation}) => {
         <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>{symbolData.symbol}</Text>
-            <Text style={styles.buttonText}>{symbolData.price}</Text>
-            <Text style={[styles.buttonText, getButtonStyle(symbolData.change)]}>{symbolData.change}</Text>
+            <Text style={styles.buttonText}>{symbolData.price.toFixed(2)}</Text>
+            <Text style={[styles.buttonText, getButtonStyle(symbolData.change)]}>{symbolData.change.toFixed(2)}</Text>
           </View>
         </Pressable>
       ))}
