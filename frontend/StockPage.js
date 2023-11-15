@@ -2,16 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import HomeBar from './HomeBar';
 import StockGraph from './StockGraph';
+import axios from 'axios';
+
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+
 
 const StockPage = ({ route, navigation }) => {
 
     const { symbol, price, change } = route.params;
+    const [pricingProduct, setPricingProduct] = useState([]);
+
     
     const myItem = {
         symbol:symbol,
         price:price,
         change:change
     }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
+          console.log(response)
+          console.log(response.data.content[0])
+          setPricingProduct(response.data.content[0]); 
+        } catch (error) {
+          console.error('Error fetching pricing product names:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
 
     const percentChange = change/price * 100;
 
@@ -28,6 +49,8 @@ const StockPage = ({ route, navigation }) => {
       // Default style for no change
       return {};
     };
+
+    console.log('Pricing product data: ', pricingProduct)
 
     return (
         <View style={styles.container}>
@@ -47,9 +70,9 @@ const StockPage = ({ route, navigation }) => {
             <Text style={styles.infoText}>Last: {price.toFixed(2)}</Text>
             <Text style={styles.infoText}>Volume: vol</Text>
             <Text style={styles.infoText}>P/E: pe ratio</Text>
-            <Text style={styles.infoText}>Market Cap: no cap</Text>
-            <Text style={styles.infoText}>Day High/Low: HL</Text>
-            <Text style={styles.infoText}>52 Week High/Low: HL</Text>
+            <Text style={styles.infoText}>Market Cap: {pricingProduct.marketCap}</Text>
+            <Text style={styles.infoText}>Day High/Low: {pricingProduct.lowPrice}   {pricingProduct.highPrice}</Text>
+            <Text style={styles.infoText}>52 Week High/Low: {pricingProduct.week52Low}   {pricingProduct.week52High}</Text>
 
 
 

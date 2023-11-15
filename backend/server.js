@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -78,6 +78,21 @@ app.get('/getWatchlist', async(req, res) => {
         res.status(500).send('Error fetching watchlist symbols in express.');
     }
 });
+
+app.get('/getPricingProduct', async(req,res)=>{
+    try {
+        const {symbols} = req.query;
+        if (!symbols) {
+            return res.status(400).send('Missing required query parameters: symbols');
+        }
+        console.log("Getting PricingProduct")
+        const lastTrade = await getPricingProduct(symbols);
+        res.json(lastTrade);
+    } catch (error) {
+        console.error('Error fetching Last Trade in express:', error);
+        res.status(500).send('Error fetching Last Trade in express.');
+    }
+})
 
 app.post('/storeData', (req, res) => {
     const { Symbol, Headline } = req.body;

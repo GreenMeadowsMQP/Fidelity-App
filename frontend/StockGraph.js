@@ -48,9 +48,9 @@ function StockGraph(item) {
         try {
             const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols=' + symbol + '&startDate=' + startDate + '&endDate=' + endDate);
            
-            console.log("response: ", response);
-            console.log("response data: ", response.data);
-            console.log("response data content: ", response.data.content[0]);
+            // console.log("response: ", response);
+            // console.log("response data: ", response.data);
+            // console.log("response data content: ", response.data.content[0]);
             const newGraphData = response.data.content[0].records;
 
             console.log("Fetched data: ", newGraphData);
