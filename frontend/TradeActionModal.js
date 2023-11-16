@@ -9,7 +9,7 @@ const TradeActionModal = ({ visible, onClose }) => {
   const [animation] = useState(new Animated.Value(0));
   const [accounts, setAccounts] = useState([]); // State for storing accounts
   const [selectedAccount, setSelectedAccount] = useState(null); // State for the selected account
-  const {selectedPotato , setSelectedPotato} = useState(null)
+  
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
