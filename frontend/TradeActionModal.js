@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, Animated, Text, Button, TextInput,StyleSheet,TouchableOpacity} from 'react-native';
+import { View, Modal, Animated, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import axios from 'axios'; // Ensure Axios is imported
+
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+
 const TradeActionModal = ({ visible, onClose }) => {
-  const [animation] = useState(new Animated.Value(0)); // Initial value for bottom: 0
-  const fetchAccountData = async ()=>{
-    try {
-      const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
-      if (response) {
-        console.log("Fetched data: ", response);
-        
-      } else {
-        console.log("No account data available");
-      }
-    } catch (error) {
-      console.error('Error fetching account data for:', error);
-    }
-  }
+  const [animation] = useState(new Animated.Value(0));
+  const [accounts, setAccounts] = useState([]); // State for storing accounts
+  const [selectedAccount, setSelectedAccount] = useState(null); // State for the selected account
+  const {selectedPotato , setSelectedPotato} = useState(null)
   useEffect(() => {
+    const fetchAccountData = async () => {
+      try {
+        const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
+        if (response && response.data) {
+          setAccounts(response.data.accounts); // Assuming the response has an accounts array
+          if (response.data.accounts.length > 0) {
+            setSelectedAccount(response.data.accounts[0].accountNumber); // Set default selected account
+            console.log('Account Number',response.data.accounts[0].accountNumber)
+          }
+        } else {
+          console.log("No account data available");
+        }
+      } catch (error) {
+        console.error('Error fetching account data:', error);
+      }
+    };
+
     if (visible) {
-      Animated.timing(animation, {
+      fetchAccountData();
+      Animated.timing(animation, {  
         toValue: 1,
         duration: 300,
         useNativeDriver: false,
@@ -32,6 +43,7 @@ const TradeActionModal = ({ visible, onClose }) => {
       }).start();
     }
   }, [visible, animation]);
+
 
   const modalStyle = {
     transform: [
@@ -59,10 +71,14 @@ const TradeActionModal = ({ visible, onClose }) => {
           {/* Dropdown for account selection */}
           <Picker
             selectedValue={selectedAccount}
-            // onValueChange={(itemValue, itemIndex) => setSelectedAccount(itemValue)}
+            onValueChange={(itemValue) => setSelectedAccount(itemValue)}
           >
             {accounts.map(account => (
-              <Picker.Item key={account.id} label={account.number} value={account.id} />
+            <Picker.Item 
+              key={account.accountNumber} 
+              label={account.nickname ? account.nickname : account.accountNumber.toString()} 
+              value={account.accountNumber} 
+            />
             ))}
           </Picker>
           <TextInput style={styles.inputField } placeholder="$:" />
@@ -76,8 +92,6 @@ const TradeActionModal = ({ visible, onClose }) => {
             <Text style={styles.buttonText}>Sell</Text>
           </TouchableOpacity>
           </View>
-          
-
           <TouchableOpacity style={[styles.button, styles.cancellButton]} onPress={() => {}}>
             <Text style={styles.buttonText}>Cancell</Text>
           </TouchableOpacity>
@@ -104,8 +118,10 @@ const styles = StyleSheet.create({
     width:120,
     height:40,
     fontSize:25,
-    
+    borderRadius:5,
     color: "#F2E8CF",
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   buyButton:{
     backgroundColor:'#386641'
@@ -121,7 +137,8 @@ const styles = StyleSheet.create({
   buttonText:{
     color:'#F2E8CF',
     textAlign:'center',
-    flexDirection:'column'
+    flexDirection:'column',
+    fontSize:25,
   },
   inputField:{
     backgroundColor:'#F2E8CF',

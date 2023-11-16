@@ -53,6 +53,20 @@ app.get('/getLastTrade',async(req,res)=>{
         res.status(500).send('Error fetching Last Trade in express.');
     }
 })
+app.get('/getAccountBalance',async(req,res)=>{
+    try {
+        const {accounts} = req.query;
+        if (!accounts) {
+            return res.status(400).send('Missing required query parameters: account');x
+        }
+        console.log("Getting Balance")
+        const balance = await getLastTrade(balance);
+        res.json(balance);
+    } catch (error) {
+        console.error('Error fetching Balance in express:', error);
+        res.status(500).send('Error fetching Balance in express.');
+    }
+})
 
 app.get('/getNews', async (req, res) => {
     try {
@@ -89,11 +103,13 @@ app.get('/getAccountNumber',async(req,res)=>{
         res.status(500).send('Error fetching watchlist symbols in express.');
     }
 });
+
 app.post('/storeData', (req, res) => {
     const { Symbol, Headline } = req.body;
     addToWatchlist(Symbol, Headline);
     res.send('Data received successfully'); // Send a response back to the client
 });
+
 
 console.log("About to fetch initial token...");
 getToken().then(token => {
