@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet, Pressable } from 'react-native';
-import HomeBar from './HomeBar';
 import StockGraph from './StockGraph';
 import axios from 'axios';
 
@@ -97,7 +96,7 @@ const StockPage = ({ route, navigation }) => {
 
             <Text style={styles.infoText}>Last: {price.toFixed(2)}</Text>
             <Text style={styles.infoText}>Volume: {volumeProduct.today}</Text>
-            <Text style={styles.infoText}>P/E: pe ratio</Text>
+            {/* <Text style={styles.infoText}>P/E: pe ratio</Text> */}
             <Text style={styles.infoText}>Market Cap: {pricingProduct.marketCap}</Text>
             <Text style={styles.infoText}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
             <Text style={styles.infoText}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
@@ -107,7 +106,6 @@ const StockPage = ({ route, navigation }) => {
 
 
           </View>
-          {/* <HomeBar navigation={navigation} /> */}
         </View>
       );
 
@@ -151,8 +149,8 @@ const styles = StyleSheet.create({
     button: {
       width: 60, 
       height: 60,
-      marginLeft: '95%', // This adds space between the buttons.
-      marginRight: 0,
+      marginLeft: '98%', // This adds space between the buttons.
+      marginRight: -15,
     },
     buttonBackground: {
       position: 'absolute',
