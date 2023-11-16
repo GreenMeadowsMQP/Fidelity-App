@@ -4,10 +4,10 @@ import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Press
 import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-native-responsive-linechart';
 import axios from 'axios';
 import moment from 'moment';
+import StockGraph from './StockGraph';
+
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style}) => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
-  const [timeframeGraphData, setTimeframeGraphData] = useState([]);
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
   const { width, height } = Dimensions.get('screen');
@@ -109,8 +109,8 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+ symbol);
       const lastTradeData = response.data.content[0];
       if (lastTradeData && lastTradeData.price) {
+        setLastTrade(lastTradeData.price.toFixed(2)); // Update state with the price
         console.log("Fetched data: ", lastTrade);
-        setLastTrade(lastTradeData.price); // Update state with the price
       } else {
         console.log("No price data available");
       }
@@ -119,97 +119,21 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
     }
   }
   // Function to fetch graph data
-  const fetchGraphData = async (symbol, timeframe) => {
-    let startDate;
-    const endDate = moment().format('YYYY-MM-DD'); // End date is always the current date
-
-    switch (timeframe) {
-    case 'Live':
-      // For live data, you might want to fetch the most recent data or set a very short interval
-      startDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
-      break;
-    case '1W':
-      startDate = moment().subtract(1, 'weeks').format('YYYY-MM-DD');
-      break;
-    case '1M':
-      startDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
-      break;
-    case '3M':
-      startDate = moment().subtract(3, 'months').format('YYYY-MM-DD');
-      break;
-    case '1Y':
-      startDate = moment().subtract(1, 'years').format('YYYY-MM-DD');
-      break;
-    case '5Y':
-      startDate = moment().subtract(5, 'years').format('YYYY-MM-DD');
-      break;
-    default:
-      startDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
-    }
-
-    try {
-      const response = await axios.get('http://' + myIP + ':3000/getGraphData?symbols='+symbol+'&startDate='+startDate+'&endDate='+ endDate);
-      const newGraphData = response.data.content[0].records
-      console.log("Fetched data: ", newGraphData);
-      setTimeframeGraphData(newGraphData);
-      console.log("State update called");
-      
-    } catch (error) {
-      console.error('Error fetching graph data:', error);
-      // Handle the error, e.g., by setting an error message in the state and displaying it to the user
-    }
-  };
+  
   useEffect(() => {
     if (item && item.symbol) {
-      fetchGraphData(item.symbol, selectedTimeframe);
       fetchLastTrade(item.symbol); 
     }
-  }, [item, selectedTimeframe]);
+  }, []);
   
-  const TimeframeButtons = ({ selectedTimeframe, onSelectTimeframe }) => {
-    const timeframes = ['Live', '1W', '1M', '3M', '1Y', '5Y'];
   
-    return (
-      <View style={styles.timeframeButtonsContainer}>
-        {timeframes.map((timeframe) => {
-          const isSelected = selectedTimeframe === timeframe;
-          return (
-            <Pressable
-              key={timeframe}
-              style={[
-                styles.timeframeButton,
-                isSelected && styles.selectedTimeframeButton // Apply additional styles if selected
-              ]}
-              onPress={() => onSelectTimeframe(timeframe)}
-            >
-              <Text style={[
-                styles.timeframeButtonText,
-                isSelected && styles.selectedTimeframeButtonText // Bold text if selected
-              ]}>
-                {timeframe}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-    );
-  };
-  const transformedData = timeframeGraphData.map((item,index) => {
-    return {
-      x: index, // or convert the date to a more suitable format if needed
-      y: item.price,
-    };
-    
-  });
+  
   // useEffect(() => {
   //   console.log('Graph Data:', timeframeGraphData);
   //   console.log("Data", transformedData);
   // }, [timeframeGraphData,item,selectedTimeframe]);
  
-  const handleTimeframeChange = (timeframe) => {
-    setSelectedTimeframe(timeframe);
-    fetchGraphData(item.symbol, timeframe);
-  };
+  
 
   const cardStyle = {
     ...styles.card,
@@ -222,12 +146,10 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       
     ],
   };
-  const maxYValue = Math.max(...transformedData.map(item => item.y));
-  const maxXValue = Math.max(...transformedData.map(item => item.x));
-  if (!transformedData || transformedData.length === 0) {
-    // Handle the case where data is not available
-    return <Text>Loading data...</Text>; // Or any other placeholder
-  }
+
+  // const maxYValue = Math.max(...transformedData.map(item => item.y));
+  // const maxXValue = Math.max(...transformedData.map(item => item.x));
+  
 
   return (
     <Animated.View
@@ -235,30 +157,12 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       {...panResponder.panHandlers}
     >
       {/* Render Content Graph and stuff Here */}
-      <View style = {styles.topsection}><Text style={styles.symbol}>{item.symbol}</Text>
-      <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> </View>
+      <View style = {styles.topsection}>
+        <Text style={styles.symbol}>{item.symbol}</Text>
+        <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> 
+      </View>
       <Text style={styles.headline}>{item.headline}</Text>
-        <Chart
-            style={{ height: 200, width: '100%' }}
-            data={transformedData}
-            padding={{ left: 0, bottom: 0, right: 0, top: 20 }}
-            xDomain={{ min: (Math.min(...transformedData.map(item => item.x))), max: (Math.max(...transformedData.map(item => item.x)))}}
-            yDomain={{ min: (Math.min(...transformedData.map(item => item.y))), max:( Math.max(...transformedData.map(item => item.y))) }}
-        >
-            <VerticalAxis tickCount={10} theme={{grid:{visible:false},axis:{visible:false},ticks:{visible:false}, labels:{visible:false} }} />
-            <HorizontalAxis tickCount={transformedData.length} theme={{axis:{visible:false},ticks:{visible:false},grid:{visible:false},labels:{visible:false}}} />
-            <Area theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
-            <Line
-            tooltipComponent={<Tooltip  />}
-            
-            theme={{ stroke: { color: '#BC4749', width: 5 } }}
-            />
-            
-        </Chart>     
-      <TimeframeButtons
-      selectedTimeframe={selectedTimeframe}
-      onSelectTimeframe={handleTimeframeChange}
-      />
+        <StockGraph item={item}/>     
       <View style={styles.toolbar}>
         {/* Button 1 */}
         <Pressable style={styles.button} onPress={onButton1Press}>

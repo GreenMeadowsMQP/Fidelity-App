@@ -1,21 +1,23 @@
 import React, { useEffect, useState }  from 'react';
-import { View, Image, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Image, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import HomeBar from './HomeBar';
 import axios from 'axios';
 
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 
-
-  const handleButtonPress = (symbol) => {
-    console.log(`Button ${symbol} pressed`);
-    // Add your logic for handling button press here
-    //Will go to stock page for each symb
-  };
-
-
 const Watchlist = ({navigation}) => {
   const [symbolNames, setSymbolNames] = useState([]);
+
+  const handleButtonPress = (symbolData) => {
+    console.log(`Button ${symbolData.symbol} pressed`);
+    // Add your logic for handling button press here
+    //Will go to stock page for each symb
+    const symbol = symbolData.symbol;
+    const price = symbolData.price;
+    const change = symbolData.change;
+    navigation.navigate('StockPage', {symbol, price, change});
+  };
 
 
   useEffect(() => {
@@ -41,29 +43,32 @@ const Watchlist = ({navigation}) => {
       <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
       <Text style={styles.appTitle}>Watchlist</Text>
     </View>
-    <ScrollView style={styles.tickerList}>
+    <ScrollView style={styles.tickerList} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
-        <Pressable key={index} onPress={() => handleButtonPress(symbolData.symbol)}>
+        <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{symbolData.symbol}</Text>
-            <Text style={styles.buttonText}>{symbolData.price}</Text>
-            <Text style={[styles.buttonText, getButtonStyle(symbolData.change)]}>{symbolData.change}</Text>
+          <Text style={styles.buttonText}>{symbolData.symbol}</Text>
+          <View style={styles.rightContainer}>
+            <Text style={styles.priceText}>{symbolData.price.toFixed(2)}  </Text>
+            <Text style={[styles.priceText, getButtonStyle(symbolData.change)]}>{symbolData.change.toFixed(2)}</Text>
+          </View>
           </View>
         </Pressable>
       ))}
     </ScrollView>
     <HomeBar navigation={navigation} />
-  </View>)
+  </View>
+  )
 };
 
 const getButtonStyle = (change) => {
   if (parseFloat(change) > 0) {
     return {
-      backgroundColor: '#00FF00', // Make Green
+      color: '#00FF00', // Make Green
     };
   } else if (parseFloat(change) < 0) {
     return {
-      backgroundColor: '#FF0000', // Make Red
+      color: '#FF0000', // Make Red
     };
   }
   // Default style for no change
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
     },
     tickerList: {
       width: '98%', 
-      height:'70%',
+      height: Dimensions.get('window').height * 0.65,
       padding: 0, 
       marginBottom:5, 
       backgroundColor: '#A7C957', 
@@ -113,16 +118,26 @@ const styles = StyleSheet.create({
       padding: 10,
       marginVertical: 8,
       borderRadius: 8,
+      flexDirection: 'row',
+      justifyContent: 'space-between', 
+    },
+    rightContainer: {
+      flexDirection: 'row', // Align children horizontally
     },
     buttonText: {
       color: '#F2E8CF',
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: 24,
+    },
+    priceText: {
+      color: '#F2E8CF',
+      fontWeight: 'bold',
+      fontSize: 24,
     },
     priceChangeText:{
       color: '#F2E8CF',
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: 24,
     },
   });
 

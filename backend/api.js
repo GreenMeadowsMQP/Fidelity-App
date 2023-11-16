@@ -22,19 +22,6 @@ async function getToken() {
         throw error;
     }
 }
-// async function getPricing(){ //Work in progress 
-//     try{
-//         const response = await axios.get('https://example.com/ftgw/fcat/md/asset/v1/equity/analytics/pricing',{
-//             headers:{
-//                 'accept': '*/*',
-//                 'x_gm_api_key': apiKey,
-//                 'x_gm_ext_token': apiToken
-//             }
-//         })
-//     }
-
-
-// }
 
 async function getNews() {
     try {
@@ -70,6 +57,7 @@ async function getGraphData(symbols, startDate, endDate){
                 endDate:endDate
             }
         });
+        // console.log('API.JS RESPONSE: ', response)
         const graphData = response.data;
         // console.log("Respone Length",response.data.content[0].records.length)
         // console.log("Respone Length",response.data.content[0].records)
@@ -126,10 +114,81 @@ async function pricesFromSymbols(symbs) {
     }
 }
 
+async function getPricingProduct(symbols){
+    try{
+        console.log("getting Pricing Product for "+ symbols)
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/analytics/pricing",{
+            headers:{
+                'accept': '*/*',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols,
+                display:true
+            }
+        })
+        const pricingProduct = response.data;
+        console.log(pricingProduct)
+        return pricingProduct;
+    }catch(error){
+        console.error("Error fetchin Pricing Product")
+        console.error(error.response ? error.response.data:error.message);
+    }
+}
+
+async function getVolumeProduct(symbols){
+    try{
+        console.log("getting Pricing Product for "+ symbols)
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/volume",{
+            headers:{
+                'accept': '*/*',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols,
+                display:true
+            }
+        })
+        const volumeProduct = response.data;
+        console.log(volumeProduct)
+        return volumeProduct;
+    }catch(error){
+        console.error("Error fetchin Volume Product")
+        console.error(error.response ? error.response.data:error.message);
+    }
+}
+
+async function getCompanyInfo(symbols){
+    try{
+        console.log("getting Company Info for "+ symbols)
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/company/information",{
+            headers:{
+                'accept': '*/*',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols,
+            }
+        })
+        const companyInfo = response.data;
+        console.log(companyInfo)
+        return companyInfo;
+    }catch(error){
+        console.error("Error fetchin Company Info")
+        console.error(error.response ? error.response.data:error.message);
+    }
+}
+
 module.exports = {
     getToken,
     getNews,
     getGraphData,
     getLastTrade,
-    pricesFromSymbols
+    pricesFromSymbols,
+    getPricingProduct,
+    getVolumeProduct,
+    getCompanyInfo
 };
