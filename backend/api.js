@@ -150,11 +150,35 @@ async function getPricingProduct(symbols){
     }
 }
 
+async function getVolumeProduct(symbols){
+    try{
+        console.log("getting Pricing Product for "+ symbols)
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/volume",{
+            headers:{
+                'accept': '*/*',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols,
+                display:true
+            }
+        })
+        const volumeProduct = response.data;
+        console.log(volumeProduct)
+        return volumeProduct;
+    }catch(error){
+        console.error("Error fetchin Volume Product")
+        console.error(error.response ? error.response.data:error.message);
+    }
+}
+
 module.exports = {
     getToken,
     getNews,
     getGraphData,
     getLastTrade,
     pricesFromSymbols,
-    getPricingProduct
+    getPricingProduct,
+    getVolumeProduct
 };

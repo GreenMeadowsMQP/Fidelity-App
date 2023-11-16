@@ -11,6 +11,8 @@ const StockPage = ({ route, navigation }) => {
 
     const { symbol, price, change } = route.params;
     const [pricingProduct, setPricingProduct] = useState([]);
+    const [volumeProduct, setVolumeProduct] = useState([]);
+
 
     
     const myItem = {
@@ -23,9 +25,12 @@ const StockPage = ({ route, navigation }) => {
       const fetchData = async () => {
         try {
           const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
-          console.log(response)
-          console.log(response.data.content[0])
+          console.log(response.data.content[0])          
           setPricingProduct(response.data.content[0]); 
+          const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
+          console.log(response2.data.content[0])          
+          setVolumeProduct(response2.data.content[0]); 
+
         } catch (error) {
           console.error('Error fetching pricing product names:', error);
         }
@@ -68,7 +73,7 @@ const StockPage = ({ route, navigation }) => {
             <StockGraph item={myItem}/>
 
             <Text style={styles.infoText}>Last: {price.toFixed(2)}</Text>
-            <Text style={styles.infoText}>Volume: vol</Text>
+            <Text style={styles.infoText}>Volume: {volumeProduct.today}</Text>
             <Text style={styles.infoText}>P/E: pe ratio</Text>
             <Text style={styles.infoText}>Market Cap: {pricingProduct.marketCap}</Text>
             <Text style={styles.infoText}>Day High/Low: {pricingProduct.lowPrice}   {pricingProduct.highPrice}</Text>
