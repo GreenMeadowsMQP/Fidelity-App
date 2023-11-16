@@ -32,12 +32,16 @@ const StockPage = ({ route, navigation }) => {
           // console.log(response2.data.content[0])          
           setVolumeProduct(response2.data.content[0]); 
 
+          try{
           const response3 = await axios.get('http://' + myIP + ':3000/getCompanyInfo?symbols=' + symbol);
-          // console.log(response2.data.content[0])          
-          setCompanyInfo(response3.data.content[0]); 
+          console.log("company info: ", response3.data.content[0])          
+          setCompanyInfo(response3.data.content[0]); }
+          catch(error){
+            console.error('Error fetching Company Info:', error);
+          }
 
         } catch (error) {
-          console.error('Error fetching pricing product names:', error);
+          console.error('Error fetching API Info:', error);
         }
       };
   
@@ -60,7 +64,7 @@ const StockPage = ({ route, navigation }) => {
       return {};
     };
 
-    console.log('Pricing product data: ', pricingProduct)
+    console.log('company Info: ', companyInfo)
 
     return (
         <View style={styles.container}>
@@ -78,9 +82,14 @@ const StockPage = ({ route, navigation }) => {
 
           <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38}}>
             
-            <Text style={styles.symbolText}>  {symbol}</Text>
-            <Text style={styles.infoText}> {companyInfo.legalName}</Text>
-            <Text style={styles.infoText}> {companyInfo.stockExchange} - {companyInfo.sector}</Text>
+            <Text style={styles.symbolText}>{symbol}</Text>
+            {companyInfo && companyInfo.legalName && (
+              <Text style={styles.infoText}>{companyInfo.legalName}</Text>
+            )}
+
+            {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
+              <Text style={styles.infoText}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
+            )}
             <Text style={styles.symbolText}>{price.toFixed(2)}</Text>
             <Text style={[styles.infoText, getChangeStyle(change)]}> {change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
 
