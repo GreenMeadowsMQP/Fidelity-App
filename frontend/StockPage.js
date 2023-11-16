@@ -81,16 +81,18 @@ const StockPage = ({ route, navigation }) => {
 
           <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38}}>
             
-            <Text style={styles.symbolText}>{symbol}</Text>
-            {companyInfo && companyInfo.legalName && (
-              <Text style={styles.infoText}>{companyInfo.legalName}</Text>
-            )}
+            <View style={{marginLeft: 10}}>
+              <Text style={styles.symbolText}>{symbol}</Text>
+              {companyInfo && companyInfo.legalName && (
+                <Text style={styles.infoText}>{companyInfo.legalName}</Text>
+              )}
 
-            {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
-              <Text style={styles.infoText}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
-            )}
-            <Text style={styles.symbolText}>{price.toFixed(2)}</Text>
-            <Text style={[styles.infoText, getChangeStyle(change)]}> {change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
+              {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
+                <Text style={styles.infoText}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
+              )}
+              <Text style={styles.symbolText}>{price.toFixed(2)}</Text>
+              <Text style={[styles.infoText, getChangeStyle(change)]}> {change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
+            </View>
 
             <StockGraph item={myItem}/>
 
@@ -101,9 +103,11 @@ const StockPage = ({ route, navigation }) => {
             <Text style={styles.infoText}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
             <Text style={styles.infoText}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
 
-
-
-
+            <View style={{alignItems: 'center'}}>
+              <Pressable style={styles.buySellButton} onPress={() => console.log('Buy sell button!')}>
+              <Text style={styles.bsText}>Buy/Sell</Text>
+              </Pressable>
+            </View>
 
           </View>
         </View>
@@ -151,6 +155,20 @@ const styles = StyleSheet.create({
       height: 60,
       marginLeft: '98%', // This adds space between the buttons.
       marginRight: -15,
+    },
+    buySellButton: {
+      backgroundColor: '#386641',
+      padding: 10,
+      width: '98%',
+      marginVertical: 8,
+      borderRadius: 8,
+      flexDirection: 'row',
+      justifyContent: 'center', 
+    },
+    bsText: {
+      color: '#FFFFFF',
+      fontWeight: 'bold',
+      fontSize: 16,
     },
     buttonBackground: {
       position: 'absolute',
