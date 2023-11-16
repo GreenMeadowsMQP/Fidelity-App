@@ -157,7 +157,8 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       {...panResponder.panHandlers}
     >
       {/* Render Content Graph and stuff Here */}
-      <Text style={styles.symbol}>{item.symbol}</Text>
+      <View style = {styles.topsection}><Text style={styles.symbol}>{item.symbol}</Text>
+      <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> </View>
       <Text style={styles.headline}>{item.headline}</Text>
       <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text>
         <StockGraph item={item}/>     
@@ -187,8 +188,9 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
 
 const styles = StyleSheet.create({
   card: {
+    flex:1,
     width: '100%', 
-    height:'70%',
+    height:'80%',
     padding: 0, 
     marginBottom:5, 
     backgroundColor: '#A7C957', 
@@ -197,10 +199,11 @@ const styles = StyleSheet.create({
     boxShadowOffset: { width: 0, height: 2 },
     boxShadowOpacity: 0.25,
     boxShadowRadius: 3.84,
+    justifyContent: 'space-between',
     elevation: 5, 
   },
   symbol: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 8,
     marginTop:20,
@@ -211,7 +214,10 @@ const styles = StyleSheet.create({
     margin:20,
   },
   price:{
-    marginTop:10,
+    marginTop:20,
+    fontSize:25,
+    fontWeight:'bold',
+    marginLeft: 10,
   },
   toolbar: {
     flexDirection: 'row',
@@ -268,6 +274,9 @@ const styles = StyleSheet.create({
   selectedTimeframeButtonText: {
     fontWeight: 'bold', // Bold text for selected button
   },
+  topsection:{
+    flexDirection:'row'
+  }
 });
 
 export default SwipeableCard;
