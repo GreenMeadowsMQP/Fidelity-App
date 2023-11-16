@@ -22,19 +22,6 @@ async function getToken() {
         throw error;
     }
 }
-// async function getPricing(){ //Work in progress 
-//     try{
-//         const response = await axios.get('https://example.com/ftgw/fcat/md/asset/v1/equity/analytics/pricing',{
-//             headers:{
-//                 'accept': '*/*',
-//                 'x_gm_api_key': apiKey,
-//                 'x_gm_ext_token': apiToken
-//             }
-//         })
-//     }
-
-
-// }
 
 async function getNews() {
     try {
@@ -173,6 +160,28 @@ async function getVolumeProduct(symbols){
     }
 }
 
+async function getCompanyInfo(symbols){
+    try{
+        console.log("getting Company Info for "+ symbols)
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/company/information",{
+            headers:{
+                'accept': '*/*',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols,
+            }
+        })
+        const companyInfo = response.data;
+        console.log(companyInfo)
+        return companyInfo;
+    }catch(error){
+        console.error("Error fetchin Company Info")
+        console.error(error.response ? error.response.data:error.message);
+    }
+}
+
 module.exports = {
     getToken,
     getNews,
@@ -180,5 +189,6 @@ module.exports = {
     getLastTrade,
     pricesFromSymbols,
     getPricingProduct,
-    getVolumeProduct
+    getVolumeProduct,
+    getCompanyInfo
 };

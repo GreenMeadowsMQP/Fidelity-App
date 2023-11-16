@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, StyleSheet, Pressable } from 'react-native';
 import HomeBar from './HomeBar';
 import StockGraph from './StockGraph';
 import axios from 'axios';
@@ -12,6 +12,7 @@ const StockPage = ({ route, navigation }) => {
     const { symbol, price, change } = route.params;
     const [pricingProduct, setPricingProduct] = useState([]);
     const [volumeProduct, setVolumeProduct] = useState([]);
+    const [companyInfo, setCompanyInfo] = useState([]);
 
 
     
@@ -25,11 +26,15 @@ const StockPage = ({ route, navigation }) => {
       const fetchData = async () => {
         try {
           const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
-          console.log(response.data.content[0])          
+          // console.log(response.data.content[0])          
           setPricingProduct(response.data.content[0]); 
           const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
-          console.log(response2.data.content[0])          
+          // console.log(response2.data.content[0])          
           setVolumeProduct(response2.data.content[0]); 
+
+          const response3 = await axios.get('http://' + myIP + ':3000/getCompanyInfo?symbols=' + symbol);
+          // console.log(response2.data.content[0])          
+          setCompanyInfo(response3.data.content[0]); 
 
         } catch (error) {
           console.error('Error fetching pricing product names:', error);
@@ -59,14 +64,23 @@ const StockPage = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
+
           <View style={styles.header}>
             <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
             <Text style={styles.appTitle}>{symbol}</Text>
+
+            <Pressable style={styles.button} onPress={() => navigation.goBack()}>
+              <Image source={require("./assets/images/backarrow.png")} style={styles.buttonBackground} />
+            </Pressable>
           </View>
+
+          
+
           <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38}}>
             
-            <Text style={styles.symbolText}>{symbol}</Text>
-            <Text style={styles.infoText}> Company Name</Text>
+            <Text style={styles.symbolText}>  {symbol}</Text>
+            <Text style={styles.infoText}> {companyInfo.legalName}</Text>
+            <Text style={styles.infoText}> {companyInfo.stockExchange} - {companyInfo.sector}</Text>
             <Text style={styles.symbolText}>{price.toFixed(2)}</Text>
             <Text style={[styles.infoText, getChangeStyle(change)]}> {change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
 
@@ -76,8 +90,8 @@ const StockPage = ({ route, navigation }) => {
             <Text style={styles.infoText}>Volume: {volumeProduct.today}</Text>
             <Text style={styles.infoText}>P/E: pe ratio</Text>
             <Text style={styles.infoText}>Market Cap: {pricingProduct.marketCap}</Text>
-            <Text style={styles.infoText}>Day High/Low: {pricingProduct.lowPrice}   {pricingProduct.highPrice}</Text>
-            <Text style={styles.infoText}>52 Week High/Low: {pricingProduct.week52Low}   {pricingProduct.week52High}</Text>
+            <Text style={styles.infoText}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
+            <Text style={styles.infoText}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
 
 
 
@@ -125,6 +139,17 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 16,
     },
+    button: {
+      width: 60, 
+      height: 60,
+      marginLeft: '95%', // This adds space between the buttons.
+      marginRight: 0,
+    },
+    buttonBackground: {
+      position: 'absolute',
+      width: '100%', // Full width of the button.
+      height: '100%', // Full height of the button.
+  },
     
   });
 

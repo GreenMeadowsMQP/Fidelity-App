@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -106,6 +106,21 @@ app.get('/getVolumeProduct', async(req,res)=>{
     } catch (error) {
         console.error('Error fetching Volume Product in express:', error);
         res.status(500).send('Error fetching Volume Product in express.');
+    }
+})
+
+app.get('/getCompanyInfo', async(req,res)=>{
+    try {
+        const {symbols} = req.query;
+        if (!symbols) {
+            return res.status(400).send('Missing required query parameters: symbols');
+        }
+        console.log("Getting CompanyInfo")
+        const companyInfo = await getCompanyInfo(symbols);
+        res.json(companyInfo);
+    } catch (error) {
+        console.error('Error fetching Company Info in express:', error);
+        res.status(500).send('Error fetching Company Info in express.');
     }
 })
 
