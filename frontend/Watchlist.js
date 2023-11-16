@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
     tickerList: {
       width: '98%', 
-      height: Dimensions.get('window').height * 0.7,
+      height: Dimensions.get('window').height * 0.65,
       padding: 0, 
       marginBottom:5, 
       backgroundColor: '#A7C957', 

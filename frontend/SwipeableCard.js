@@ -109,7 +109,7 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+ symbol);
       const lastTradeData = response.data.content[0];
       if (lastTradeData && lastTradeData.price) {
-        setLastTrade(lastTradeData.price); // Update state with the price
+        setLastTrade(lastTradeData.price.toFixed(2)); // Update state with the price
         console.log("Fetched data: ", lastTrade);
       } else {
         console.log("No price data available");
@@ -157,10 +157,11 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
       {...panResponder.panHandlers}
     >
       {/* Render Content Graph and stuff Here */}
-      <View style = {styles.topsection}><Text style={styles.symbol}>{item.symbol}</Text>
-      <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> </View>
+      <View style = {styles.topsection}>
+        <Text style={styles.symbol}>{item.symbol}</Text>
+        <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> 
+      </View>
       <Text style={styles.headline}>{item.headline}</Text>
-      <Text style={styles.price}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text>
         <StockGraph item={item}/>     
       <View style={styles.toolbar}>
         {/* Button 1 */}
