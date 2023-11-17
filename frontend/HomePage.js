@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import SwipeableCard from './SwipeableCard';
+import TradeActionModal from './TradeActionModal';
 import HomeBar from './HomeBar';
 import axios from 'axios';
 
@@ -12,7 +13,7 @@ const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 export let cards = [];
 
 const HomePage = ({ route, navigation }) => {
-
+  const [showTradeModal, setShowTradeModal] = useState(false);
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -27,13 +28,16 @@ const HomePage = ({ route, navigation }) => {
     }
     fetchNews();
   }, []);
-
+  
   const handleSwipe = () => {
     setCurrentIndex((prevIndex) => {
       // Increment the index unless we're at the last card.
       const nextIndex = prevIndex + 1;
       return nextIndex < newsContent.length ? nextIndex : prevIndex;
     });
+  };
+  const handleUpSwipe = () => {
+    setShowTradeModal(true);
   };
 
     const renderCards = () => {
@@ -48,6 +52,7 @@ const HomePage = ({ route, navigation }) => {
           key={`card-${currentIndex}`}
           item={newsContent[currentIndex]}
           onSwipe={currentIndex < newsContent.length - 1 ? handleSwipe : null}
+          onUpSwipe={handleUpSwipe}
           style={styles.topCard}
         />
       );
@@ -76,7 +81,9 @@ const HomePage = ({ route, navigation }) => {
       </View>
       <View style={styles.cardStack}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
+      <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
     </View>
+    
   );
 };
 
@@ -86,11 +93,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F2E8CF',
-    paddingTop: 5,
+    paddingTop: 0,
     zIndex: 0,
   },
   cardStack: {
-    width: '98%',
+    width: '100%',
     height: '70%',
     position: 'relative',
   },
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     padding: 0,
+    height:50,
   },
   logo: {
     width: 70,

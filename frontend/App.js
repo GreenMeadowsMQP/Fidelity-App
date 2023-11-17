@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile}  options={{ headerShown: false }}/>
         <Stack.Screen name="StockPage" component={StockPage}  options={{ headerShown: false }}/>
       </Stack.Navigator>
-    </NavigationContainer>
-
+    </NavigationContainer> 
+   
   );
 }
