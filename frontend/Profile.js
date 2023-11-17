@@ -1,8 +1,47 @@
 import React, { useEffect, useState }  from 'react';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import HomeBar from './HomeBar';
+import axios from 'axios';
+
+
+const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+
 
 const Profile = ({navigation}) => {
+
+  const [accountNumbers, setAccountNumbers] = useState([]);
+  //accountNumbers stores an array of accounts, access via accountNumbers.accounts[x]
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
+        console.log('Get Account Nums Response: ',response)
+        console.log('Get Account Nums Response DATA: ',response.data)
+        setAccountNumbers(response.data); // Assuming the response is an array of button names
+
+        try{
+          if(response.data.accounts[0].accountNumber !== undefined){
+            const dataToSend = {
+              account: response.data.accounts[0].accountNumber,
+            };
+            console.log("account num: ", response.data.accounts[0].accountNumber)
+          const postResponse = await axios.post('http://localhost:3000/getPositions', response.data.accounts[0].accountNumber)
+          console.log('Account Holdings: ', postResponse.data)
+        }
+        }catch(error){
+          console.error('Error fetching account info:', error);
+        }
+
+      } catch (error) {
+        console.error('Error fetching account numbers:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   
   
     return( 

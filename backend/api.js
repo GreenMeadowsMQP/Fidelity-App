@@ -84,9 +84,9 @@ async function getLastTrade(symbols){
                 display:false //change this later on
             }
         })
-        const lastTradeData = response.data;
-        console.log(lastTradeData)
-        return lastTradeData;
+        const accNum = response.data;
+        console.log(accNum)
+        return accNum;
     }catch(error){
         console.error("Error fetchin LastTradeProduct")
         // console.error(error.response ? error.response.data:error.message);
@@ -118,9 +118,9 @@ async function pricesFromSymbols(symbs) {
     try {
         const prices = await Promise.all(symbs.map(async (symbol) => {
             try {
-                const lastTradeData = await getLastTrade(symbol);
-                const price = lastTradeData.content[0].price;
-                const change = lastTradeData.content[0].netChange;                
+                const accNum = await getLastTrade(symbol);
+                const price = accNum.content[0].price;
+                const change = accNum.content[0].netChange;                
                 return { symbol, price, change };
             } catch (error) {
                 // Handle errors for individual symbols, e.g., if getLastTrade fails for a symbol
@@ -145,14 +145,38 @@ async function getAccountNumber(){
             },
             
         })
-        const lastTradeData = response.data;
-        console.log(lastTradeData)
-        return lastTradeData;
+        const accNum = response.data;
+        console.log(accNum)
+        return accNum;
     }catch(error){
     console.error('Error fetching Accounts:', error);
     }throw error;
 
 
+}
+
+async function getPositions(account){
+    try{
+        console.log("getting Account Positions for "+ account)
+        let accArray = [];
+        accArray.push(account);
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/positions/get",{
+            headers:{
+                'accept': 'application/json',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                accountNumbers: accArray,
+            }
+        })
+        const accountPositions = response.data;
+        console.log(accountPositions)
+        return accountPositions;
+    }catch(error){
+        console.error("Error fetchin Account Positions")
+        console.error(error.response ? error.response.data:error.message);
+    }
 }
 
 async function getPricingProduct(symbols){
@@ -234,5 +258,6 @@ module.exports = {
     pricesFromSymbols,
     getPricingProduct,
     getVolumeProduct,
-    getCompanyInfo
+    getCompanyInfo,
+    getPositions
 };

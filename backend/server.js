@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -149,11 +149,24 @@ app.get('/getAccountNumber',async(req,res)=>{
     }
 });
 
+app.post('/getPositions',async(req,res)=>{
+    try{
+        const {account} = req.body;
+        console.log("Server getPositions acc: ", req.body);
+        const accountPositions = await getPositions(account);
+        res.json(accountPositions);
+    }catch(error){
+        console.error('Error fetching account Positions in express:', error);
+    }
+});
+
 app.post('/storeData', (req, res) => {
     const { Symbol, Headline } = req.body;
     addToWatchlist(Symbol, Headline);
     res.send('Data received successfully'); // Send a response back to the client
 });
+
+
 
 
 console.log("About to fetch initial token...");
