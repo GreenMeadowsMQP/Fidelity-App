@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeableCard from './SwipeableCard';
 import TradeActionModal from './TradeActionModal';
 import HomeBar from './HomeBar';
+import Header from './Header';
 import axios from 'axios';
 import styles from './styles';
 
@@ -77,19 +78,8 @@ const HomePage = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-  
-    
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.leftcontainer}>
-          <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-          <Text style={styles.appTitle}>StockADE</Text>
-        </View>
-        <View style={styles.rightcontainer}>
-          <Image source={require('./assets/images/HomebarImages/info.png')} style={styles.icon}/>
-          <Image source={require('./assets/images/HomebarImages/slider.png')} style={styles.icon}/>
-        </View>
-      </View>
+    <Header title ={'StockADE'}/>
       <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 

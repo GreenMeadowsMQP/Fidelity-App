@@ -58,10 +58,11 @@ export default StyleSheet.create({
   card: {
     // flex:1,
     justifyContent:'space-between',
-    width: '100%',
-    height: '70%',
+    width: '98%',
+    height: '80%',
     backgroundColor: '#A7C957',
     borderRadius: 10,
+    padding:5,
     elevation: 5, // Common shadow/elevation style
   },
   // Text style for buttons and other bold text

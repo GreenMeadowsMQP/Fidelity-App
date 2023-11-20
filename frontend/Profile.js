@@ -2,6 +2,7 @@ import React, { useEffect, useState }  from 'react';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import HomeBar from './HomeBar';
 import axios from 'axios';
+import Header from './Header';
 
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
@@ -57,10 +58,7 @@ const Profile = ({navigation}) => {
   
     return( 
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.appTitle}>Profile</Text>
-      </View>
+      <Header title ={'Profile'}/>
       <View style={styles.tickerList}>
         <Text style={styles.smallText}>Account: {accountNumbers.accountNumber}</Text>
 

@@ -4,7 +4,7 @@ import { View, Image, Text, StyleSheet, ScrollView, Pressable, Dimensions } from
 import HomeBar from './HomeBar';
 import styles from './styles';
 import axios from 'axios';
-
+import Header from './Header';
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 
@@ -42,10 +42,7 @@ const Watchlist = ({navigation}) => {
   return( 
     
   <View style={styles.container}>
-    <View style={styles.header}>
-      <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-      <Text style={styles.appTitle}>Watchlist</Text>
-    </View>
+    <Header title ={'Watchlist'}/>
     <ScrollView style={styles.tickerList} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
         <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
