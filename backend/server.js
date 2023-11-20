@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -43,7 +43,7 @@ app.get('/getLastTrade',async(req,res)=>{
     try {
         const {symbols} = req.query;
         if (!symbols) {
-            return res.status(400).send('Missing required query parameters: symbols');
+            return res.status(400).send('Missing required query parameters: symbols');x
         }
         console.log("Getting LastTrade")
         const lastTrade = await getLastTrade(symbols);
@@ -51,6 +51,20 @@ app.get('/getLastTrade',async(req,res)=>{
     } catch (error) {
         console.error('Error fetching Last Trade in express:', error);
         res.status(500).send('Error fetching Last Trade in express.');
+    }
+})
+app.get('/getAccountBalance',async(req,res)=>{
+    try {
+        const {accounts} = req.query;
+        if (!accounts) {
+            return res.status(400).send('Missing required query parameters: account');x
+        }
+        console.log("Getting Balance")
+        const balance = await getLastTrade(balance);
+        res.json(balance);
+    } catch (error) {
+        console.error('Error fetching Balance in express:', error);
+        res.status(500).send('Error fetching Balance in express.');
     }
 })
 
@@ -123,12 +137,37 @@ app.get('/getCompanyInfo', async(req,res)=>{
         res.status(500).send('Error fetching Company Info in express.');
     }
 })
+app.get('/getAccountNumber',async(req,res)=>{
+    
+    try{
+        console.log("Fetching account data...")
+        const accounts =await getAccountNumber();
+        res.json(accounts);
+    }catch{
+        console.error('Error fetching accounts in express:', error);
+        res.status(500).send('Error fetching watchlist symbols in express.');
+    }
+});
+
+app.post('/getPositions',async(req,res)=>{
+    try{
+        const {account} = req.body;
+        console.log("Server getPositions acc: ", req.body);
+        const accountPositions = await getPositions(account);
+        res.json(accountPositions);
+    }catch(error){
+        console.error('Error fetching account Positions in express:', error);
+    }
+});
 
 app.post('/storeData', (req, res) => {
     const { Symbol, Headline } = req.body;
     addToWatchlist(Symbol, Headline);
     res.send('Data received successfully'); // Send a response back to the client
 });
+
+
+
 
 console.log("About to fetch initial token...");
 getToken().then(token => {

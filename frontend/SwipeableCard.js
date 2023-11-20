@@ -7,7 +7,7 @@ import moment from 'moment';
 import StockGraph from './StockGraph';
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
-const SwipeableCard = ({ item,onSwipe,style}) => {
+const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
   const { width, height } = Dimensions.get('screen');
@@ -45,17 +45,21 @@ const SwipeableCard = ({ item,onSwipe,style}) => {
           //TODO: HANDLE ADDING TO WATCHLIST 
           console.log('Right swipe: Handle adding to watchlist');
           sendDataToServer(item.symbol, item.headline)
+          onSwipe();
         } else{
           console.log('Left swipe: Nothing to do here');
+          onSwipe();
         }
 
         // Call function to go to next card or handle the swipe off logic
         } else{
           // Handle vertical swipe
           console.log('Up swipe: Handle Trade action');
+          onSwipe();
+          onUpSwipe();
           
         }
-        onSwipe();
+        
       });
     } else {
       // Snap back if not swiped off

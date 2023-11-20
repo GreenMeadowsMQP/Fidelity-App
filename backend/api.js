@@ -38,7 +38,7 @@ async function getNews() {
         return response.data;
     } catch (error) {
         console.error('Error fetching news in API:', error);
-        console.error(error.response ? error.response.data : error.message); 
+        // console.error(error.response ? error.response.data : error.message); 
         throw error;
     }
 }
@@ -66,7 +66,7 @@ async function getGraphData(symbols, startDate, endDate){
         return graphData;
     } catch(error) {
         console.error("Error fetching Graph Data in API");
-        console.error(error.response ? error.response.data : error.message);
+        // console.error(error.response ? error.response.data : error.message);
         throw error;
     }
 }
@@ -84,12 +84,33 @@ async function getLastTrade(symbols){
                 display:false //change this later on
             }
         })
-        const lastTradeData = response.data;
-        console.log(lastTradeData)
-        return lastTradeData;
+        const accNum = response.data;
+        console.log(accNum)
+        return accNum;
     }catch(error){
         console.error("Error fetchin LastTradeProduct")
-        console.error(error.response ? error.response.data:error.message);
+        // console.error(error.response ? error.response.data:error.message);
+    }
+}
+async function getAccountBalance(account){
+    try{
+        console.log("getting Account Balance for "+ account)
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/accounts/balances/search",{
+            headers:{
+                'accept': 'application/json',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            params:{
+                accountNumbers: account,
+            }
+        })
+        const accountBalances = response.data;
+        console.log(accountBalances)
+        return accountBalances;
+    }catch(error){
+        console.error("Error fetchin Account Balance")
+        // console.error(error.response ? error.response.data:error.message);
     }
 }
 
@@ -97,20 +118,69 @@ async function pricesFromSymbols(symbs) {
     try {
         const prices = await Promise.all(symbs.map(async (symbol) => {
             try {
-                const lastTradeData = await getLastTrade(symbol);
-                const price = lastTradeData.content[0].price;
-                const change = lastTradeData.content[0].netChange;                
+                const accNum = await getLastTrade(symbol);
+                const price = accNum.content[0].price;
+                const change = accNum.content[0].netChange;                
                 return { symbol, price, change };
             } catch (error) {
                 // Handle errors for individual symbols, e.g., if getLastTrade fails for a symbol
                 console.error(`Error fetching price for symbol ${symbol}:`, error);
-                return { symbol, price: null, change:null }; // You can adjust this as needed
+                // return { symbol, price: null, change:null }; // You can adjust this as needed
             }
         }));
         return prices;
     } catch (error) {
         console.error('Error fetching prices for symbols:', error);
         throw error; // You might want to handle or log this error in the calling code
+    }
+}
+async function getAccountNumber(){
+    try{
+        console.log("getting Account Info")
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/customer/v2/accounts/search",{
+            headers:{
+                'accept': 'application/json',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+            
+        })
+        const accNum = response.data;
+        console.log(accNum)
+        return accNum;
+    }catch(error){
+    console.error('Error fetching Accounts:', error);
+    }throw error;
+
+
+}
+
+async function getPositions(account){
+    try{
+        console.log("getting Account Positions for "+ account)
+        let accArray = [];
+        accArray.push(account);
+        
+        const reqData = {
+            accountNumbers: accArray,
+            includeCurrentValue: true 
+        }
+
+        const headers = {
+            headers:{
+                'accept': 'application/json',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+        }
+
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/positions/get", reqData, headers)
+        const accountPositions = response.data;
+        console.log(accountPositions)
+        return accountPositions;
+    }catch(error){
+        console.error("Error fetchin Account Positions")
+        console.error(error.response ? error.response.data:error.message);
     }
 }
 
@@ -188,7 +258,11 @@ module.exports = {
     getGraphData,
     getLastTrade,
     pricesFromSymbols,
+    getAccountNumber,
+    getAccountBalance,
+    pricesFromSymbols,
     getPricingProduct,
     getVolumeProduct,
-    getCompanyInfo
+    getCompanyInfo,
+    getPositions
 };
