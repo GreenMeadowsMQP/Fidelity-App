@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     marginLeft: -15,
+    fontFamily: 'Nunito'
   },
   icon:{
     width:40,
