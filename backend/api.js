@@ -160,16 +160,21 @@ async function getPositions(account){
         console.log("getting Account Positions for "+ account)
         let accArray = [];
         accArray.push(account);
-        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/positions/get",{
+        
+        const reqData = {
+            accountNumbers: accArray,
+            includeCurrentValue: true 
+        }
+
+        const headers = {
             headers:{
                 'accept': 'application/json',
                 'x_gm_api_key': apiKey,
                 'x_gm_ext_token': apiToken
             },
-            params:{
-                accountNumbers: accArray,
-            }
-        })
+        }
+
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/positions/get", reqData, headers)
         const accountPositions = response.data;
         console.log(accountPositions)
         return accountPositions;

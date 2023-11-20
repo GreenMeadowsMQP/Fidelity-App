@@ -10,6 +10,7 @@ const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 const Profile = ({navigation}) => {
 
   const [accountNumbers, setAccountNumbers] = useState([]);
+  const [accountHoldings, setAccountHoldings] = useState([]);
   //accountNumbers stores an array of accounts, access via accountNumbers.accounts[x]
 
 
@@ -27,8 +28,9 @@ const Profile = ({navigation}) => {
               account: response.data.accounts[0].accountNumber,
             };
             console.log("account num: ", response.data.accounts[0].accountNumber)
-          const postResponse = await axios.post('http://localhost:3000/getPositions', response.data.accounts[0].accountNumber)
+          const postResponse = await axios.post('http://localhost:3000/getPositions', dataToSend)
           console.log('Account Holdings: ', postResponse.data)
+          setAccountHoldings(postResponse.data.content)
         }
         }catch(error){
           console.error('Error fetching account info:', error);
@@ -42,7 +44,7 @@ const Profile = ({navigation}) => {
     fetchData();
   }, []);
 
-  
+  console.log("acccount holdings var: ", accountHoldings);
   
     return( 
     <View style={styles.container}>
