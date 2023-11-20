@@ -1,4 +1,5 @@
 import React, { useEffect, useState }  from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import HomeBar from './HomeBar';
 import axios from 'axios';
@@ -38,6 +39,7 @@ const Watchlist = ({navigation}) => {
   console.log('symbolData: ', symbolNames);
 
   return( 
+    
   <View style={styles.container}>
     <View style={styles.header}>
       <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#F2E8CF',
-      paddingTop: 5,
+      
       zIndex: 0,
     },
     header: {

@@ -99,7 +99,7 @@ const Profile = ({navigation}) => {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#F2E8CF',
-      paddingTop: 5,
+      
       zIndex: 0,
     },
     header: {

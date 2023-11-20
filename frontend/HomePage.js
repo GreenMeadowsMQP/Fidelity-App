@@ -1,6 +1,7 @@
 // HomePage.js
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeableCard from './SwipeableCard';
 import TradeActionModal from './TradeActionModal';
 import HomeBar from './HomeBar';
@@ -74,16 +75,25 @@ const HomePage = ({ route, navigation }) => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
+  
+    
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.appTitle}>StockADE</Text>
+        <View style={styles.leftcontainer}>
+          <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
+          <Text style={styles.appTitle}>StockADE</Text>
+        </View>
+        <View style={styles.rightcontainer}>
+          <Image source={require('./assets/images/HomebarImages/info.png')} style={styles.icon}/>
+          <Image source={require('./assets/images/HomebarImages/slider.png')} style={styles.icon}/>
+        </View>
       </View>
       <View style={styles.cardStack}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
     </View>
-    
+    </SafeAreaView>
   );
 };
 
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F2E8CF',
-    paddingTop: 0,
+    
     zIndex: 0,
   },
   cardStack: {
@@ -116,9 +126,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'flex-start',
+    justifyContent: 'space-between', // This ensures space between the left and right containers
     padding: 0,
-    height:50,
+    height: 50,
+    width: '100%', // Make sure the header spans the full width
   },
   logo: {
     width: 70,
@@ -130,7 +141,28 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginLeft: -15,
   },
-  
+  icon:{
+    width:40,
+    height:40,
+    alignSelf:'center',
+    justifyContent:'flex-end'
+  },
+  leftcontainer: {
+    flexDirection: "row",
+    alignItems: 'center',
+    // justifyContent: 'flex-start' // This is not needed as it's the default behavior
+  },
+  rightcontainer: {
+    flexDirection: "row",
+    alignItems: 'center', // Corrected typo here
+    justifyContent: "flex-end",
+    flex: 1, // This will push the right container to the end of the header
+    marginRight:15,
+    gap:15,
+  },
+  // ... other styles remain unchanged
 });
+  
+
 
 export default HomePage;
