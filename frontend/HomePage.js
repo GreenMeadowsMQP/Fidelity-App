@@ -5,6 +5,7 @@ import SwipeableCard from './SwipeableCard';
 import TradeActionModal from './TradeActionModal';
 import HomeBar from './HomeBar';
 import axios from 'axios';
+import styles from './styles';
 
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
@@ -79,7 +80,7 @@ const HomePage = ({ route, navigation }) => {
         <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
         <Text style={styles.appTitle}>StockADE</Text>
       </View>
-      <View style={styles.cardStack}>{renderCards()}</View>
+      <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
     </View>
@@ -87,51 +88,5 @@ const HomePage = ({ route, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F2E8CF',
-    paddingTop: 0,
-    zIndex: 0,
-  },
-  cardStack: {
-    width: '100%',
-    height: '70%',
-    position: 'relative',
-  },
-  behindCard: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-  },
-  topCard: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: 2,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    padding: 0,
-    height:50,
-  },
-  logo: {
-    width: 70,
-    height: 70,
-    resizeMode: 'contain',
-  },
-  appTitle: {
-    fontWeight: 'bold',
-    fontSize: 30,
-    marginLeft: -15,
-    fontFamily: 'Nunito'
-  },
-  
-});
 
 export default HomePage;
