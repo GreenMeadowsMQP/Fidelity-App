@@ -55,7 +55,7 @@ const HomePage = ({ route, navigation }) => {
           item={newsContent[currentIndex]}
           onSwipe={currentIndex < newsContent.length - 1 ? handleSwipe : null}
           onUpSwipe={handleUpSwipe}
-          style={styles.topCard}
+          style={[styles.absoluteFill,{zIndex:2}]}
         />
       );
     }
@@ -67,7 +67,7 @@ const HomePage = ({ route, navigation }) => {
         <SwipeableCard
           key={`card-${nextIndex}`}
           item={newsContent[nextIndex]}
-          style={styles.behindCard}
+          style={[styles.absoluteFill,{zIndex:1}]}
         />
       );
     }

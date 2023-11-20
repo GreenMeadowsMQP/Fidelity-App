@@ -2,6 +2,7 @@ import React, { useEffect, useState }  from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import HomeBar from './HomeBar';
+import styles from './styles';
 import axios from 'axios';
 
 

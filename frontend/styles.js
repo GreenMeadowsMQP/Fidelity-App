@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Dimensions } from 'react-native';
 
 export default StyleSheet.create({
   // General container used throughout the app
@@ -56,6 +56,8 @@ export default StyleSheet.create({
   },
   // Card style for swipeable cards
   card: {
+    // flex:1,
+    justifyContent:'space-between',
     width: '100%',
     height: '70%',
     backgroundColor: '#A7C957',
