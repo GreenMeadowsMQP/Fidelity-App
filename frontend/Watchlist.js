@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
       color: '#F2E8CF',
       fontWeight: 'bold',
       fontSize: 24,
+      fontFamily: 'Nunito'
     },
     priceText: {
       color: '#F2E8CF',
