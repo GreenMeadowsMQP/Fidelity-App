@@ -47,11 +47,19 @@ const Watchlist = ({navigation}) => {
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
         <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
           <View style={styles.button}>
-          <Text style={styles.boldText}>{symbolData.symbol}</Text>
-          <View style={styles.rightcontainer}>
-            <Text style={styles.boldText}>{symbolData.price.toFixed(2)}  </Text>
-            <Text style={[styles.boldText, getButtonStyle(symbolData.change)]}>{symbolData.change.toFixed(2)}</Text>
-          </View>
+          {symbolData.symbol !== null ? (
+                <>
+                  <Text style={styles.boldText}>{symbolData.symbol}</Text>
+                  <View style={styles.rightcontainer}>
+                    <Text style={styles.boldText}>{symbolData.price.toFixed(2)} </Text>
+                    <Text style={[styles.boldText, getButtonStyle(symbolData.change)]}>
+                      {symbolData.change.toFixed(2)}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                <Text style={styles.loadingText}>Loading...</Text>
+              )}
           </View>
         </Pressable>
       ))}

@@ -51,7 +51,7 @@ export default StyleSheet.create({
   // Used for positioning elements absolutely within a relative container
   absoluteFill: {
     position: 'absolute',
-    width: '100%',
+    width: '98%',
     height: '100%',
   },
   // Card style for swipeable cards
