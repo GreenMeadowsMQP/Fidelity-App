@@ -92,9 +92,9 @@ const TradeActionModal = ({ visible, onClose }) => {
             <Text style={styles.buttonText}>Sell</Text>
           </TouchableOpacity>
           </View>
-          <TouchableOpacity style={[styles.button, styles.cancellButton]} onPress={() => {}}>
-            <Text style={styles.buttonText}>Cancell</Text>
-          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
+    <Text style={styles.buttonText}>Cancel</Text>
+</TouchableOpacity>
         </Animated.View>
       </View>
     </Modal>
