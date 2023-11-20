@@ -13,6 +13,15 @@ const Profile = ({navigation}) => {
   const [accountHoldings, setAccountHoldings] = useState([]);
   //accountNumbers stores an array of accounts, access via accountNumbers.accounts[x]
 
+  const handleButtonPress = (holding) => {
+    if(holding.symbol != "GCASH"){
+    console.log(`Button ${holding.symbol} pressed`);
+    
+    const symbol = holding.symbol;
+    const price = holding.lastPrice;
+    const change = holding.lastPriceChange;
+    navigation.navigate('StockPage', {symbol, price, change});}
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +29,7 @@ const Profile = ({navigation}) => {
         const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
         console.log('Get Account Nums Response: ',response)
         console.log('Get Account Nums Response DATA: ',response.data)
-        setAccountNumbers(response.data); // Assuming the response is an array of button names
+        setAccountNumbers(response.data.accounts[0]); // Assuming the response is an array of button names
 
         try{
           if(response.data.accounts[0].accountNumber !== undefined){
@@ -52,8 +61,34 @@ const Profile = ({navigation}) => {
         <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
         <Text style={styles.appTitle}>Profile</Text>
       </View>
-      <ScrollView style={styles.tickerList}>
-      </ScrollView>
+      <View style={styles.tickerList}>
+        <Text style={styles.smallText}>Account: {accountNumbers.accountNumber}</Text>
+
+        {Array.isArray(accountHoldings) && accountHoldings.map((holding, index) => (
+        <Pressable key={index} onPress={() => handleButtonPress(holding)}>
+          <View style={styles.button}>
+          {holding.symbol === 'GCASH' ? (
+            <>
+              <Text style={styles.buttonText}>Available {holding.symbol}</Text>
+              <Text style={styles.buttonText}>{holding.tdQuantity}</Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.buttonText}>Symbol: {holding.symbol}</Text>
+              <Text style={styles.buttonText}>Num Shares: {holding.tdQuantity}</Text>
+              <Text style={styles.buttonText}>Current Price: {holding.lastPrice}</Text>
+              <Text style={styles.buttonText}>Change: {holding.lastPriceChange}</Text>
+              <Text style={styles.buttonText}>Current Value: {holding.currentValue}</Text>
+              <Text style={styles.buttonText}>Today's Gain/Loss: {holding.todayGainLoss}</Text>
+              <Text style={styles.buttonText}>Total Gain/Loss: {holding.totalGainLoss}</Text>
+              <Text style={styles.buttonText}>Cost Basis: {holding.costBasis}</Text>
+            </>
+          )}
+          </View>
+        </Pressable>
+      ))}
+
+      </View>
       <HomeBar navigation={navigation} />
     </View>)
   };
@@ -95,6 +130,12 @@ const Profile = ({navigation}) => {
       boxShadowOpacity: 0.25,
       boxShadowRadius: 3.84,
       elevation: 5, 
+    },
+    smallText: {
+      color: '#00',
+      fontWeight: 'bold',
+      fontSize: 20,
+      marginLeft: 10
     },
     button: {
       backgroundColor: '#386641',
