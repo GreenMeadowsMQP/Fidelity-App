@@ -1,6 +1,8 @@
 import { StyleSheet,Dimensions } from 'react-native';
 
 export default StyleSheet.create({
+  //--------------------------- CONTAINERS --------------------------------------
+
   // General container used throughout the app
   container: {
     flex: 1,
@@ -31,23 +33,6 @@ export default StyleSheet.create({
     height: 50,
     width: '100%',
   },
-  // Logo style
-  logo: {
-    width: 70,
-    height: 70,
-    resizeMode: 'contain',
-  },
-  // App title text
-  appTitle: {
-    fontWeight: 'bold',
-    fontSize: 30,
-    marginLeft: -15,
-  },
-  // Common icon style for header
-  icon: {
-    width: 40,
-    height: 40,
-  },
   // Used for positioning elements absolutely within a relative container
   absoluteFill: {
     position: 'absolute',
@@ -65,13 +50,49 @@ export default StyleSheet.create({
     padding:5,
     elevation: 5, // Common shadow/elevation style
   },
-  // Text style for buttons and other bold text
-  boldText: {
-    fontWeight: 'bold',
-    fontSize: 24,
-    color: '#F2E8CF',
-    fontFamily: 'Nunito',
+  //ticker List for watchlist
+  tickerList: {
+    width: '98%', 
+    height: Dimensions.get('window').height * 0.65,
+    padding: 0, 
+    marginBottom:5, 
+    backgroundColor: '#A7C957', 
+    borderRadius: 10, 
+    boxShadowColor: '#000', 
+    boxShadowOffset: { width: 0, height: 2 },
+    boxShadowOpacity: 0.25,
+    boxShadowRadius: 3.84,
+    elevation: 5, 
   },
+  // Top section style if needed for specific layout purposes
+  topsection: {
+    flexDirection: 'row',
+  },
+  // Toolbar style for navigation or action bars
+  toolbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+
+  //--------------------------- IMAGES --------------------------------------
+
+
+  // Logo style
+  logo: {
+    width: 70,
+    height: 70,
+    resizeMode: 'contain',
+  },
+  
+  // Common icon style for header
+  icon: {
+    width: 40,
+    height: 40,
+  },
+
+  //--------------------------- BUTTONS --------------------------------------
+
   // Button styling
   button: {
     backgroundColor: '#386641',
@@ -121,36 +142,12 @@ export default StyleSheet.create({
     padding: 10,
     borderRadius: 15,
   },
-  //ticker List for watchlist
-  tickerList: {
-    width: '98%', 
-    height: Dimensions.get('window').height * 0.65,
-    padding: 0, 
-    marginBottom:5, 
-    backgroundColor: '#A7C957', 
-    borderRadius: 10, 
-    boxShadowColor: '#000', 
-    boxShadowOffset: { width: 0, height: 2 },
-    boxShadowOpacity: 0.25,
-    boxShadowRadius: 3.84,
-    elevation: 5, 
-  },
   // Selected timeframe button style
   selectedTimeframeButton: {
     backgroundColor: '#386641',
   },
-  // Text style for timeframe buttons
-  timeframeButtonText: {
-    fontWeight: 'normal',
-  },
-  // Style for selected timeframe button text
-  selectedTimeframeButtonText: {
-    fontWeight: 'bold',
-  },
-  // Top section style if needed for specific layout purposes
-  topsection: {
-    flexDirection: 'row',
-  },
+
+  //--------------------------- INPUT FIELDS --------------------------------------
   // Input field style for forms
   inputField: {
     backgroundColor: '#F2E8CF',
@@ -158,10 +155,38 @@ export default StyleSheet.create({
     width: 300,
     height: 40,
   },
+
+  //--------------------------- TEXT --------------------------------------
+
+  // App title text
+  appTitle: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    marginLeft: -15,
+    fontFamily: 'Nunito-Bold',
+  },
+  // Text style for buttons and other bold text
+  boldText: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#F2E8CF',
+    fontFamily: 'Nunito',
+  },
+  // Text style for timeframe buttons
+  timeframeButtonText: {
+    fontWeight: 'normal',
+    fontFamily: 'Nunito',
+  },
+  // Style for selected timeframe button text
+  selectedTimeframeButtonText: {
+    fontWeight: 'bold',
+    fontFamily: 'Nunito',
+  },  
   // Text style for cards like headlines, prices, etc.
   cardText: {
     fontSize: 16,
     margin: 20,
+    fontFamily: 'Nunito',
   },
   // Specific style for symbol text in stock cards
   symbolText: {
@@ -170,6 +195,7 @@ export default StyleSheet.create({
     marginBottom: 8,
     marginTop: 20,
     marginLeft: 20,
+    fontFamily: 'Nunito-Bold',
   },
   // Specific style for price text in stock cards
   priceText: {
@@ -177,11 +203,7 @@ export default StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 10,
+    fontFamily: 'Nunito-Bold',
   },
-  // Toolbar style for navigation or action bars
-  toolbar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
+  
 });
