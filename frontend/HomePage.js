@@ -1,6 +1,7 @@
 // HomePage.js
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeableCard from './SwipeableCard';
 import TradeActionModal from './TradeActionModal';
 import HomeBar from './HomeBar';
@@ -75,16 +76,25 @@ const HomePage = ({ route, navigation }) => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
+  
+    
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.appTitle}>StockADE</Text>
+        <View style={styles.leftcontainer}>
+          <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
+          <Text style={styles.appTitle}>StockADE</Text>
+        </View>
+        <View style={styles.rightcontainer}>
+          <Image source={require('./assets/images/HomebarImages/info.png')} style={styles.icon}/>
+          <Image source={require('./assets/images/HomebarImages/slider.png')} style={styles.icon}/>
+        </View>
       </View>
       <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
     </View>
-    
+    </SafeAreaView>
   );
 };
 
