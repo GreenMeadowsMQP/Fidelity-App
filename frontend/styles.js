@@ -47,7 +47,7 @@ export default StyleSheet.create({
     height: '80%',
     backgroundColor: '#A7C957',
     borderRadius: 10,
-    padding:5,
+    // padding:5,
     elevation: 5, // Common shadow/elevation style
   },
   //ticker List for watchlist
@@ -211,7 +211,7 @@ export default StyleSheet.create({
   symbolTextWL: {
     fontSize: 45,
     fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 10,
     fontFamily: 'Nunito-Bold',
   },

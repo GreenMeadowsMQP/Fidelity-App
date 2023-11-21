@@ -53,7 +53,7 @@ const Watchlist = ({navigation}) => {
                   <View style={styles.rightcontainer}>
                     <Text style={styles.boldText}>{symbolData.price.toFixed(2)} </Text>
                     <Text style={[styles.boldText, getButtonStyle(symbolData.change)]}>
-                      {symbolData.change.toFixed(2)}
+                      {symbolData.change > 0 ? `+${symbolData.change.toFixed(2)}`:symbolData.change.toFixed(2)}
                     </Text>
                   </View>
                 </>
@@ -70,7 +70,7 @@ const Watchlist = ({navigation}) => {
 };
 
 const getButtonStyle = (change) => {
-  if (parseFloat(change) > 0) {
+  if (parseFloat(change) >= 0) {
     return {
       color: '#00FF00', // Make Green
     };

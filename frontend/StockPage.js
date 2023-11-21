@@ -52,7 +52,7 @@ const StockPage = ({ route, navigation }) => {
     const percentChange = change/price * 100;
 
     const getChangeStyle = (change) => {
-      if (parseFloat(change) > 0) {
+      if (parseFloat(change) >= 0) {
         return {
           color: '#00FF00', // Make Green
         };
@@ -81,16 +81,16 @@ const StockPage = ({ route, navigation }) => {
           <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38}}>
             
             <View>
-              <Text style={styles.symbolTextWL}>{symbol}</Text>
+              {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
               {companyInfo && companyInfo.legalName && (
-                <Text style={styles.infoTextWL}>{companyInfo.legalName}</Text>
+                <Text style={styles.symbolTextWL}>{companyInfo.legalName}</Text>
               )}
 
               {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
                 <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
               )}
               <Text style={styles.symbolTextWL}>{price.toFixed(2)}</Text>
-              <Text style={[styles.infoTextWL, getChangeStyle(change)]}> {change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
+              <Text style={[styles.infoTextWL, getChangeStyle(change)]}> {change > 0 ? `+${change.toFixed(2)}`:change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
             </View>
 
             <StockGraph item={myItem}/>

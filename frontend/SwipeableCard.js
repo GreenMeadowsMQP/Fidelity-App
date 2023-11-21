@@ -162,12 +162,15 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
       {...panResponder.panHandlers}
     >
       {/* Render Content Graph and stuff Here */}
-      <View style = {styles.topsection}>
-        <Text style={styles.symbol}>{item.symbol}</Text>
-        <Text style={styles.priceText}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> 
+      <View>
+        <Text style={styles.symbolTextWL}>{item.symbol}</Text>
+        <Text style={styles.symbolTextWL}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> 
       </View>
-      <Text style={styles.cardText}>{item.headline}</Text>
-        <StockGraph item={item}/>     
+      
+      <Text style={styles.infoTextWL}>{item.headline}</Text>
+      
+      <StockGraph item={item}/>   
+
       <View style={styles.toolbar}>
         {/* Button 1 */}
         <Pressable style={styles.individualButton} onPress={onButton1Press}>
