@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions, getAccountBalance } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols } = require('./db')
 
 const app = express();
@@ -53,20 +53,7 @@ app.get('/getLastTrade',async(req,res)=>{
         res.status(500).send('Error fetching Last Trade in express.');
     }
 })
-app.get('/getAccountBalance',async(req,res)=>{
-    try {
-        const {accounts} = req.query;
-        if (!accounts) {
-            return res.status(400).send('Missing required query parameters: account');x
-        }
-        console.log("Getting Balance")
-        const balance = await getLastTrade(balance);
-        res.json(balance);
-    } catch (error) {
-        console.error('Error fetching Balance in express:', error);
-        res.status(500).send('Error fetching Balance in express.');
-    }
-})
+
 
 app.get('/getNews', async (req, res) => {
     try {
@@ -159,6 +146,18 @@ app.post('/getPositions',async(req,res)=>{
         console.error('Error fetching account Positions in express:', error);
     }
 });
+
+app.post('/getAccountBalance',async(req,res)=>{
+    try {
+        const {account} = req.body;
+        console.log("Server getBalance acc: ", req.body);
+        const accountBalance = await getAccountBalance(account);
+        res.json(accountBalance);
+    } catch (error) {
+        console.error('Error fetching Balance in express:', error);
+        res.status(500).send('Error fetching Balance in express.');
+    }
+})
 
 app.post('/storeData', (req, res) => {
     const { Symbol, Headline } = req.body;

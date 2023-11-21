@@ -92,27 +92,7 @@ async function getLastTrade(symbols){
         // console.error(error.response ? error.response.data:error.message);
     }
 }
-async function getAccountBalance(account){
-    try{
-        console.log("getting Account Balance for "+ account)
-        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/accounts/balances/search",{
-            headers:{
-                'accept': 'application/json',
-                'x_gm_api_key': apiKey,
-                'x_gm_ext_token': apiToken
-            },
-            params:{
-                accountNumbers: account,
-            }
-        })
-        const accountBalances = response.data;
-        console.log(accountBalances)
-        return accountBalances;
-    }catch(error){
-        console.error("Error fetchin Account Balance")
-        // console.error(error.response ? error.response.data:error.message);
-    }
-}
+
 
 async function pricesFromSymbols(symbs) {
     try {
@@ -153,6 +133,37 @@ async function getAccountNumber(){
     }throw error;
 
 
+}
+
+async function getAccountBalance(account){
+    try{
+        console.log("getting Account Balance for "+ account)
+
+        let accArray = [];
+        accArray.push(account);
+        
+        const reqData = {
+            accountNumbers: accArray,
+            include: ['accountNetworth']
+        }
+
+        const headers = {
+            headers:{
+                'accept': 'application/json',
+                'x_gm_api_key': apiKey,
+                'x_gm_ext_token': apiToken
+            },
+        }
+
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/bookkeeping/v2/accounts/balances/search", reqData, headers)
+
+        const accountBalances = response.data;
+        console.log(accountBalances)
+        return accountBalances;
+    }catch(error){
+        console.error("Error fetchin Account Balance")
+        // console.error(error.response ? error.response.data:error.message);
+    }
 }
 
 async function getPositions(account){

@@ -13,6 +13,7 @@ const Profile = ({navigation}) => {
 
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [accountHoldings, setAccountHoldings] = useState([]);
+  const [accountValue, setAccountValue] = useState([]);
   //accountNumbers stores an array of accounts, access via accountNumbers.accounts[x]
 
   const handleButtonPress = (holding) => {
@@ -40,8 +41,14 @@ const Profile = ({navigation}) => {
             };
             console.log("account num: ", response.data.accounts[0].accountNumber)
           const postResponse = await axios.post('http://localhost:3000/getPositions', dataToSend)
+          const postResponse2 = await axios.post('http://localhost:3000/getAccountBalance', dataToSend)
+
           console.log('Account Holdings: ', postResponse.data)
+          console.log('Account Balance: ', postResponse2.data)
+
           setAccountHoldings(postResponse.data.content)
+          setAccountValue(postResponse2.data.content[0])
+
         }
         }catch(error){
           console.error('Error fetching account info:', error);
@@ -61,7 +68,7 @@ const Profile = ({navigation}) => {
     <View style={styles.container}>
       <Header title ={'Profile'}/>
       <View style={[styles.tickerList, {flex:1}]} >
-        <Text style={styles.cardText}>Account: {accountNumbers.accountNumber}</Text>
+        <Text style={styles.cardText}>Account: {accountNumbers.accountNumber} Value: {accountValue.accountNetworth}</Text>
 
         {Array.isArray(accountHoldings) && accountHoldings.map((holding, index) => (
         <Pressable key={index} onPress={() => handleButtonPress(holding)}>
