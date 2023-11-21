@@ -234,6 +234,11 @@ export default StyleSheet.create({
     fontSize: 20,
     marginLeft: 10,
     fontFamily: 'Nunito-Bold',
+  },
+  holdingsText:{
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontFamily: 'Nunito',
   }
   
 });
