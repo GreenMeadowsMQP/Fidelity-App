@@ -2,6 +2,8 @@ import React, { useEffect, useState }  from 'react';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import HomeBar from './HomeBar';
 import axios from 'axios';
+import Header from './Header';
+import styles from './styles';
 
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
@@ -57,97 +59,94 @@ const Profile = ({navigation}) => {
   
     return( 
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.appTitle}>Profile</Text>
-      </View>
-      <View style={styles.tickerList}>
-        <Text style={styles.smallText}>Account: {accountNumbers.accountNumber}</Text>
+      <Header title ={'Profile'}/>
+      <View style={[styles.tickerList, {flex:1}]} >
+        <Text style={styles.cardText}>Account: {accountNumbers.accountNumber}</Text>
 
         {Array.isArray(accountHoldings) && accountHoldings.map((holding, index) => (
         <Pressable key={index} onPress={() => handleButtonPress(holding)}>
           <View style={styles.button}>
           {holding.symbol === 'GCASH' ? (
             <>
-              <Text style={styles.buttonText}>Available {holding.symbol}</Text>
-              <Text style={styles.buttonText}>{holding.tdQuantity}</Text>
+              <Text style={styles.holdingsText}>Available {holding.symbol}</Text>
+              <Text style={styles.holdingsText}>{holding.tdQuantity}</Text>
             </>
           ) : (
             <>
-              <Text style={styles.buttonText}>Symbol: {holding.symbol}</Text>
-              <Text style={styles.buttonText}>Num Shares: {holding.tdQuantity}</Text>
-              <Text style={styles.buttonText}>Current Price: {holding.lastPrice}</Text>
-              <Text style={styles.buttonText}>Change: {holding.lastPriceChange}</Text>
-              <Text style={styles.buttonText}>Current Value: {holding.currentValue}</Text>
-              <Text style={styles.buttonText}>Today's Gain/Loss: {holding.todayGainLoss}</Text>
-              <Text style={styles.buttonText}>Total Gain/Loss: {holding.totalGainLoss}</Text>
-              <Text style={styles.buttonText}>Cost Basis: {holding.costBasis}</Text>
+              <Text style={styles.holdingsText}>Symbol: {holding.symbol}</Text>
+              <Text style={styles.holdingsText}>Num Shares: {holding.tdQuantity}</Text>
+              <Text style={styles.holdingsText}>Current Price: {holding.lastPrice}</Text>
+              <Text style={styles.holdingsText}>Change: {holding.lastPriceChange}</Text>
+              <Text style={styles.holdingsText}>Current Value: {holding.currentValue}</Text>
+              <Text style={styles.holdingsText}>Today's Gain/Loss: {holding.todayGainLoss}</Text>
+              <Text style={styles.holdingsText}>Total Gain/Loss: {holding.totalGainLoss}</Text>
+              <Text style={styles.holdingsText}>Cost Basis: {holding.costBasis}</Text>
             </>
           )}
           </View>
         </Pressable>
-      ))}
+        ))}
 
       </View>
       <HomeBar navigation={navigation} />
     </View>)
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F2E8CF',
-      paddingTop: 5,
-      zIndex: 0,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      alignSelf: 'flex-start',
-      padding: 0,
-    },
-    logo: {
-      width: 70,
-      height: 70,
-      resizeMode: 'contain',
-    },
-    appTitle: {
-      fontWeight: 'bold',
-      fontSize: 30,
-      marginLeft: -15,
-    },
-    tickerList: {
-      width: '98%', 
-      height:'70%',
-      padding: 0, 
-      marginBottom:5, 
-      backgroundColor: '#A7C957', 
-      borderRadius: 10, 
-      boxShadowColor: '#000', 
-      boxShadowOffset: { width: 0, height: 2 },
-      boxShadowOpacity: 0.25,
-      boxShadowRadius: 3.84,
-      elevation: 5, 
-    },
-    smallText: {
-      color: '#00',
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginLeft: 10
-    },
-    button: {
-      backgroundColor: '#386641',
-      padding: 10,
-      marginVertical: 8,
-      borderRadius: 8,
-    },
-    buttonText: {
-      color: '#F2E8CF',
-      fontWeight: 'bold',
-      fontSize: 16,
-    },
-  });
+  // const styles = StyleSheet.create({
+  //   container: {
+  //     flex: 1,
+  //     justifyContent: 'center',
+  //     alignItems: 'center',
+  //     backgroundColor: '#F2E8CF',
+      
+  //     zIndex: 0,
+  //   },
+  //   header: {
+  //     flexDirection: 'row',
+  //     alignItems: 'center',
+  //     alignSelf: 'flex-start',
+  //     padding: 0,
+  //   },
+  //   logo: {
+  //     width: 70,
+  //     height: 70,
+  //     resizeMode: 'contain',
+  //   },
+  //   appTitle: {
+  //     fontWeight: 'bold',
+  //     fontSize: 30,
+  //     marginLeft: -15,
+  //   },
+  //   tickerList: {
+  //     width: '98%', 
+  //     height:'70%',
+  //     padding: 0, 
+  //     marginBottom:5, 
+  //     backgroundColor: '#A7C957', 
+  //     borderRadius: 10, 
+  //     boxShadowColor: '#000', 
+  //     boxShadowOffset: { width: 0, height: 2 },
+  //     boxShadowOpacity: 0.25,
+  //     boxShadowRadius: 3.84,
+  //     elevation: 5, 
+  //   },
+  //   smallText: {
+  //     color: '#00',
+  //     fontWeight: 'bold',
+  //     fontSize: 20,
+  //     marginLeft: 10
+  //   },
+  //   button: {
+  //     backgroundColor: '#386641',
+  //     padding: 10,
+  //     marginVertical: 8,
+  //     borderRadius: 8,
+  //   },
+  //   buttonText: {
+  //     color: '#F2E8CF',
+  //     fontWeight: 'bold',
+  //     fontSize: 16,
+  //   },
+  // });
 
 export default Profile;

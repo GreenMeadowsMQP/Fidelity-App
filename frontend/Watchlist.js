@@ -1,8 +1,10 @@
 import React, { useEffect, useState }  from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import HomeBar from './HomeBar';
+import styles from './styles';
 import axios from 'axios';
-
+import Header from './Header';
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
 
@@ -38,20 +40,26 @@ const Watchlist = ({navigation}) => {
   console.log('symbolData: ', symbolNames);
 
   return( 
+    
   <View style={styles.container}>
-    <View style={styles.header}>
-      <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-      <Text style={styles.appTitle}>Watchlist</Text>
-    </View>
+    <Header title ={'Watchlist'}/>
     <ScrollView style={styles.tickerList} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
         <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
           <View style={styles.button}>
-          <Text style={styles.buttonText}>{symbolData.symbol}</Text>
-          <View style={styles.rightContainer}>
-            <Text style={styles.priceText}>{symbolData.price.toFixed(2)}  </Text>
-            <Text style={[styles.priceText, getButtonStyle(symbolData.change)]}>{symbolData.change.toFixed(2)}</Text>
-          </View>
+          {symbolData.symbol !== null ? (
+                <>
+                  <Text style={styles.boldText}>{symbolData.symbol}</Text>
+                  <View style={styles.rightcontainer}>
+                    <Text style={styles.boldText}>{symbolData.price.toFixed(2)} </Text>
+                    <Text style={[styles.boldText, getButtonStyle(symbolData.change)]}>
+                      {symbolData.change > 0 ? `+${symbolData.change.toFixed(2)}`:symbolData.change.toFixed(2)}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                <Text style={styles.loadingText}>Loading...</Text>
+              )}
           </View>
         </Pressable>
       ))}
@@ -62,7 +70,7 @@ const Watchlist = ({navigation}) => {
 };
 
 const getButtonStyle = (change) => {
-  if (parseFloat(change) > 0) {
+  if (parseFloat(change) >= 0) {
     return {
       color: '#00FF00', // Make Green
     };
@@ -75,70 +83,5 @@ const getButtonStyle = (change) => {
   return {};
 };
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F2E8CF',
-      paddingTop: 5,
-      zIndex: 0,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      alignSelf: 'flex-start',
-      padding: 0,
-    },
-    logo: {
-      width: 70,
-      height: 70,
-      resizeMode: 'contain',
-    },
-    appTitle: {
-      fontWeight: 'bold',
-      fontSize: 30,
-      marginLeft: -15,
-    },
-    tickerList: {
-      width: '98%', 
-      height: Dimensions.get('window').height * 0.65,
-      padding: 0, 
-      marginBottom:5, 
-      backgroundColor: '#A7C957', 
-      borderRadius: 10, 
-      boxShadowColor: '#000', 
-      boxShadowOffset: { width: 0, height: 2 },
-      boxShadowOpacity: 0.25,
-      boxShadowRadius: 3.84,
-      elevation: 5, 
-    },
-    button: {
-      backgroundColor: '#386641',
-      padding: 10,
-      marginVertical: 8,
-      borderRadius: 8,
-      flexDirection: 'row',
-      justifyContent: 'space-between', 
-    },
-    rightContainer: {
-      flexDirection: 'row', // Align children horizontally
-    },
-    buttonText: {
-      color: '#F2E8CF',
-      fontWeight: 'bold',
-      fontSize: 24,
-    },
-    priceText: {
-      color: '#F2E8CF',
-      fontWeight: 'bold',
-      fontSize: 24,
-    },
-    priceChangeText:{
-      color: '#F2E8CF',
-      fontWeight: 'bold',
-      fontSize: 24,
-    },
-  });
 
 export default Watchlist;

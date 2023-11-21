@@ -1,10 +1,15 @@
 // HomePage.js
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeableCard from './SwipeableCard';
 import TradeActionModal from './TradeActionModal';
 import HomeBar from './HomeBar';
+import Header from './Header';
 import axios from 'axios';
+import styles from './styles';
+import Overlay from './Overlay';
+
 
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
@@ -16,6 +21,11 @@ const HomePage = ({ route, navigation }) => {
   const [showTradeModal, setShowTradeModal] = useState(false);
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const openPopup = () => setShowPopup(true);
+  const closePopup = () => setShowPopup(false);
 
   useEffect(() => {
     async function fetchNews() {
@@ -53,7 +63,7 @@ const HomePage = ({ route, navigation }) => {
           item={newsContent[currentIndex]}
           onSwipe={currentIndex < newsContent.length - 1 ? handleSwipe : null}
           onUpSwipe={handleUpSwipe}
-          style={styles.topCard}
+          style={[styles.absoluteFill,{zIndex:2}]}
         />
       );
     }
@@ -65,7 +75,7 @@ const HomePage = ({ route, navigation }) => {
         <SwipeableCard
           key={`card-${nextIndex}`}
           item={newsContent[nextIndex]}
-          style={styles.behindCard}
+          style={[styles.absoluteFill,{zIndex:1}]}
         />
       );
     }
@@ -74,63 +84,28 @@ const HomePage = ({ route, navigation }) => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
-        <Text style={styles.appTitle}>StockADE</Text>
-      </View>
-      <View style={styles.cardStack}>{renderCards()}</View>
+    <Header title ={'StockADE'} onInfoPress={openPopup}/>
+      <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
+
+      {showPopup && (
+        <Overlay onClose={closePopup}>
+          <Text>Swipe Left: Ignore Stock</Text>
+          <Text>Swipe Right: Add to Watchlist</Text>
+          <Text>Swipe Up: Trade Stock</Text>
+          <Text>The buttons at the bottom of the card correspond to each swipe</Text>
+        </Overlay>
+      )}
+
     </View>
-    
+
+
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F2E8CF',
-    paddingTop: 0,
-    zIndex: 0,
-  },
-  cardStack: {
-    width: '100%',
-    height: '70%',
-    position: 'relative',
-  },
-  behindCard: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-  },
-  topCard: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: 2,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    padding: 0,
-    height:50,
-  },
-  logo: {
-    width: 70,
-    height: 70,
-    resizeMode: 'contain',
-  },
-  appTitle: {
-    fontWeight: 'bold',
-    fontSize: 30,
-    marginLeft: -15,
-  },
-  
-});
 
 export default HomePage;
