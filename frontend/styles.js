@@ -146,6 +146,16 @@ export default StyleSheet.create({
   selectedTimeframeButton: {
     backgroundColor: '#386641',
   },
+  // Buy sell button for WL
+  buySellButton: {
+          backgroundColor: '#386641',
+          padding: 10,
+          width: '98%',
+          marginVertical: 8,
+          borderRadius: 8,
+          flexDirection: 'row',
+          justifyContent: 'center', 
+        },
 
   //--------------------------- INPUT FIELDS --------------------------------------
   // Input field style for forms
@@ -197,6 +207,20 @@ export default StyleSheet.create({
     marginLeft: 20,
     fontFamily: 'Nunito-Bold',
   },
+  // Specific style for symbol text in WL
+  symbolTextWL: {
+    fontSize: 45,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginLeft: 10,
+    fontFamily: 'Nunito-Bold',
+  },
+  // Small Text for information on WL
+  infoTextWL:{
+    fontSize: 20,
+    marginLeft: 10,
+    fontFamily: 'Nunito',
+  },
   // Specific style for price text in stock cards
   priceText: {
     marginTop: 20,
@@ -205,5 +229,11 @@ export default StyleSheet.create({
     marginLeft: 10,
     fontFamily: 'Nunito-Bold',
   },
+  whiteButtonText:{
+    color: '#FFFFFF',
+    fontSize: 20,
+    marginLeft: 10,
+    fontFamily: 'Nunito-Bold',
+  }
   
 });
