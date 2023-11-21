@@ -8,6 +8,8 @@ import HomeBar from './HomeBar';
 import Header from './Header';
 import axios from 'axios';
 import styles from './styles';
+import Overlay from './Overlay';
+
 
 
 const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
@@ -19,6 +21,11 @@ const HomePage = ({ route, navigation }) => {
   const [showTradeModal, setShowTradeModal] = useState(false);
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const openPopup = () => setShowPopup(true);
+  const closePopup = () => setShowPopup(false);
 
   useEffect(() => {
     async function fetchNews() {
@@ -79,11 +86,23 @@ const HomePage = ({ route, navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
-    <Header title ={'StockADE'}/>
+    <Header title ={'StockADE'} onInfoPress={openPopup}/>
       <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
+
+      {showPopup && (
+        <Overlay onClose={closePopup}>
+          <Text>Swipe Left: Ignore Stock</Text>
+          <Text>Swipe Right: Add to Watchlist</Text>
+          <Text>Swipe Up: Trade Stock</Text>
+          <Text>The buttons at the bottom of the card correspond to each swipe</Text>
+        </Overlay>
+      )}
+
     </View>
+
+
     </SafeAreaView>
   );
 };
