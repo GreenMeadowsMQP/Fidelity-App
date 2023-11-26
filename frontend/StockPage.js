@@ -5,7 +5,7 @@ import axios from 'axios';
 import styles from './styles';
 import Header from './Header';
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const StockPage = ({ route, navigation }) => {

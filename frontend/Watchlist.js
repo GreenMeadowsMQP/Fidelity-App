@@ -6,7 +6,7 @@ import styles from './styles';
 import axios from 'axios';
 import Header from './Header';
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 const Watchlist = ({navigation}) => {
   const [symbolNames, setSymbolNames] = useState([]);
@@ -43,7 +43,7 @@ const Watchlist = ({navigation}) => {
     
   <View style={styles.container}>
     <Header title ={'Watchlist'}/>
-    <ScrollView style={styles.tickerList} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+    <ScrollView style={styles.tickerList} contentContainerStyle={{flexGrow: 1, justifyContent: 'center' }}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
         <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
           <View style={styles.button}>

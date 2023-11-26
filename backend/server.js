@@ -131,7 +131,7 @@ app.get('/getAccountNumber',async(req,res)=>{
         const accounts =await getAccountNumber();
         res.json(accounts);
     }catch{
-        console.error('Error fetching accounts in express:', error);
+        console.error('Error fetching accounts in express:');
         res.status(500).send('Error fetching watchlist symbols in express.');
     }
 });

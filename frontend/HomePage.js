@@ -12,7 +12,7 @@ import Overlay from './Overlay';
 
 
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 export let cards = [];

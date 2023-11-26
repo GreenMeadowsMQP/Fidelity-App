@@ -6,7 +6,7 @@ import Header from './Header';
 import styles from './styles';
 
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const Profile = ({navigation}) => {
