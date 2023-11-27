@@ -14,13 +14,17 @@ const StockPage = ({ route, navigation }) => {
     const [pricingProduct, setPricingProduct] = useState([]);
     const [volumeProduct, setVolumeProduct] = useState([]);
     const [companyInfo, setCompanyInfo] = useState([]);
-
+    const [watchlistStatus, setWatchlistStatus] = useState();
 
     
     const myItem = {
         symbol:symbol,
         price:price,
         change:change
+    }
+
+    const symbolPayload = {
+      symbol:symbol
     }
 
     useEffect(() => {
@@ -32,6 +36,12 @@ const StockPage = ({ route, navigation }) => {
           const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
           // console.log(response2.data.content[0])          
           setVolumeProduct(response2.data.content[0]); 
+
+          await axios.post('http://' + myIP + ':3000/isOnWatchlist',  symbolPayload).then((resp) => {
+            setWatchlistStatus(resp.data);
+          }).catch((error) => {
+            console.error(error);
+          })
 
           try{
           const response3 = await axios.get('http://' + myIP + ':3000/getCompanyInfo?symbols=' + symbol);
@@ -105,6 +115,19 @@ const StockPage = ({ route, navigation }) => {
             <View style={{alignItems: 'center'}}>
               <Pressable style={styles.buySellButton} onPress={() => console.log('Buy sell button!')}>
               <Text style={styles.whiteButtonText}>Buy/Sell</Text>
+              </Pressable>
+
+              <Pressable
+                style={{
+                  backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
+                  ...styles.addRemoveButton,
+                }}
+                onPress={() => console.log('Watchlist Status: ', watchlistStatus)}
+                //TODO ADD REMOVE
+              >
+                <Text style={styles.whiteButtonText}>
+                  {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
+                </Text>
               </Pressable>
 
               <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>
