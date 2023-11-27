@@ -74,6 +74,34 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  cellStyle: {
+    border: '1px solid #ddd', // Thin border
+    padding: '8px', // Adjust padding as needed
+    textAlign: 'left', // Adjust text alignment as needed
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontFamily: 'Nunito',
+  },
+  cellStyle2: {
+    borderRightWidth: '1px', // Thin border
+    padding: '8px', // Adjust padding as needed
+    textAlign: 'left', // Adjust text alignment as needed
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontFamily: 'Nunito',
+  },
+  accountInfo: {
+    backgroundColor: '#386641',
+    padding: 10,
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+  table: {
+    backgroundColor: '#386641',
+    width: '100%',
+    borderCollapse: 'collapse',
+    borderRadius: 8,
+  },
 
   //--------------------------- IMAGES --------------------------------------
 
@@ -237,7 +265,7 @@ export default StyleSheet.create({
   },
   holdingsText:{
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Nunito',
   }
   
