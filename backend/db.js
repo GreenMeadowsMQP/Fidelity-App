@@ -91,7 +91,48 @@ async function insertDocument(symbol, headline) {
     }
   }
 
+  async function removeFromWatchlist(valueToDelete) {
+    // const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+  
+    try {
+      await client.connect();
+  
+      const db = client.db('StockADE');
+      const collection = db.collection('Watchlist'); // Replace with the actual name of your collection
+  
+      // Delete entries with the specified value
+      console.log('Attempting deletion for: ', valueToDelete)
+      const result = await collection.deleteMany({ Symbol: valueToDelete }); // Replace with the actual field name
+  
+      console.log(`${result.deletedCount} document(s) deleted`);
+    } finally {
+      // await client.close();
+      // console.log('Connection to the database closed');
+    }
+  }
+
+  async function isOnWatchlist(symbolToCheck) {
+  
+    try {  
+      const db = client.db("StockADE");
+      const watchlistCollection = db.collection("Watchlist"); 
+      const query = { Symbol: symbolToCheck}; 
+  
+      // Check if the symbol exists in the watchlist
+      var result = await watchlistCollection.countDocuments(query);
+      
+      console.log('Checking for symbol: ', symbolToCheck)
+      console.log('IsOnWatchlist Result: ', result)
+
+      return result;
+    } finally {
+      // await client.close();
+    }
+  }
+
   module.exports = {
     addToWatchlist,
-    getUniqueStocksymbols
+    getUniqueStocksymbols,
+    removeFromWatchlist,
+    isOnWatchlist
   };
