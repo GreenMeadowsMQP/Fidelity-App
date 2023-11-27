@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 30, // This adds space between the buttons.
+    marginHorizontal: 30, // This adds space between the buttons.
     },
     buttonBackground: {
         position: 'absolute',

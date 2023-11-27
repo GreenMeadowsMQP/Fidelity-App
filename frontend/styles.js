@@ -46,13 +46,13 @@ export default StyleSheet.create({
   },
   // Card style for swipeable cards
   card: {
-    // flex:1,
+    flex:1,
     justifyContent:'space-between',
     width: '98%',
-    height: '80%',
+    height: Dimensions.get('window').height * 0.65,
     backgroundColor: '#A7C957',
     borderRadius: 10,
-    // padding:5,
+    marginBottom:5,
     elevation: 5, // Common shadow/elevation style
   },
   //ticker List for watchlist

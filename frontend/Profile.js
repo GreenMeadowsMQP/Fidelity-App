@@ -1,4 +1,5 @@
 import React, { useEffect, useState }  from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import HomeBar from './HomeBar';
 import axios from 'axios';
@@ -65,7 +66,9 @@ const Profile = ({navigation}) => {
   console.log("acccount holdings var: ", accountHoldings);
   
     return( 
-    <View style={styles.container}>
+    <View style={styles.unsafearea}>
+      <SafeAreaView style={{flex:1}}>
+      <View style={styles.container}>
       <Header title ={'Profile'}/>
       <View style={[styles.tickerList, {flex:1}]} >
         <Text style={styles.infoTextWL}>Account: {accountNumbers.accountNumber}</Text>
@@ -97,7 +100,10 @@ const Profile = ({navigation}) => {
 
       </View>
       <HomeBar navigation={navigation} />
-    </View>)
+    </View>
+      </SafeAreaView>
+    </View>
+    )
   };
 
 export default Profile;

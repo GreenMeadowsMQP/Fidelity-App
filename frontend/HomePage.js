@@ -86,24 +86,23 @@ const HomePage = ({ route, navigation }) => {
   return (
     <View style={styles.unsafearea}>
       <SafeAreaView style={{ flex: 1 }}>
-    <View style={styles.container}>
-    <Header title ={'StockADE'} onInfoPress={openPopup}/>
-      <View style={styles.card}>{renderCards()}</View>
-      <HomeBar navigation={navigation} />
-      <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
+      <View style={styles.container}>
+      <Header title ={'StockADE'} onInfoPress={openPopup}/>
+        
+        <View style={styles.card}>{renderCards()}</View>
+        <HomeBar navigation={navigation} />
+        <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
 
-      {showPopup && (
-        <Overlay onClose={closePopup}>
-          <Text>Swipe Left: Ignore Stock</Text>
-          <Text>Swipe Right: Add to Watchlist</Text>
-          <Text>Swipe Up: Trade Stock</Text>
-          <Text>The buttons at the bottom of the card correspond to each swipe</Text>
-        </Overlay>
-      )}
+        {showPopup && (
+          <Overlay onClose={closePopup}>
+            <Text>Swipe Left: Ignore Stock</Text>
+            <Text>Swipe Right: Add to Watchlist</Text>
+            <Text>Swipe Up: Trade Stock</Text>
+            <Text>The buttons at the bottom of the card correspond to each swipe</Text>
+          </Overlay>
+        )}
 
-    </View>
-
-
+      </View>
     </SafeAreaView>
     </View>
     

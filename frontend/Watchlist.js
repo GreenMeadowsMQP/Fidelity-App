@@ -23,7 +23,7 @@ const Watchlist = ({navigation}) => {
 
 
   useEffect(() => {
-    // Replace 'YOUR_API_ENDPOINT' with the actual endpoint to fetch button names from your database
+    
     const fetchData = async () => {
       try {
         const response = await axios.get('http://' + myIP + ':3000/getWatchlist');
@@ -40,8 +40,9 @@ const Watchlist = ({navigation}) => {
   console.log('symbolData: ', symbolNames);
 
   return( 
-    
-  <View style={styles.container}>
+   <View style={styles.unsafearea}>
+    <SafeAreaView style={{flex:1}}>
+    <View style={styles.container}>
     <Header title ={'Watchlist'}/>
     <ScrollView style={styles.tickerList} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
@@ -65,7 +66,11 @@ const Watchlist = ({navigation}) => {
       ))}
     </ScrollView>
     <HomeBar navigation={navigation} />
-  </View>
+    </View>
+    </SafeAreaView>
+   </View> 
+  
+  
   )
 };
 
