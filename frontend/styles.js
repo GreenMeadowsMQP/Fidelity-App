@@ -10,6 +10,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F2E8CF',
   },
+  unsafearea:{
+    flex:1,
+    backgroundColor:'#F2E8CF',
+
+  },
    // Unique right container style
    rightcontainer: {
     flexDirection: "row",
@@ -173,7 +178,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     marginLeft: -15,
-    fontFamily: 'Nunito-Bold',
+    //fontFamily: 'Nunito-Bold',
   },
   // Text style for buttons and other bold text
   boldText: {
@@ -194,7 +199,7 @@ export default StyleSheet.create({
   },  
   // Text style for cards like headlines, prices, etc.
   cardText: {
-    fontSize: 16,
+    fontSize: 15,
     margin: 20,
     fontFamily: 'Nunito',
   },

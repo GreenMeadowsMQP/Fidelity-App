@@ -12,7 +12,7 @@ import Overlay from './Overlay';
 
 
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 export let cards = [];
@@ -84,7 +84,8 @@ const HomePage = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.unsafearea}>
+      <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
     <Header title ={'StockADE'} onInfoPress={openPopup}/>
       <View style={styles.card}>{renderCards()}</View>
@@ -104,6 +105,8 @@ const HomePage = ({ route, navigation }) => {
 
 
     </SafeAreaView>
+    </View>
+    
   );
 };
 

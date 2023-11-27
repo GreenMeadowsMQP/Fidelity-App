@@ -4,7 +4,7 @@ import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-n
 import axios from 'axios';
 import moment from 'moment';
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 function StockGraph(item) {
@@ -123,7 +123,7 @@ function StockGraph(item) {
             >
                 <VerticalAxis tickCount={10} theme={{ grid: { visible: false }, axis: { visible: false }, ticks: { visible: false }, labels: { visible: false } }} />
                 <HorizontalAxis tickCount={transformedData.length} theme={{ axis: { visible: false }, ticks: { visible: false }, grid: { visible: false }, labels: { visible: false } }} />
-                <Area smoothing='cubic-spline' theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
+                <Area theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
                 <Line
                     tooltipComponent={<Tooltip />}
 

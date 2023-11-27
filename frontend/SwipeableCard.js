@@ -7,7 +7,7 @@ import moment from 'moment';
 import StockGraph from './StockGraph';
 import styles from './styles';
 
-const myIP = '192.168.56.1'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
