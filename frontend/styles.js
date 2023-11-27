@@ -57,6 +57,7 @@ export default StyleSheet.create({
   },
   //ticker List for watchlist
   tickerList: {
+    flex:1,
     width: '98%', 
     height: Dimensions.get('window').height * 0.65,
     padding: 0, 
