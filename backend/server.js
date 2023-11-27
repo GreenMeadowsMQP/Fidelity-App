@@ -174,6 +174,7 @@ app.post('/removeWatchlist', async (req, res) => {
 
 app.post('/isOnWatchlist', async (req, res) => {
     const {Symbol} = req.body;
+    console.log("Server.js Symbol: ", Symbol)
     const status = await isOnWatchlist(Symbol)
     res.json(status); 
 });

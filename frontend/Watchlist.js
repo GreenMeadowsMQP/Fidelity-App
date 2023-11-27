@@ -1,6 +1,7 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState, useCallback }  from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Image, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import HomeBar from './HomeBar';
 import styles from './styles';
 import axios from 'axios';
@@ -21,19 +22,28 @@ const Watchlist = ({navigation}) => {
     navigation.navigate('StockPage', {symbol, price, change});
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://' + myIP + ':3000/getWatchlist');
+      console.log(response)
+      setSymbolNames(response.data); // Assuming the response is an array of button names
+    } catch (error) {
+      console.error('Error fetching button names:', error);
+    }
+  };
 
-  useEffect(() => {
-    // Replace 'YOUR_API_ENDPOINT' with the actual endpoint to fetch button names from your database
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://' + myIP + ':3000/getWatchlist');
-        console.log(response)
-        setSymbolNames(response.data); // Assuming the response is an array of button names
-      } catch (error) {
-        console.error('Error fetching button names:', error);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      fetchData(); // Trigger the data fetching when the screen comes into focus
+      return () => {
+        // Clean up any subscriptions or resources if needed
+      };
+    }, [])
+  );
+  
 
+
+  useEffect(() => {    
     fetchData();
   }, []);
 

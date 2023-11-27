@@ -24,7 +24,7 @@ const StockPage = ({ route, navigation }) => {
     }
 
     const symbolPayload = {
-      symbol:symbol
+      Symbol:symbol
     }
 
     useEffect(() => {
@@ -38,6 +38,7 @@ const StockPage = ({ route, navigation }) => {
           setVolumeProduct(response2.data.content[0]); 
 
           await axios.post('http://' + myIP + ':3000/isOnWatchlist',  symbolPayload).then((resp) => {
+            console.log('Watchlist status: ', resp.data)
             setWatchlistStatus(resp.data);
           }).catch((error) => {
             console.error(error);
@@ -74,6 +75,29 @@ const StockPage = ({ route, navigation }) => {
       // Default style for no change
       return {};
     };
+
+    const deleteWatchlist = async () =>{
+      await axios.post('http://' + myIP + ':3000/removeWatchlist',  symbolPayload).then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      setWatchlistStatus(!watchlistStatus)
+    }
+
+    const addWatchlist = () => {
+      axios.post('http://localhost:3000/storeData', symbolPayload)
+    .then((response) => {
+      // Handle the response from the server, e.g., show a success message to the user
+      console.log(response.data);
+    })
+    .catch((error) => {
+      // Handle any errors, e.g., display an error message to the user
+      console.error(error);
+    });
+    setWatchlistStatus(!watchlistStatus)
+    }
 
     console.log('company Info: ', companyInfo)
 
@@ -122,8 +146,7 @@ const StockPage = ({ route, navigation }) => {
                   backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
                   ...styles.addRemoveButton,
                 }}
-                onPress={() => console.log('Watchlist Status: ', watchlistStatus)}
-                //TODO ADD REMOVE
+                onPress={() => (watchlistStatus ? deleteWatchlist() : addWatchlist())}
               >
                 <Text style={styles.whiteButtonText}>
                   {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
