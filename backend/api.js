@@ -23,13 +23,16 @@ async function getToken() {
     }
 }
 
-async function getNews() {
+async function getNews(symbols) {
     try {
         console.log("Getting News API")
-        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/company/news?symbols=AAPL", { //the querry params are after ?symbols = ...& limit/count/perpage
+        const response = await axios.get("https://gp-sandbox.fidelity.com/ftgw/fcat/md/asset/v1/equity/company/news?count=20", { //the querry params are after ?symbols = ...& limit/count/perpage
             headers: {
                 'x_gm_api_key': apiKey,
                 'x_gm_ext_token': apiToken
+            },
+            params:{
+                symbols: symbols
             }
         });
         const newsData = response.data;

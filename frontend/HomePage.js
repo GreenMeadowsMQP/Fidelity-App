@@ -30,19 +30,36 @@ const HomePage = ({ route, navigation }) => {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await axios.get('http://' + myIP + ':3000/getNews');
-        setNewsContent(response.data.content);
+        const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
+        for (const curSymbol of symbols) {
+          console.log('Getting news of ', curSymbol)
+          const response = await axios.get('http://' + myIP + ':3000/getNews?symbols=' + `${curSymbol}`);
+          const first20Entries = response.data.content.slice(0,20)
+          setNewsContent(prevNewsContent => [...prevNewsContent, ...first20Entries]);
+        }
+        setNewsContent(prevNewsContent => shuffleArray(prevNewsContent));
       } catch (error) {
         console.error('Error fetching news:', error);
       }
     }
     fetchNews();
   }, []);
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+    return array;
+  }
   
   const handleSwipe = () => {
     setCurrentIndex((prevIndex) => {
       // Increment the index unless we're at the last card.
+      console.log('newsContent length: ', newsContent.length)
       const nextIndex = prevIndex + 1;
+      console.log('Prev Index: ', prevIndex, ' next index: ', nextIndex)
+
       return nextIndex < newsContent.length ? nextIndex : prevIndex;
     });
   };
@@ -50,13 +67,17 @@ const HomePage = ({ route, navigation }) => {
     setShowTradeModal(true);
   };
 
-    const renderCards = () => {
+  const renderCards = () => {
+    console.log('Rendering cards...')
     if (newsContent.length > 1) {
       cards = [];
     }
 
+    console.log('News Content: ', newsContent, ' current index: ', currentIndex )
+
     // Add the current card to the cards array.
     if (newsContent[currentIndex]) {
+      console.log('Pushing interactable card')
       cards.push(
         <SwipeableCard
           key={`card-${currentIndex}`}
@@ -71,6 +92,7 @@ const HomePage = ({ route, navigation }) => {
     // Add the next card to the cards array if it exists.
     const nextIndex = currentIndex + 1;
     if (nextIndex < newsContent.length) {
+      console.log('Pushing background card')
       cards.push(
         <SwipeableCard
           key={`card-${nextIndex}`}
@@ -79,7 +101,7 @@ const HomePage = ({ route, navigation }) => {
         />
       );
     }
-
+    console.log('Returning cards')
     return cards;
   };
 
