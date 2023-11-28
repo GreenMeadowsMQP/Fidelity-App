@@ -3,7 +3,7 @@ import { View, Modal, Animated, Text, Button, TextInput, StyleSheet, TouchableOp
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'; // Ensure Axios is imported
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
+const myIP = '192.168.1.31'; //CHANGE IP TO RUN LOCALLY
 
 const TradeActionModal = ({ visible, onClose }) => {
   const [animation] = useState(new Animated.Value(0));

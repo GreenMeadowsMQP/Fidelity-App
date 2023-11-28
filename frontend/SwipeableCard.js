@@ -6,8 +6,11 @@ import axios from 'axios';
 import moment from 'moment';
 import StockGraph from './StockGraph';
 import styles from './styles';
-
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
+import Button1Icon from './assets/images/ToolbarImages/cross-circle.svg';
+import Button2Icon from './assets/images/ToolbarImages/usd-circle.svg';
+import Button3Icon from './assets/images/ToolbarImages/add.svg';
+import OverlayIcon from './assets/images/ToolbarImages/Circle.svg';
+const myIP = '192.168.1.31'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
@@ -89,14 +92,7 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   });
   }
 
-  const buttonImages = {
-    button1: require('./assets/images/ToolbarImages/Vector.png'),
-    button2: require('./assets/images/ToolbarImages/Vector1.png'),
-    button3: require('./assets/images/ToolbarImages/Vector2.png'),
-    overlay1: require('./assets/images/ToolbarImages/Ellipse1.png'),
-    overlay2: require('./assets/images/ToolbarImages/Ellipse3.png'),
-    overlay3: require('./assets/images/ToolbarImages/Ellipse2.png'),
-  };
+  
   
   const onButton1Press = () => {
     acceptSwipe(-width, 0);
@@ -174,20 +170,20 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
       <View style={styles.toolbar}>
         {/* Button 1 */}
         <Pressable style={styles.individualButton} onPress={onButton1Press}>
-          <Image source={buttonImages.button1} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay1} style={styles.buttonOverlay}resizeMode="contain" />
+          <Button1Icon width={60} height={60} fill='#BC4749'/>
+          <OverlayIcon style={styles.overlayIcon}/>
         </Pressable>
 
         {/* Button 2 */}
         <Pressable style={styles.individualButton} onPress={onButton2Press}>
-          <Image source={buttonImages.button2} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay2} style={styles.buttonOverlay}resizeMode="contain" />
+          <Button2Icon width={60} height={60} fill='#6A994E' />
+          <OverlayIcon style={styles.overlayIcon}/>
         </Pressable>
 
         {/* Button 3 */}
         <Pressable style={styles.individualButton} onPress={onButton3Press}>
-          <Image source={buttonImages.button3} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay3} style={styles.buttonOverlay}resizeMode="contain" />
+          <Button3Icon width={60} height={60} fill="#386641" />
+          <OverlayIcon style={styles.overlayIcon}/>
         </Pressable>
       </View>
 

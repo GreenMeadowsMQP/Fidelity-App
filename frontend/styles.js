@@ -144,11 +144,24 @@ export default StyleSheet.create({
   },
   // Individual button style
   individualButton: {
-    width: 60,
-    height: 60,
+    width: 120, 
+    height: 120, 
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 30,
+    position: 'relative', // Add this line
+ 
+  },
+  overlayIcon: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: 120, // 170% of the button icon size
+    height: 120, // 170% of the button icon size
+    transform: [
+      { translateX: -32 }, // Adjust these based on your icon size
+      { translateY: -32 },
+      { rotate: '90deg' }, // Rotation
+    ], // Center the overlay
   },
   // Background style for buttons that require an image or color fill
   buttonBackground: {
