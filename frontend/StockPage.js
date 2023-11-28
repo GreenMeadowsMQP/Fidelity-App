@@ -14,13 +14,17 @@ const StockPage = ({ route, navigation }) => {
     const [pricingProduct, setPricingProduct] = useState([]);
     const [volumeProduct, setVolumeProduct] = useState([]);
     const [companyInfo, setCompanyInfo] = useState([]);
-
+    const [watchlistStatus, setWatchlistStatus] = useState();
 
     
     const myItem = {
         symbol:symbol,
         price:price,
         change:change
+    }
+
+    const symbolPayload = {
+      Symbol:symbol
     }
 
     useEffect(() => {
@@ -32,6 +36,13 @@ const StockPage = ({ route, navigation }) => {
           const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
           // console.log(response2.data.content[0])          
           setVolumeProduct(response2.data.content[0]); 
+
+          await axios.post('http://' + myIP + ':3000/isOnWatchlist',  symbolPayload).then((resp) => {
+            console.log('Watchlist status: ', resp.data)
+            setWatchlistStatus(resp.data);
+          }).catch((error) => {
+            console.error(error);
+          })
 
           try{
           const response3 = await axios.get('http://' + myIP + ':3000/getCompanyInfo?symbols=' + symbol);
@@ -65,6 +76,29 @@ const StockPage = ({ route, navigation }) => {
       return {};
     };
 
+    const deleteWatchlist = async () =>{
+      await axios.post('http://' + myIP + ':3000/removeWatchlist',  symbolPayload).then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      setWatchlistStatus(!watchlistStatus)
+    }
+
+    const addWatchlist = () => {
+      axios.post('http://localhost:3000/storeData', symbolPayload)
+    .then((response) => {
+      // Handle the response from the server, e.g., show a success message to the user
+      console.log(response.data);
+    })
+    .catch((error) => {
+      // Handle any errors, e.g., display an error message to the user
+      console.error(error);
+    });
+    setWatchlistStatus(!watchlistStatus)
+    }
+
     console.log('company Info: ', companyInfo)
 
     return (
@@ -78,7 +112,7 @@ const StockPage = ({ route, navigation }) => {
 
           
 
-          <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38}}>
+          <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
             
             <View>
               {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
@@ -105,6 +139,18 @@ const StockPage = ({ route, navigation }) => {
             <View style={{alignItems: 'center'}}>
               <Pressable style={styles.buySellButton} onPress={() => console.log('Buy sell button!')}>
               <Text style={styles.whiteButtonText}>Buy/Sell</Text>
+              </Pressable>
+
+              <Pressable
+                style={{
+                  backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
+                  ...styles.addRemoveButton,
+                }}
+                onPress={() => (watchlistStatus ? deleteWatchlist() : addWatchlist())}
+              >
+                <Text style={styles.whiteButtonText}>
+                  {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
+                </Text>
               </Pressable>
 
               <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>

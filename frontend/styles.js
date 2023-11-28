@@ -180,6 +180,14 @@ export default StyleSheet.create({
   selectedTimeframeButton: {
     backgroundColor: '#386641',
   },
+  addRemoveButton: {
+    padding: 10,
+    width: '98%',
+    marginVertical: 8,
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center', 
+  },
   // Buy sell button for WL
   buySellButton: {
           backgroundColor: '#386641',
@@ -190,6 +198,7 @@ export default StyleSheet.create({
           flexDirection: 'row',
           justifyContent: 'center', 
         },
+        
 
   //--------------------------- INPUT FIELDS --------------------------------------
   // Input field style for forms
