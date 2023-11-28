@@ -112,7 +112,7 @@ const StockPage = ({ route, navigation }) => {
 
           
 
-          <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38}}>
+          <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
             
             <View>
               {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
