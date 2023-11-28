@@ -131,7 +131,7 @@ export default StyleSheet.create({
   button: {
     backgroundColor: '#386641',
     padding: 10,
-    marginVertical: 8,
+    marginVertical: 6,
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',

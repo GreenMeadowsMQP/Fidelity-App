@@ -57,8 +57,9 @@ app.get('/getLastTrade',async(req,res)=>{
 
 app.get('/getNews', async (req, res) => {
     try {
+        const {symbols} = req.query;
         console.log("Getting News")
-        const news = await getNews();
+        const news = await getNews(symbols);
         res.json(news);
     } catch (error) {
         console.error('Error fetching news in express:', error);
