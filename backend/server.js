@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions, getAccountBalance } = require('./api.js');
-const { addToWatchlist, getUniqueStocksymbols, isOnWatchlist, removeFromWatchlist, getActiveSymbols,getAllSymbols } = require('./db')
+const { addToWatchlist, getUniqueStocksymbols, isOnWatchlist, removeFromWatchlist, getActiveSymbols,getAllSymbols, updateStockStatus } = require('./db')
 
 const app = express();
 const PORT = 3000;
@@ -206,6 +206,11 @@ app.post('/isOnWatchlist', async (req, res) => {
     res.json(status); 
 });
 
+app.post('/updateStockStatus', async (req, res) => {
+    const { Symbol, Active } = req.body;
+    await updateStockStatus(Symbol, Active);
+    res.send('Data successfully removed'); // Send a response back to the client
+});
 
 
 

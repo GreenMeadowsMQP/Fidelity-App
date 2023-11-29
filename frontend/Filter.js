@@ -25,7 +25,11 @@ const Filter = ({navigation}) => {
 
   const handleToggleSwitch = async (symbol, isActive) => {
     try {
-      await axios.put('your-api-endpoint', { symbol, isActive });
+        const payload = {
+            Symbol: symbol,
+            Active: !isActive
+        }
+      await axios.post('http://localhost:3000/updateStockStatus', payload);
       setStocks(prevStocks =>
         prevStocks.map(stock =>
           stock.Symbol === symbol ? { ...stock, Active: !isActive } : stock

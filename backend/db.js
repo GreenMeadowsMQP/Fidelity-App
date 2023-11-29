@@ -179,11 +179,41 @@ async function insertDocument(symbol, headline) {
     }
   }
 
+  async function updateStockStatus(stockName, isActive) {
+
+    try {
+      // Connect to the MongoDB server
+      await client.connect();
+  
+      // Select the database and collection
+      const database = client.db('StockADE');
+      const collection = database.collection('Filter');
+  
+      // Update the document based on the stock name
+      const filter = { Symbol: stockName };
+      const update = { $set: { Active: isActive } };
+  
+      // Perform the update
+      const result = await collection.updateOne(filter, update);
+  
+      // Check if the update was successful
+      if (result.modifiedCount === 1) {
+        console.log(`Successfully updated ${stockName} to Active: ${isActive}`);
+      } else {
+        console.log(`${stockName} not found in the database`);
+      }
+    } finally {
+      // Close the connection when done
+      await client.close();
+    }
+  }
+
   module.exports = {
     addToWatchlist,
     getUniqueStocksymbols,
     removeFromWatchlist,
     isOnWatchlist,
     getActiveSymbols,
-    getAllSymbols
+    getAllSymbols,
+    updateStockStatus
   };

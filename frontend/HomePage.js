@@ -1,5 +1,6 @@
 // HomePage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeableCard from './SwipeableCard';
@@ -28,24 +29,35 @@ const HomePage = ({ route, navigation }) => {
   const closePopup = () => setShowPopup(false);
 
   useEffect(() => {
-    async function fetchNews() {
-      try {
-        const activeSymbolResponse = await axios.get('http://' + myIP + ':3000/getActiveSymbols');
-        // const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
-        const symbols = activeSymbolResponse.data;
-        for (const curSymbol of symbols) {
-          console.log('Getting news of ', curSymbol)
-          const response = await axios.get('http://' + myIP + ':3000/getNews?symbols=' + `${curSymbol}`);
-          const first20Entries = response.data.content.slice(0,20)
-          setNewsContent(prevNewsContent => [...prevNewsContent, ...first20Entries]);
-        }
-        setNewsContent(prevNewsContent => shuffleArray(prevNewsContent));
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    }
+   
     fetchNews();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchNews(); // Trigger the data fetching when the screen comes into focus
+      return () => {
+        // Clean up any subscriptions or resources if needed
+      };
+    }, [])
+  );
+
+  async function fetchNews() {
+    try {
+      const activeSymbolResponse = await axios.get('http://' + myIP + ':3000/getActiveSymbols');
+      // const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
+      const symbols = activeSymbolResponse.data;
+      for (const curSymbol of symbols) {
+        console.log('Getting news of ', curSymbol)
+        const response = await axios.get('http://' + myIP + ':3000/getNews?symbols=' + `${curSymbol}`);
+        const first20Entries = response.data.content.slice(0,20)
+        setNewsContent(prevNewsContent => [...prevNewsContent, ...first20Entries]);
+      }
+      setNewsContent(prevNewsContent => shuffleArray(prevNewsContent));
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    }
+  }
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
