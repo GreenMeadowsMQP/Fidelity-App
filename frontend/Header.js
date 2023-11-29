@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Image,Text, Pressable } from 'react-native';
 import styles from './styles';
 
-const Header = ({title, onInfoPress}) => {
+const Header = ({title, onInfoPress, navigation}) => {
 
   return (
     <View style={styles.header}>
@@ -16,8 +16,11 @@ const Header = ({title, onInfoPress}) => {
       <Pressable onPress={onInfoPress}>
         <Image source={require('./assets/images/HomebarImages/info.png')} style={styles.icon}/>
       </Pressable>
+      
+      <Pressable onPress={() => navigation?.navigate('Filter')}>
+        <Image source={require('./assets/images/HomebarImages/slider.png')} style={styles.icon}/>
+      </Pressable>
 
-      <Image source={require('./assets/images/HomebarImages/slider.png')} style={styles.icon}/>
     </View>
   </View>
   );

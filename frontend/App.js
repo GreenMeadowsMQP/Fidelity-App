@@ -4,6 +4,7 @@ import HomePage from './HomePage'; // Import the new component
 import Watchlist from './Watchlist';
 import Profile from './Profile';
 import StockPage from './StockPage';
+import Filter from './Filter';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font'
@@ -32,6 +33,8 @@ export default function App() {
         <Stack.Screen name="WatchList" component={Watchlist}  options={{ headerShown: false }}/>
         <Stack.Screen name="Profile" component={Profile}  options={{ headerShown: false }}/>
         <Stack.Screen name="StockPage" component={StockPage}  options={{ headerShown: false }}/>
+        <Stack.Screen name="Filter" component={Filter}  options={{ headerShown: false }}/>
+
       </Stack.Navigator>
     </NavigationContainer> 
    

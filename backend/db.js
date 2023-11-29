@@ -166,11 +166,11 @@ async function insertDocument(symbol, headline) {
       const database = client.db('StockADE');
       const collection = database.collection('Filter');
   
-      const projection = { Symbol: 1, _id: 0 }; // Include only 'Symbol' field, exclude '_id'
+      const projection = { Symbol: 1, Active: 1, _id: 0 }; // Include only 'Symbol' field, exclude '_id'
   
       const result = await collection.find({}).project(projection).toArray();
   
-      const allSymbols = result.map(doc => doc.Symbol);
+      const allSymbols = result.map(doc => ({ Symbol: doc.Symbol, Active: doc.Active }));
   
       return allSymbols;
     } finally {

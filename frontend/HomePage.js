@@ -110,7 +110,7 @@ const HomePage = ({ route, navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
-    <Header title ={'StockADE'} onInfoPress={openPopup}/>
+    <Header title ={'StockADE'} onInfoPress={openPopup} navigation={navigation}/>
       <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
