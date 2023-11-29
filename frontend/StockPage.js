@@ -154,7 +154,7 @@ const StockPage = ({ route, navigation }) => {
               </Pressable>
 
               <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.whiteButtonText}>Temporary Back Button</Text>
+              <Text style={styles.whiteButtonText}> Back </Text>
               </Pressable>
             </View>
 
