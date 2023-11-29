@@ -30,7 +30,9 @@ const HomePage = ({ route, navigation }) => {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
+        const activeSymbolResponse = await axios.get('http://' + myIP + ':3000/getActiveSymbols');
+        // const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
+        const symbols = activeSymbolResponse.data;
         for (const curSymbol of symbols) {
           console.log('Getting news of ', curSymbol)
           const response = await axios.get('http://' + myIP + ':3000/getNews?symbols=' + `${curSymbol}`);
