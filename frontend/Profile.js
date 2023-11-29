@@ -6,7 +6,7 @@ import axios from 'axios';
 import Header from './Header';
 import styles from './styles';
 
-const myIP = '192.168.1.31'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 const Profile = ({ navigation }) => {
   const [accountNumbers, setAccountNumbers] = useState([]);
