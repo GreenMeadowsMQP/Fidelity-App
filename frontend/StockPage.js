@@ -6,7 +6,7 @@ import axios from 'axios';
 import styles from './styles';
 import Header from './Header';
 
-const myIP = '192.168.1.31'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const StockPage = ({ route, navigation }) => {
@@ -16,7 +16,7 @@ const StockPage = ({ route, navigation }) => {
     const [volumeProduct, setVolumeProduct] = useState([]);
     const [companyInfo, setCompanyInfo] = useState([]);
     const [watchlistStatus, setWatchlistStatus] = useState();
-    
+
     
     const myItem = {
         symbol:symbol,

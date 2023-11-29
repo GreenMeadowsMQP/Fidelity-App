@@ -10,7 +10,7 @@ import Button1Icon from './assets/images/ToolbarImages/cross-circle.svg';
 import Button2Icon from './assets/images/ToolbarImages/usd-circle.svg';
 import Button3Icon from './assets/images/ToolbarImages/add.svg';
 import OverlayIcon from './assets/images/ToolbarImages/Circle.svg';
-const myIP = '192.168.1.31'; //CHANGE IP TO RUN LOCALLY
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
@@ -171,19 +171,19 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
         {/* Button 1 */}
         <Pressable style={styles.individualButton} onPress={onButton1Press}>
           <Button1Icon width={60} height={60} fill='#BC4749'/>
-          <OverlayIcon style={styles.overlayIcon}/>
+          <OverlayIcon width={85} height={85} style={{position: 'absolute',transform: [{ rotate: '-90deg' }] }} />
         </Pressable>
 
         {/* Button 2 */}
         <Pressable style={styles.individualButton} onPress={onButton2Press}>
           <Button2Icon width={60} height={60} fill='#6A994E' />
-          <OverlayIcon style={styles.overlayIcon}/>
+          <OverlayIcon width={85} height={85} style={{position: 'absolute',transform: [{ rotate: '0deg' }] }} />
         </Pressable>
 
         {/* Button 3 */}
         <Pressable style={styles.individualButton} onPress={onButton3Press}>
           <Button3Icon width={60} height={60} fill="#386641" />
-          <OverlayIcon style={styles.overlayIcon}/>
+          <OverlayIcon width={85} height={85} style={{position: 'absolute',transform: [{ rotate: '90deg' }] }} />
         </Pressable>
       </View>
 
