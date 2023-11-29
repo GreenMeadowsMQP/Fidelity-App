@@ -157,10 +157,33 @@ async function insertDocument(symbol, headline) {
     }
   }
   
+  async function getAllSymbols() {
+    try {
+      // Connect to the MongoDB server
+      await client.connect();
+  
+      // Select the database and collection
+      const database = client.db('StockADE');
+      const collection = database.collection('Filter');
+  
+      const projection = { Symbol: 1, _id: 0 }; // Include only 'Symbol' field, exclude '_id'
+  
+      const result = await collection.find({}).project(projection).toArray();
+  
+      const allSymbols = result.map(doc => doc.Symbol);
+  
+      return allSymbols;
+    } finally {
+      // Close the connection when done
+      // await client.close();
+    }
+  }
+
   module.exports = {
     addToWatchlist,
     getUniqueStocksymbols,
     removeFromWatchlist,
     isOnWatchlist,
-    getActiveSymbols
+    getActiveSymbols,
+    getAllSymbols
   };
