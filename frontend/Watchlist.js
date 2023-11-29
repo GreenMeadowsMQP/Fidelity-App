@@ -50,8 +50,9 @@ const Watchlist = ({navigation}) => {
   console.log('symbolData: ', symbolNames);
 
   return( 
-    
-  <View style={styles.container}>
+   <View style={styles.unsafearea}>
+    <SafeAreaView style={{flex:1}}>
+    <View style={styles.container}>
     <Header title ={'Watchlist'}/>
     <ScrollView style={styles.tickerList} contentContainerStyle={{flexGrow: 1, justifyContent: 'center' }}>
     {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
@@ -75,7 +76,11 @@ const Watchlist = ({navigation}) => {
       ))}
     </ScrollView>
     <HomeBar navigation={navigation} />
-  </View>
+    </View>
+    </SafeAreaView>
+   </View> 
+  
+  
   )
 };
 

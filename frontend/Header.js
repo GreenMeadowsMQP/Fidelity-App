@@ -2,22 +2,25 @@
 import React, { useState } from 'react';
 import { View, Image,Text, Pressable } from 'react-native';
 import styles from './styles';
+import CompanyLogo from './assets/images/HomebarImages/Homelogo.svg';
+import InfoIcon from './assets/images/HomebarImages/info.svg';
+import SliderIcon from './assets/images/HomebarImages/settings-sliders.svg';
 
 const Header = ({title, onInfoPress}) => {
 
   return (
     <View style={styles.header}>
     <View style={styles.leftcontainer}>
-      <Image source={require('./assets/images/CompanyLogo.png')} style={styles.logo} />
+    <CompanyLogo width={70} height={70}style={styles.logo} />
       <Text style={styles.appTitle}>{title}</Text>
     </View>
     <View style={styles.rightcontainer}>
 
       <Pressable onPress={onInfoPress}>
-        <Image source={require('./assets/images/HomebarImages/info.png')} style={styles.icon}/>
+      <InfoIcon width={40} height={40} fill='#386641' />
       </Pressable>
 
-      <Image source={require('./assets/images/HomebarImages/slider.png')} style={styles.icon}/>
+      <SliderIcon width={40}height={40} fill='#386641' />
     </View>
   </View>
   );

@@ -10,6 +10,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F2E8CF',
   },
+  unsafearea:{
+    flex:1,
+    backgroundColor:'#F2E8CF',
+
+  },
    // Unique right container style
    rightcontainer: {
     flexDirection: "row",
@@ -41,17 +46,18 @@ export default StyleSheet.create({
   },
   // Card style for swipeable cards
   card: {
-    // flex:1,
+    flex:1,
     justifyContent:'space-between',
     width: '98%',
-    height: '80%',
+    height: Dimensions.get('window').height * 0.65,
     backgroundColor: '#A7C957',
     borderRadius: 10,
-    // padding:5,
+    marginBottom:5,
     elevation: 5, // Common shadow/elevation style
   },
   //ticker List for watchlist
   tickerList: {
+    flex:1,
     width: '98%', 
     height: Dimensions.get('window').height * 0.65,
     padding: 0, 
@@ -111,13 +117,11 @@ export default StyleSheet.create({
     width: 70,
     height: 70,
     resizeMode: 'contain',
+    marginLeft: -10
   },
   
   // Common icon style for header
-  icon: {
-    width: 40,
-    height: 40,
-  },
+  
 
   //--------------------------- BUTTONS --------------------------------------
 
@@ -138,12 +142,14 @@ export default StyleSheet.create({
   },
   // Individual button style
   individualButton: {
-    width: 60,
-    height: 60,
+    width: 200, 
+    height: 200, 
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 30,
+    // position: 'relative', // Add this line
+ 
   },
+  
   // Background style for buttons that require an image or color fill
   buttonBackground: {
     position: 'absolute',
@@ -210,7 +216,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     marginLeft: -15,
-    fontFamily: 'Nunito-Bold',
+    //fontFamily: 'Nunito-Bold',
   },
   // Text style for buttons and other bold text
   boldText: {
@@ -231,7 +237,7 @@ export default StyleSheet.create({
   },  
   // Text style for cards like headlines, prices, etc.
   cardText: {
-    fontSize: 16,
+    fontSize: 15,
     margin: 20,
     fontFamily: 'Nunito',
   },
