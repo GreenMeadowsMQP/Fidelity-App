@@ -21,6 +21,8 @@ const HomePage = ({ route, navigation }) => {
   const [showTradeModal, setShowTradeModal] = useState(false);
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentSymbol, setCurrentSymbol] = useState('');
+
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -65,6 +67,7 @@ const HomePage = ({ route, navigation }) => {
   };
   const handleUpSwipe = () => {
     setShowTradeModal(true);
+    setCurrentSymbol(newsContent[currentIndex].symbol);
   };
 
   const renderCards = () => {
@@ -113,7 +116,7 @@ const HomePage = ({ route, navigation }) => {
         
         <View style={styles.card}>{renderCards()}</View>
         <HomeBar navigation={navigation} />
-        <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
+        <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={currentSymbol}/> 
 
         {showPopup && (
           <Overlay onClose={closePopup}>
