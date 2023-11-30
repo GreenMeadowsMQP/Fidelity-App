@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable, StyleSheet ,Platform} from 'react-native';
+import { View, Pressable, StyleSheet ,Platform, Image} from 'react-native';
 import WatchlistIcon from './assets/images/HomebarImages/bookmark.svg';
 import HomeIcon from './assets/images/HomebarImages/Homelogo.svg';
 import ProfileIcon from './assets/images/HomebarImages/user.svg';

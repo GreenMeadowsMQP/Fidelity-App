@@ -121,7 +121,15 @@ export default StyleSheet.create({
   },
   
   // Common icon style for header
-  
+  icon: {
+    width: 40,
+    height: 40,
+  },
+
+  toolbarIcon: {
+    width: 60,
+    height: 60,
+  },
 
   //--------------------------- BUTTONS --------------------------------------
 
@@ -142,11 +150,11 @@ export default StyleSheet.create({
   },
   // Individual button style
   individualButton: {
-    width: 200, 
-    height: 200, 
+    width: 100, 
+    height: 100, 
     justifyContent: 'center',
     alignItems: 'center',
-    // position: 'relative', // Add this line
+    position: 'relative', // Add this line
  
   },
   

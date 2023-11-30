@@ -92,15 +92,15 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
     switch (iconType) {
       case 'button1':
         return Platform.OS === 'web' ?
-          <Image source={buttonImages.button1} style={styles.buttonBackground} /> :
+          <Image source={buttonImages.button1} style={styles.toolbarIcon} /> :
           <Button1IconSvg width={60} height={60} fill='#BC4749' {...additionalProps} />;
       case 'button2':
         return Platform.OS === 'web' ?
-          <Image source={buttonImages.button2} style={styles.buttonBackground} /> :
+          <Image source={buttonImages.button2} style={styles.toolbarIcon} /> :
           <Button2IconSvg width={60} height={60} fill='#6A994E' {...additionalProps} />;
       case 'button3':
         return Platform.OS === 'web' ?
-          <Image source={buttonImages.button3} style={styles.buttonBackground} /> :
+          <Image source={buttonImages.button3} style={styles.toolbarIcon} /> :
           <Button3IconSvg width={60} height={60} fill="#386641" {...additionalProps} />;
       case 'overlay':
         return Platform.OS === 'web' ?
