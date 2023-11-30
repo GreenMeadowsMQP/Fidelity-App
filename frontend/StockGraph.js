@@ -123,7 +123,7 @@ function StockGraph(item) {
             >
                 <VerticalAxis tickCount={10} theme={{ grid: { visible: false }, axis: { visible: false }, ticks: { visible: false }, labels: { visible: false } }} />
                 <HorizontalAxis tickCount={transformedData.length} theme={{ axis: { visible: false }, ticks: { visible: false }, grid: { visible: false }, labels: { visible: false } }} />
-                <Area theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
+                <Area smoothing='cubic-spline' theme={{ gradient: { from: { color: '#BC4749' }, to: { color: '#A7C957', opacity: 0.2 } } }} />
                 <Line
                     tooltipComponent={<Tooltip />}
 

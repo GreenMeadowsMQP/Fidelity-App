@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions, getAccountBalance } = require('./api.js');
-const { addToWatchlist, getUniqueStocksymbols, isOnWatchlist, removeFromWatchlist } = require('./db')
+const { addToWatchlist, getUniqueStocksymbols, isOnWatchlist, removeFromWatchlist, getActiveSymbols,getAllSymbols, updateStockStatus } = require('./db')
 
 const app = express();
 const PORT = 3000;
@@ -137,6 +137,32 @@ app.get('/getAccountNumber',async(req,res)=>{
     }
 });
 
+app.get('/getActiveSymbols', async(req, res) => {
+    try {
+        console.log("Fetching Active Symbols...")
+        const symbols = await getActiveSymbols();
+
+        res.header('Content-Type', 'application/json');
+        res.json(symbols);
+    } catch (error) {
+        console.error('Error fetching active symbols in express:', error);
+        res.status(500).send('Error fetching active symbols in express.');
+    }
+});
+
+app.get('/getAllSymbols', async(req, res) => {
+    try {
+        console.log("Fetching All Filter Symbols...")
+        const symbols = await getAllSymbols();
+
+        res.header('Content-Type', 'application/json');
+        res.json(symbols);
+    } catch (error) {
+        console.error('Error fetching All Filter symbols in express:', error);
+        res.status(500).send('Error fetching All Filter symbols in express.');
+    }
+});
+
 app.post('/getPositions',async(req,res)=>{
     try{
         const {account} = req.body;
@@ -180,6 +206,11 @@ app.post('/isOnWatchlist', async (req, res) => {
     res.json(status); 
 });
 
+app.post('/updateStockStatus', async (req, res) => {
+    const { Symbol, Active } = req.body;
+    await updateStockStatus(Symbol, Active);
+    res.send('Data successfully removed'); // Send a response back to the client
+});
 
 
 

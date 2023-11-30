@@ -1,30 +1,34 @@
 import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
-import WatchlistIcon from './assets/images/HomebarImages/bookmark.svg';
-import HomeIcon from './assets/images/HomebarImages/Homelogo.svg';
-import ProfileIcon from './assets/images/HomebarImages/user.svg';
+import { View, Pressable, StyleSheet, Image } from 'react-native';
 
-const HomeBar = ({ navigation }) => {
+
+const HomeBar = ({navigation}) => {
+    
+    const buttonImages = {
+        watchlist: require('./assets/images/HomebarImages/watchlist.png'),
+        home: require('./assets/images/HomebarImages/homelogo.png'),
+        profile: require('./assets/images/HomebarImages/profile.png'),
+      };
+
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-      {/* Watchlist Button */}
+        {/* Watchlist Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('WatchList')} >
-        <WatchlistIcon width={45} height={45} fill="#386641" />
+        <Image source={buttonImages.watchlist} style={styles.buttonBackground} />
       </Pressable>
 
-      {/* Home Button */}
+        {/* Home Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('HomePage')} >
-        <HomeIcon width={80} height={80} />
+        <Image source={buttonImages.home} style={styles.buttonBackground} />
       </Pressable>
 
-      {/* Profile Button */}
+        {/* Profile Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('Profile')} >
-        <ProfileIcon width={50} height={50} fill="#386641"/>
+        <Image source={buttonImages.profile} style={styles.buttonBackground} />
       </Pressable>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
     button: {
@@ -32,7 +36,7 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 30, // This adds space between the buttons.
+    margin: 30, // This adds space between the buttons.
     },
     buttonBackground: {
         position: 'absolute',

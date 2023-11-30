@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, ScrollView, Pressable, Text, StyleSheet } from 'react-native';
-import { Table, Row, Cell } from 'react-native-table-component';
+import React, { useEffect, useState }  from 'react';
+import { View, Image, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import HomeBar from './HomeBar';
 import axios from 'axios';
 import Header from './Header';
 import styles from './styles';
 
+
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
-const Profile = ({ navigation }) => {
+
+const Profile = ({navigation}) => {
+
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [accountHoldings, setAccountHoldings] = useState([]);
   const [accountValue, setAccountValue] = useState([]);
+  //accountNumbers stores an array of accounts, access via accountNumbers.accounts[x]
 
   const handleButtonPress = (holding) => {
-    if (holding.symbol !== "GCASH") {
-      console.log(`Button ${holding.symbol} pressed`);
-      const { symbol, lastPrice: price, lastPriceChange: change } = holding;
-      navigation.navigate('StockPage', { symbol, price, change });
-    }
+    if(holding.symbol != "GCASH"){
+    console.log(`Button ${holding.symbol} pressed`);
+    
+    const symbol = holding.symbol;
+    const price = holding.lastPrice;
+    const change = holding.lastPriceChange;
+    navigation.navigate('StockPage', {symbol, price, change});}
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,71 +64,56 @@ const Profile = ({ navigation }) => {
 
   console.log("acccount holdings var: ", accountHoldings);
   
-  return (
-    <View style={styles.unsafearea}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <Header title={'Profile'} />
-          <View style={[styles.tickerList, { flex: 1 }]}>
+    return( 
+    <View style={styles.container}>
+      <Header title ={'Profile'}/>
+      <View style={[styles.tickerList, {flex:1}]} >
 
-            <View style={styles.accountInfo}>
-              <Text style={styles.whiteButtonText}>Account: {accountNumbers.accountNumber}</Text>
-              <Text style={styles.whiteButtonText}>Value: {accountValue.accountNetworth}</Text>
-            </View>
-
-            {Array.isArray(accountHoldings) && (
-              <ScrollView horizontal={true}>
-                <View style={styles.table}>
-                  <View style={styles.tableHeader}>
-                    <Text style={styles.headerText}>Symbol</Text>
-                    <Text style={styles.headerText}>Shares</Text>
-                    <Text style={styles.headerText}>Current Price</Text>
-                    <Text style={styles.headerText}>Change</Text>
-                    <Text style={styles.headerText}>Value</Text>
-                    <Text style={styles.headerText}>Today's Gain/Loss</Text>
-                    <Text style={styles.headerText}>Total Gain/Loss</Text>
-                    <Text style={styles.headerText}>Cost Basis</Text>
-                  </View>
-                  <View style={styles.tableBody}>
-                    {accountHoldings.map((holding, index) => (
-                      <Pressable key={index} onPress={() => handleButtonPress(holding)} style={styles.tableRow}>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.symbol}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.tdQuantity}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.lastPrice.toFixed(2)}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.lastPriceChange.toFixed(2)}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.currentValue.toFixed(2)}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.todayGainLoss.toFixed(2)}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.totalGainLoss.toFixed(2)}</Text>
-                        </View>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.cellText}>{holding.costBasis.toFixed(2)}</Text>
-                        </View>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-              </ScrollView>
-            )}
-
-          </View>
-          <HomeBar navigation={navigation} />
+        <View style={styles.accountInfo}> 
+          <Text style={styles.whiteButtonText}>Account: {accountNumbers.accountNumber}</Text>
+          <Text style={styles.whiteButtonText}>Value: {accountValue.accountNetworth}</Text>
         </View>
-      </SafeAreaView>
-    </View>
-  );
-};
+
+        {Array.isArray(accountHoldings) && (
+  <div style={{ overflowX: 'auto' }}>
+    <table style={styles.table}>
+      <thead>
+        <tr>
+          <th style={styles.cellStyle}>Symbol</th>
+          <th style={styles.cellStyle}>Shares</th>
+          <th style={styles.cellStyle}>Current Price</th>
+          <th style={styles.cellStyle}>Change</th>
+          <th style={styles.cellStyle}>Value</th>
+          <th style={styles.cellStyle}>Today's Gain/Loss</th>
+          <th style={styles.cellStyle}>Total Gain/Loss</th>
+          <th style={styles.cellStyle}>Cost Basis</th>
+        </tr>
+      </thead>
+      <tbody>
+        {accountHoldings.map((holding, index) => (
+          <tr key={index}>
+            <Pressable onPress={() => handleButtonPress(holding)}>
+              <td style={styles.cellStyle2}>{holding.symbol}</td>
+            </Pressable>
+            <td style={styles.cellStyle2}>{holding.tdQuantity}</td>
+            <td style={styles.cellStyle2}>{holding.lastPrice.toFixed(2)}</td>
+            <td style={styles.cellStyle2}>{holding.lastPriceChange.toFixed(2)}</td>
+            <td style={styles.cellStyle2}>{holding.currentValue.toFixed(2)}</td>
+            <td style={styles.cellStyle2}>{holding.todayGainLoss.toFixed(2)}</td>
+            <td style={styles.cellStyle2}>{holding.totalGainLoss.toFixed(2)}</td>
+            <td style={styles.cellStyle2}>{holding.costBasis.toFixed(2)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
+      </View>
+      <HomeBar navigation={navigation} />
+    </View>)
+  };
+
+
 
 export default Profile;
