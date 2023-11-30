@@ -1,25 +1,52 @@
 import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet ,Platform} from 'react-native';
 import WatchlistIcon from './assets/images/HomebarImages/bookmark.svg';
 import HomeIcon from './assets/images/HomebarImages/Homelogo.svg';
 import ProfileIcon from './assets/images/HomebarImages/user.svg';
 
+
 const HomeBar = ({ navigation }) => {
+  const buttonImages = {
+    watchlist: {
+      svg: <WatchlistIcon width={45} height={45} fill="#386641" />,
+      png: require('./assets/images/HomebarImages/watchlist.png'),
+    },
+    home: {
+      svg: <HomeIcon width={80} height={80} />,
+      png: require('./assets/images/HomebarImages/homelogo.png'),
+    },
+    profile: {
+      svg: <ProfileIcon width={50} height={50} fill="#386641" />,
+      png: require('./assets/images/HomebarImages/profile.png'),
+    },
+  };
+
+  const renderIcon = (key) => {
+    // Check if the platform is web
+    if (Platform.OS === 'web') {
+      // Return PNG for web
+      return <Image source={buttonImages[key].png} style={styles.buttonBackground} />;
+    } else {
+      // Return SVG for iOS and other platforms
+      return buttonImages[key].svg;
+    }
+  };
+
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
       {/* Watchlist Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('WatchList')} >
-        <WatchlistIcon width={45} height={45} fill="#386641" />
+        {renderIcon('watchlist')}
       </Pressable>
 
       {/* Home Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('HomePage')} >
-        <HomeIcon width={80} height={80} />
+        {renderIcon('home')}
       </Pressable>
 
       {/* Profile Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('Profile')} >
-        <ProfileIcon width={50} height={50} fill="#386641"/>
+        {renderIcon('profile')}
       </Pressable>
     </View>
   );
