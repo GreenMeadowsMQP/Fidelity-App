@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Modal, Animated, Text, Image, Button, TextInput, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'; 
-import Icon1 from './assets/images/square-plus.svg';
-import Icon2 from './assets/images/angle-small-down.svg';
+import Icon1Svg from './assets/images/square-plus.svg';
+import Icon2Svg from './assets/images/angle-small-down.svg';
 
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
