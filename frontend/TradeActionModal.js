@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Modal, Animated, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Modal, Animated, Text, Image, Button, TextInput, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'; 
 import Icon1 from './assets/images/square-plus.svg';
@@ -36,20 +36,7 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
         console.error('Error fetching account data:', error);
       }
     };
-    const renderIcon = (iconType) => {
-      switch (iconType) {
-        case 'icon1':
-          return Platform.OS === 'web' ?
-            <Image source={imageSources.icon1} style={{ width: 40, height: 40 }} /> :
-            <Icon1Svg width={40} height={40} fill={'#386641'} />;
-        case 'icon2':
-          return Platform.OS === 'web' ?
-            <Image source={imageSources.icon2} style={{ width: 50, height: 50 }} /> :
-            <Icon2Svg width={50} height={50} fill={'#386641'} />;
-        default:
-          return null;
-      }
-    };
+    
     const fetchLastTrade = async (symbol)=>{
       try {
         const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+ symbol);
@@ -82,6 +69,20 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
     }
   }, [visible,symbol,animation]);
 
+  const renderIcon = (iconType) => {
+    switch (iconType) {
+      case 'icon1':
+        return Platform.OS === 'web' ?
+          <Image source={imageSources.icon1} style={{ width: 40, height: 40 }} /> :
+          <Icon1Svg width={40} height={40} fill={'#386641'} />;
+      case 'icon2':
+        return Platform.OS === 'web' ?
+          <Image source={imageSources.icon2} style={{ width: 50, height: 50 }} /> :
+          <Icon2Svg width={50} height={50} fill={'#386641'} />;
+      default:
+        return null;
+    }
+  };
 
   const handleModalClose = () => {
     Animated.timing(animation, {
