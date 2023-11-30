@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, Animated, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import axios from 'axios'; // Ensure Axios is imported
+import axios from 'axios'; 
+import Icon1 from './assets/images/square-plus.svg';
+import Icon2 from './assets/images/angle-small-down.svg';
 
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
-const TradeActionModal = ({ visible, onClose }) => {
+const TradeActionModal = ({ visible, onClose,symbol }) => {
   const [animation] = useState(new Animated.Value(0));
   const [accounts, setAccounts] = useState([]); // State for storing accounts
   const [selectedAccount, setSelectedAccount] = useState(null); // State for the selected account
-  
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [lastTrade, setLastTrade] = useState(null);
+ 
+
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
@@ -27,24 +32,46 @@ const TradeActionModal = ({ visible, onClose }) => {
         console.error('Error fetching account data:', error);
       }
     };
+    const fetchLastTrade = async (symbol)=>{
+      try {
+        const response = await axios.get('http://' + myIP + ':3000/getLastTrade?symbols='+ symbol);
+        const lastTradeData = response.data.content[0];
+        if (lastTradeData && lastTradeData.price) {
+          setLastTrade(lastTradeData.price.toFixed(2)); // Update state with the price
+          console.log("Fetched data: ", lastTrade);
+        } else {
+          console.log("No price data available");
+        }
+      } catch (error) {
+        console.error('Error fetching Last Trade data for:', error);
+      }
+    }
 
     if (visible) {
       fetchAccountData();
+      fetchLastTrade(symbol);
       Animated.timing(animation, {  
         toValue: 1,
-        duration: 300,
+        duration: 150,
         useNativeDriver: false,
       }).start();
     } else {
       Animated.timing(animation, {
         toValue: 0,
-        duration: 300,
+        duration: 150,
         useNativeDriver: false,
       }).start();
     }
-  }, [visible, animation]);
+  }, [visible,symbol,animation]);
 
 
+  const handleModalClose = () => {
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: false,
+    }).start(() => onClose()); // Call onClose after the animation
+  };
   const modalStyle = {
     transform: [
       {
@@ -66,35 +93,51 @@ const TradeActionModal = ({ visible, onClose }) => {
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <Animated.View style={[styles.card, modalStyle]}>
           {/* Your modal content here */}
+          <TouchableOpacity onPress={() => setShowAdvancedOptions(prev => !prev)} style={{ position: 'absolute', top: 25, left: 20 }}>
+            <Icon1 width={40} height={40} fill={'#386641'}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleModalClose} style={{ position: 'absolute', top: 15, right: 20 }}>
+            <Icon2 width={50} height={50} fill={'#386641'}/>
+          </TouchableOpacity>
           <Text>Buy / Sell </Text>
-
+          <Text>{symbol}</Text> 
           {/* Dropdown for account selection */}
+          <Text>Account</Text>
           <Picker
             selectedValue={selectedAccount}
             onValueChange={(itemValue) => setSelectedAccount(itemValue)}
+            style={{ width: '100%', height: 300, zIndex: 1 }} // Ensure it has explicit dimensions
           >
             {accounts.map(account => (
-            <Picker.Item 
-              key={account.accountNumber} 
-              label={account.nickname ? account.nickname : account.accountNumber.toString()} 
-              value={account.accountNumber} 
-            />
+              <Picker.Item 
+                key={account.accountNumber} 
+                label={account.nickname ? account.nickname : account.accountNumber.toString()} 
+                value={account.accountNumber} 
+              />
             ))}
           </Picker>
+          
           <TextInput style={styles.inputField } placeholder="$:" />
           <TextInput style={styles.inputField } placeholder="Stock:" />
+          
           {/* Implement Picker or another dropdown component */}
           <View style ={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => {}}>
             <Text style={styles.buttonText}>Buy</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => {}}>
-            <Text style={styles.buttonText}>Sell</Text>
+            <Text style={styles.buttonText}>buy</Text>
           </TouchableOpacity>
           </View>
+          <Text>{lastTrade !== null ? lastTrade : 'Loading...'}</Text>
+          {showAdvancedOptions && (
+          <View>
+          {/* Place additional buttons or options here */}
+          </View>
+          )}
           <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
-    <Text style={styles.buttonText}>Cancel</Text>
-</TouchableOpacity>
+          <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
         </Animated.View>
       </View>
     </Modal>

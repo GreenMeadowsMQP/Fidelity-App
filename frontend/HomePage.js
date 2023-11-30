@@ -23,6 +23,8 @@ const HomePage = ({ route, navigation }) => {
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeSymbols, setActiveSybols] = useState([])
+  const [currentSymbol, setCurrentSymbol] = useState('');
+
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -97,6 +99,7 @@ const HomePage = ({ route, navigation }) => {
   };
   const handleUpSwipe = () => {
     setShowTradeModal(true);
+    setCurrentSymbol(newsContent[currentIndex].symbol);
   };
 
   const renderCards = () => {
@@ -143,7 +146,7 @@ const HomePage = ({ route, navigation }) => {
     <Header title ={'StockADE'} onInfoPress={openPopup} navigation={navigation}/>
       <View style={styles.card}>{renderCards()}</View>
       <HomeBar navigation={navigation} />
-      <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}/> 
+      <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={currentSymbol}/> 
 
       {showPopup && (
         <Overlay onClose={closePopup}>
