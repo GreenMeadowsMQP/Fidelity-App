@@ -42,7 +42,9 @@ const Header = ({title, onInfoPress, navigation}) => {
         <Pressable onPress={onInfoPress}>
           {renderIcon('info')}
         </Pressable>
-        {renderIcon('slider')}
+        <Pressable onPress={() => navigation?.navigate('Filter')}>
+          {renderIcon('slider')}
+        </Pressable>
       </View>
     </View>
   );
