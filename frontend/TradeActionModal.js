@@ -14,6 +14,10 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [lastTrade, setLastTrade] = useState(null);
  
+  const imageSources = {
+    icon1: require('./assets/images/HomebarImages/square-plus.png'), // Replace with actual path
+    icon2: require('./assets/images/HomebarImages/Vector.png'), // Replace with actual path
+  };
 
   useEffect(() => {
     const fetchAccountData = async () => {
@@ -30,6 +34,20 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
         }
       } catch (error) {
         console.error('Error fetching account data:', error);
+      }
+    };
+    const renderIcon = (iconType) => {
+      switch (iconType) {
+        case 'icon1':
+          return Platform.OS === 'web' ?
+            <Image source={imageSources.icon1} style={{ width: 40, height: 40 }} /> :
+            <Icon1Svg width={40} height={40} fill={'#386641'} />;
+        case 'icon2':
+          return Platform.OS === 'web' ?
+            <Image source={imageSources.icon2} style={{ width: 50, height: 50 }} /> :
+            <Icon2Svg width={50} height={50} fill={'#386641'} />;
+        default:
+          return null;
       }
     };
     const fetchLastTrade = async (symbol)=>{
@@ -94,10 +112,10 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
         <Animated.View style={[styles.card, modalStyle]}>
           {/* Your modal content here */}
           <TouchableOpacity onPress={() => setShowAdvancedOptions(prev => !prev)} style={{ position: 'absolute', top: 25, left: 20 }}>
-            <Icon1 width={40} height={40} fill={'#386641'}/>
+          {renderIcon('icon1')}
           </TouchableOpacity>
           <TouchableOpacity onPress={handleModalClose} style={{ position: 'absolute', top: 15, right: 20 }}>
-            <Icon2 width={50} height={50} fill={'#386641'}/>
+          {renderIcon('icon2')}
           </TouchableOpacity>
           <Text>Buy / Sell </Text>
           <Text>{symbol}</Text> 
