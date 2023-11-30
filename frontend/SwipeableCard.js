@@ -1,13 +1,29 @@
 
 import React, { useState,useRef,useEffect } from 'react';
-import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Pressable} from 'react-native';
+import {Animated, Image, PanResponder, Dimensions, StyleSheet, View, Text ,Pressable,Platform} from 'react-native';
 import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-native-responsive-linechart';
 import axios from 'axios';
 import moment from 'moment';
 import StockGraph from './StockGraph';
 import styles from './styles';
+// Import SVGs
+import Button1IconSvg from './assets/images/ToolbarImages/cross-circle.svg';
+import Button2IconSvg from './assets/images/ToolbarImages/usd-circle.svg';
+import Button3IconSvg from './assets/images/ToolbarImages/add.svg';
+import OverlayIconSvg from './assets/images/ToolbarImages/Circle.svg';
 
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
+// Button and overlay images
+const buttonImages = {
+  button1: require('./assets/images/ToolbarImages/Vector.png'),
+  button2: require('./assets/images/ToolbarImages/Vector1.png'),
+  button3: require('./assets/images/ToolbarImages/Vector2.png'),
+  overlay1: require('./assets/images/ToolbarImages/Ellipse1.png'),
+  overlay2: require('./assets/images/ToolbarImages/Ellipse3.png'),
+  overlay3: require('./assets/images/ToolbarImages/Ellipse2.png'),
+};
+
+
 const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
@@ -71,7 +87,29 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
       }).start();
     }
   }
-
+  const renderIcon = (iconType, additionalProps = {}) => {
+    // Determine which icon to render
+    switch (iconType) {
+      case 'button1':
+        return Platform.OS === 'web' ?
+          <Image source={buttonImages.button1} style={styles.toolbarIcon} /> :
+          <Button1IconSvg width={60} height={60} fill='#BC4749' {...additionalProps} />;
+      case 'button2':
+        return Platform.OS === 'web' ?
+          <Image source={buttonImages.button2} style={styles.toolbarIcon} /> :
+          <Button2IconSvg width={60} height={60} fill='#6A994E' {...additionalProps} />;
+      case 'button3':
+        return Platform.OS === 'web' ?
+          <Image source={buttonImages.button3} style={styles.toolbarIcon} /> :
+          <Button3IconSvg width={60} height={60} fill="#386641" {...additionalProps} />;
+      case 'overlay':
+        return Platform.OS === 'web' ?
+          <Image source={buttonImages[`overlay${additionalProps.index}`]} style={styles.buttonOverlay} resizeMode="contain" /> :
+          <OverlayIconSvg width={85} height={85} style={{ position: 'absolute', transform: [{ rotate: additionalProps.rotate }] }} />;
+      default:
+        return null;
+    }
+  };
   const sendDataToServer = (symb, hdln) => {
     const dataToSend = {
       Symbol: symb,
@@ -174,20 +212,20 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
       <View style={styles.toolbar}>
         {/* Button 1 */}
         <Pressable style={styles.individualButton} onPress={onButton1Press}>
-          <Image source={buttonImages.button1} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay1} style={styles.buttonOverlay}resizeMode="contain" />
+          {renderIcon('button1')}
+          {renderIcon('overlay', { rotate: '-90deg', index: 1 })}
         </Pressable>
 
         {/* Button 2 */}
         <Pressable style={styles.individualButton} onPress={onButton2Press}>
-          <Image source={buttonImages.button2} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay2} style={styles.buttonOverlay}resizeMode="contain" />
+          {renderIcon('button2')}
+          {renderIcon('overlay', { rotate: '0deg', index: 2 })}
         </Pressable>
 
         {/* Button 3 */}
         <Pressable style={styles.individualButton} onPress={onButton3Press}>
-          <Image source={buttonImages.button3} style={styles.buttonBackground} />
-          <Image source={buttonImages.overlay3} style={styles.buttonOverlay}resizeMode="contain" />
+          {renderIcon('button3')}
+          {renderIcon('overlay', { rotate: '90deg', index: 3 })}
         </Pressable>
       </View>
 

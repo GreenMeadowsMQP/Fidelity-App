@@ -119,6 +119,11 @@ export default StyleSheet.create({
     height: 40,
   },
 
+  toolbarIcon: {
+    width: 60,
+    height: 60,
+  },
+
   //--------------------------- BUTTONS --------------------------------------
 
   // Button styling
@@ -138,11 +143,12 @@ export default StyleSheet.create({
   },
   // Individual button style
   individualButton: {
-    width: 60,
-    height: 60,
+    width: 100, 
+    height: 100, 
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 30,
+    position: 'relative', // Add this line
+ 
   },
   // Background style for buttons that require an image or color fill
   buttonBackground: {
