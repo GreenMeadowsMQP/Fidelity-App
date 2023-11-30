@@ -34,17 +34,17 @@ const HomeBar = ({ navigation }) => {
 
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-      {/* Watchlist Button */}
+        {/* Watchlist Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('WatchList')} >
         {renderIcon('watchlist')}
       </Pressable>
 
-      {/* Home Button */}
+        {/* Home Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('HomePage')} >
         {renderIcon('home')}
       </Pressable>
 
-      {/* Profile Button */}
+        {/* Profile Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('Profile')} >
         {renderIcon('profile')}
       </Pressable>
@@ -52,14 +52,13 @@ const HomeBar = ({ navigation }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
     button: {
     width: 60, 
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 30, // This adds space between the buttons.
+    margin: 30, // This adds space between the buttons.
     },
     buttonBackground: {
         position: 'absolute',

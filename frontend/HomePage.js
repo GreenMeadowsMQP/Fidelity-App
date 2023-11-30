@@ -1,5 +1,6 @@
 // HomePage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SwipeableCard from './SwipeableCard';
@@ -21,6 +22,7 @@ const HomePage = ({ route, navigation }) => {
   const [showTradeModal, setShowTradeModal] = useState(false);
   const [newsContent, setNewsContent] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeSymbols, setActiveSybols] = useState([])
   const [currentSymbol, setCurrentSymbol] = useState('');
 
 
@@ -30,29 +32,59 @@ const HomePage = ({ route, navigation }) => {
   const closePopup = () => setShowPopup(false);
 
   useEffect(() => {
-    async function fetchNews() {
-      try {
-        const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
-        for (const curSymbol of symbols) {
-          console.log('Getting news of ', curSymbol)
-          const response = await axios.get('http://' + myIP + ':3000/getNews?symbols=' + `${curSymbol}`);
-          const first20Entries = response.data.content.slice(0,20)
-          setNewsContent(prevNewsContent => [...prevNewsContent, ...first20Entries]);
-        }
-        setNewsContent(prevNewsContent => shuffleArray(prevNewsContent));
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    }
+   
     fetchNews();
   }, []);
 
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  useFocusEffect(
+    useCallback(() => {
+      fetchNews(); // Trigger the data fetching when the screen comes into focus
+      return () => {
+        // Clean up any subscriptions or resources if needed
+      };
+    }, [])
+  );
+
+  async function fetchNews() {
+    try {
+      const activeSymbolResponse = await axios.get('http://' + myIP + ':3000/getActiveSymbols');
+      // const symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN'];
+      const symbols = activeSymbolResponse.data;
+      if(activeSymbols.every((value, index) => value === symbols[index])){
+        setNewsContent([])
+      }
+      setActiveSybols(symbols);
+      for (const curSymbol of symbols) {
+        console.log('Getting news of ', curSymbol)
+        const response = await axios.get('http://' + myIP + ':3000/getNews?symbols=' + `${curSymbol}`);
+        const first20Entries = response.data.content.slice(0,20)
+        setNewsContent(prevNewsContent => [...prevNewsContent, ...first20Entries]);
+      }
+      setNewsContent(prevNewsContent => orderByDateTime(prevNewsContent));
+    } catch (error) {
+      console.error('Error fetching news:', error);
     }
-    return array;
+  }
+
+  function orderByDateTime(newsContentArray) {
+    // Use the sort method with a comparison function
+    newsContentArray.sort((a, b) => {
+      // Convert dateTime strings to Date objects for comparison
+      const dateA = new Date(a.dateTime);
+      const dateB = new Date(b.dateTime);
+  
+      // Compare dates
+      if (dateA > dateB) {
+        return -1; // Return a negative value for descending order
+      } else if (dateA < dateB) {
+        return 1; // Return a positive value for ascending order
+      } else {
+        return 0; // Dates are equal
+      }
+    });
+  
+    // The array is now sorted by dateTime
+    return newsContentArray;
   }
   
   const handleSwipe = () => {
@@ -109,28 +141,26 @@ const HomePage = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.unsafearea}>
-      <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-      <Header title ={'StockADE'} onInfoPress={openPopup}/>
-        
-        <View style={styles.card}>{renderCards()}</View>
-        <HomeBar navigation={navigation} />
-        <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={currentSymbol}/> 
+    <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.container}>
+    <Header title ={'StockADE'} onInfoPress={openPopup} navigation={navigation}/>
+      <View style={styles.card}>{renderCards()}</View>
+      <HomeBar navigation={navigation} />
+      <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={currentSymbol}/> 
 
-        {showPopup && (
-          <Overlay onClose={closePopup}>
-            <Text>Swipe Left: Ignore Stock</Text>
-            <Text>Swipe Right: Add to Watchlist</Text>
-            <Text>Swipe Up: Trade Stock</Text>
-            <Text>The buttons at the bottom of the card correspond to each swipe</Text>
-          </Overlay>
-        )}
+      {showPopup && (
+        <Overlay onClose={closePopup}>
+          <Text>Swipe Left: Ignore Stock</Text>
+          <Text>Swipe Right: Add to Watchlist</Text>
+          <Text>Swipe Up: Trade Stock</Text>
+          <Text>The buttons at the bottom of the card correspond to each swipe</Text>
+        </Overlay>
+      )}
 
-      </View>
-    </SafeAreaView>
     </View>
-    
+
+
+    </SafeAreaView>
   );
 };
 

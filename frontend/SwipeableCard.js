@@ -127,7 +127,14 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   });
   }
 
-  
+  const buttonImages = {
+    button1: require('./assets/images/ToolbarImages/Vector.png'),
+    button2: require('./assets/images/ToolbarImages/Vector1.png'),
+    button3: require('./assets/images/ToolbarImages/Vector2.png'),
+    overlay1: require('./assets/images/ToolbarImages/Ellipse1.png'),
+    overlay2: require('./assets/images/ToolbarImages/Ellipse3.png'),
+    overlay3: require('./assets/images/ToolbarImages/Ellipse2.png'),
+  };
   
   const onButton1Press = () => {
     acceptSwipe(-width, 0);

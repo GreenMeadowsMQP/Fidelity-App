@@ -6,7 +6,7 @@ import CompanyLogoSvg from './assets/images/HomebarImages/Homelogo.svg';
 import InfoIconSvg from './assets/images/HomebarImages/info.svg';
 import SliderIconSvg from './assets/images/HomebarImages/settings-sliders.svg';
 
-const Header = ({title, onInfoPress}) => {
+const Header = ({title, onInfoPress, navigation}) => {
   const renderIcon = (iconType) => {
     // Determine which icon to render
     switch (iconType) {
