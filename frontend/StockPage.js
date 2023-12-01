@@ -32,11 +32,31 @@ const StockPage = ({ route, navigation }) => {
       const fetchData = async () => {
         try {
           const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
-          // console.log(response.data.content[0])          
-          setPricingProduct(response.data.content[0]); 
+          // console.log(response.data.content[0])
+          if(response.data.content[0] !== null && response.data.content[0] !== undefined ){
+            setPricingProduct(response.data.content[0]);
+          }else{
+            const emptyPricingProduct = {
+              marketCap: null,
+              highPrice: null,
+              lowPrice: null,
+              week52High: null,
+              week52Low: null,
+            }
+            setPricingProduct(emptyPricingProduct);
+          }          
+           
           const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
-          // console.log(response2.data.content[0])          
-          setVolumeProduct(response2.data.content[0]); 
+          // console.log(response2.data.content[0])
+          
+          if(response2.data.content[0] !== null && response2.data.content[0] !== undefined ){
+            setVolumeProduct(response2.data.content[0]);
+          }else{
+            const emptyVolumeProduct = {
+              today: null,
+            }
+            setVolumeProduct(emptyVolumeProduct);
+          } 
 
           await axios.post('http://' + myIP + ':3000/isOnWatchlist',  symbolPayload).then((resp) => {
             console.log('Watchlist status: ', resp.data)
