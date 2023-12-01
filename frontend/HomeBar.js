@@ -33,7 +33,7 @@ const HomeBar = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+    <View style={{marginBottom:-35,marginTop:-30,flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         {/* Watchlist Button */}
       <Pressable style={styles.button} onPress={() => navigation.navigate('WatchList')} >
         {renderIcon('watchlist')}

@@ -10,6 +10,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F2E8CF',
   },
+  unsafearea:{
+    flex:1,
+    backgroundColor:'#F2E8CF',
+
+  },
    // Unique right container style
    rightcontainer: {
     flexDirection: "row",
@@ -41,14 +46,15 @@ export default StyleSheet.create({
   },
   // Card style for swipeable cards
   card: {
-    // flex:1,
+    flex:1,
     justifyContent:'space-between',
     width: '98%',
-    height: '80%',
+    height: Dimensions.get('window').height*0.65,
     backgroundColor: '#A7C957',
     borderRadius: 10,
     // padding:5,
     elevation: 5, // Common shadow/elevation style
+    marginBottom:5
   },
   //ticker List for watchlist
   tickerList: {
