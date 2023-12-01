@@ -22,6 +22,40 @@ async function getToken() {
         throw error;
     }
 }
+async function postOrder(reqAction,accountNum,orderTpye,quantity,action,symbol){
+    try{
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders",{
+            header:{
+                'accept':"application/json",
+                'x_gm_api_key': apiKey,
+                'x_gm)ext_token': apiToken,
+                'content-type':'application/json'
+            },
+            params:{
+                "requestAction":reqAction,
+                "accountNumber":accountNum,
+                "securityType":100,
+                "orderDetails":{
+                    "orderType":orderTpye,
+                    "quantity":quantity,
+                    "quantityType":100,
+                    "timeInForce":100,//can be 300 check later
+                    "solicited":false,
+                    "action":action,
+                    "instrumentId":symbol,
+                    "currency":840,
+                    "tradeType":"CASH",
+                    "limitPrice":"",
+                    "stopPrice":""}
+            }
+        })
+        orderResponse = response.data;
+        console.log("Order Info:\n",orderResponse);
+    }catch(error){
+        console.error("Error posting Trade on API",error);
+        throw error;
+    }
+}
 
 async function getNews(symbols) {
     try {
@@ -278,5 +312,6 @@ module.exports = {
     getPricingProduct,
     getVolumeProduct,
     getCompanyInfo,
-    getPositions
+    getPositions,
+    postOrder
 };

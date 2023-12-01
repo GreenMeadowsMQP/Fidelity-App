@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions, getAccountBalance } = require('./api.js');
+const {getGraphData, getToken, getNews, getLastTrade, pricesFromSymbols, getPricingProduct, getVolumeProduct, getCompanyInfo,getAccountNumber, getPositions, getAccountBalance, postOrder } = require('./api.js');
 const { addToWatchlist, getUniqueStocksymbols, isOnWatchlist, removeFromWatchlist, getActiveSymbols,getAllSymbols, updateStockStatus } = require('./db')
 
 const app = express();
@@ -17,6 +17,24 @@ app.get('/getToken', async (req, res) => {
         console.error('Error fetching token:', error);
         res.status(500).send('Error fetching token.');
     }
+});
+app.post('/postorder',async(req,res)=>{
+    try{
+        const{reqAction,accountNum,orderType,quantity,action,symbol} = req.query;
+        if(!reqAction||!accountNum||!orderType||!quantity||!action||!symbol){
+            return res.status(400).send('Missing required query parameters');
+        }
+        const order = await postOrder(reqAction,accountNum,orderType,quantity,action,symbol);
+        res.json(orderResponse)
+        console.log("Getting Order Response")
+        console.log(orderResponse)
+    }catch(error){
+        console.error('Error fetching order data in express:', error);
+        res.status(500).send('Error fetching order data in express.');
+    }
+
+
+
 });
 app.get('/getGraphData', async (req, res) => {
     try {
