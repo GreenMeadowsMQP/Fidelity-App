@@ -22,7 +22,7 @@ async function getToken() {
         throw error;
     }
 }
-async function postOrder(reqAction,accountNum,orderTpye,quantity,action,symbol){
+async function postOrder(reqAction,accountNum,orderTpye,quantity,action,symbol,quantityType){
     try{
         const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders",{
             header:{
@@ -38,7 +38,7 @@ async function postOrder(reqAction,accountNum,orderTpye,quantity,action,symbol){
                 "orderDetails":{
                     "orderType":orderTpye,
                     "quantity":quantity,
-                    "quantityType":100,
+                    "quantityType":quantityType,
                     "timeInForce":100,//can be 300 check later
                     "solicited":false,
                     "action":action,

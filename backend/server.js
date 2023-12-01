@@ -18,13 +18,13 @@ app.get('/getToken', async (req, res) => {
         res.status(500).send('Error fetching token.');
     }
 });
-app.post('/postorder',async(req,res)=>{
+app.post('/postOrder',async(req,res)=>{
     try{
-        const{reqAction,accountNum,orderType,quantity,action,symbol} = req.query;
-        if(!reqAction||!accountNum||!orderType||!quantity||!action||!symbol){
+        const{reqAction,accountNum,orderType,quantity,quantityType,action,symbol} = req.query;
+        if(!reqAction||!accountNum||!orderType||!quantity||!action||!symbol||!quantityType){
             return res.status(400).send('Missing required query parameters');
         }
-        const order = await postOrder(reqAction,accountNum,orderType,quantity,action,symbol);
+        const order = await postOrder(reqAction,accountNum,orderType,quantity,action,symbol,quantityType);
         res.json(orderResponse)
         console.log("Getting Order Response")
         console.log(orderResponse)
