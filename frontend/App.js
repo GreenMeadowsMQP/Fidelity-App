@@ -1,5 +1,6 @@
 // App.js
-import React, { useCallback } from 'react';
+import React, { useCallback,useState,useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 import HomePage from './HomePage'; // Import the new component
 import Watchlist from './Watchlist';
 import Profile from './Profile';
@@ -8,22 +9,22 @@ import Filter from './Filter';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font'
+
 //Force a change
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
+  
   const [fontsLoaded] = useFonts({
     'Nunito': require('./assets/fonts/Nunito-Regular.ttf'),
     'Nunito-Bold': require('./assets/fonts/Nunito-Bold.ttf'),
   });
-  
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  if (!fontsLoaded) {
+    return <ActivityIndicator size="large" />;
+  }
+
   
 
   return (
