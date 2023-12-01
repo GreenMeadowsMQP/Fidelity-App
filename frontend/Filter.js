@@ -16,7 +16,18 @@ const Filter = ({navigation}) => {
   const fetchData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/getAllSymbols');
-      setStocks(response.data);
+      setStocks(response.data.sort((a, b) => {
+        const stockA = a.Symbol;
+        const stockB = b.Symbol;
+
+        if (stockA < stockB) {
+          return -1;
+        }
+        if (stockA > stockB) {
+          return 1;
+        }
+        return 0;
+      }));
       
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -43,17 +54,21 @@ const Filter = ({navigation}) => {
     return( 
         <View style={styles.container}>
           <Header title ={'Filter'}/>
-          <View style={[styles.tickerList, {flex:1}]} >
+          <ScrollView style={[styles.tickerList]}  >
           {stocks.map((stock,index) => (
-                <View key={index} style={styles.stockItem}>
-                    <Text>{stock.Symbol}</Text>
+                <View key={index} style={styles.filterList}>
+                    <Text style={styles.filterText} >{stock.Symbol}</Text>
                     <Switch
                         value={stock.Active}
+                        thumbColor= '#3e3e3e' //Color for false
+                        activeThumbColor='#FFFFFF'  //Color for true
+                        trackColor= {{ false: "#929292", true: "#386641"}}
+                        ios_backgroundColor= "#3e3e3e"
                         onValueChange={() => handleToggleSwitch(stock.Symbol, stock.Active)}
                     />
                 </View>
             ))}
-          </View>
+          </ScrollView>
           <HomeBar navigation={navigation} />
         </View>
         )
