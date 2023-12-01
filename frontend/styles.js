@@ -80,6 +80,14 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  filterList: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    padding: 8,
+    borderBottomWidth: 1,  // Add a border at the bottom
+    borderColor: '#386641',  // Set the border color
+  },
   cellStyle: {
     border: '1px solid #ddd', // Thin border
     padding: '8px', // Adjust padding as needed
@@ -276,6 +284,13 @@ export default StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 10,
+    fontFamily: 'Nunito-Bold',
+  },
+  filterText: {
+    marginTop: 5,
+    marginLeft: 10,
+    fontSize: 25,
+    fontWeight: 'bold',
     fontFamily: 'Nunito-Bold',
   },
   whiteButtonText:{
