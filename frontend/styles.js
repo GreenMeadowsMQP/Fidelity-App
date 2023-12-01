@@ -79,6 +79,8 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
     padding: 8,
+    borderBottomWidth: 1,  // Add a border at the bottom
+    borderColor: '#386641',  // Set the border color
   },
   cellStyle: {
     border: '1px solid #ddd', // Thin border
@@ -280,6 +282,7 @@ export default StyleSheet.create({
   },
   filterText: {
     marginTop: 5,
+    marginLeft: 10,
     fontSize: 25,
     fontWeight: 'bold',
     fontFamily: 'Nunito-Bold',

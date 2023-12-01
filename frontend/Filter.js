@@ -60,6 +60,7 @@ const Filter = ({navigation}) => {
                     <Text style={styles.filterText} >{stock.Symbol}</Text>
                     <Switch
                         value={stock.Active}
+                        style={{marginRight: 10, marginTop: 8}}
                         thumbColor= '#3e3e3e' //Color for false
                         activeThumbColor='#FFFFFF'  //Color for true
                         trackColor= {{ false: "#929292", true: "#386641"}}
