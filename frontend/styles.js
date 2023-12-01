@@ -89,21 +89,21 @@ export default StyleSheet.create({
     borderColor: '#386641',  // Set the border color
   },
   cellStyle: {
-    border: '1px solid #ddd', // Thin border
-    padding: '8px', // Adjust padding as needed
+    backgroundColor: '#386641',
+    borderWidth: 1, // Thin border
+    borderColor: '#ddd', // Border color
+    padding: 8, // Adjust padding as needed
     textAlign: 'left', // Adjust text alignment as needed
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontFamily: 'Nunito',
   },
+
   cellStyle2: {
-    borderRightWidth: '1px', // Thin border
-    padding: '8px', // Adjust padding as needed
+    backgroundColor: '#386641',
+    borderRightWidth: 1, // Thin border
+    borderColor: '#ddd', // Border color
+    padding: 8, // Adjust padding as needed
     textAlign: 'left', // Adjust text alignment as needed
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontFamily: 'Nunito',
   },
+
   accountInfo: {
     backgroundColor: '#386641',
     padding: 10,
@@ -303,6 +303,8 @@ export default StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontFamily: 'Nunito',
+    marginLeft: 5,
   }
+
   
 });
