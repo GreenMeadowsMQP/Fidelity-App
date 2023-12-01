@@ -41,8 +41,8 @@ const Profile = ({navigation}) => {
               account: response.data.accounts[0].accountNumber,
             };
             console.log("account num: ", response.data.accounts[0].accountNumber)
-          const postResponse = await axios.post('http://localhost:3000/getPositions', dataToSend)
-          const postResponse2 = await axios.post('http://localhost:3000/getAccountBalance', dataToSend)
+          const postResponse = await axios.post('http://' + myIP + ':3000/getPositions', dataToSend)
+          const postResponse2 = await axios.post('http://' + myIP + ':3000/getAccountBalance', dataToSend)
 
           console.log('Account Holdings: ', postResponse.data)
           console.log('Account Balance: ', postResponse2.data)
