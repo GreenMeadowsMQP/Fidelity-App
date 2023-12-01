@@ -67,8 +67,21 @@ const StockPage = ({ route, navigation }) => {
 
           try{
           const response3 = await axios.get('http://' + myIP + ':3000/getCompanyInfo?symbols=' + symbol);
-          console.log("company info: ", response3.data.content[0])          
-          setCompanyInfo(response3.data.content[0]); }
+          
+          if(response3.data.content[0] !== undefined  && response3.data.content[0] !== null  ){
+            console.log("company info: ", response3.data.content[0])
+
+            setCompanyInfo(response3.data.content[0]);
+          }else{
+            const emptyCompanyInfo = {
+              legalName: "...",
+              stockExchange: "...",
+              sector: "...",
+            }
+            setCompanyInfo(emptyCompanyInfo);
+          } 
+        
+          }
           catch(error){
             console.error('Error fetching Company Info:', error);
           }
