@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback }  from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Switch, Text, StyleSheet, ScrollView, Pressable, Dimensions } from 'react-native';
 import HomeBar from './HomeBar';
 import styles from './styles';
@@ -52,7 +53,10 @@ const Filter = ({navigation}) => {
   };
   console.log('Stock Data saved: ',stocks)
     return( 
-        <View style={styles.container}>
+        
+      <View style={styles.unsafearea}>
+      <SafeAreaView style={{flex:1}}>
+      <View style={styles.container}>
           <Header title ={'Filter'}/>
           <ScrollView style={[styles.tickerList]}  >
           {stocks.map((stock,index) => (
@@ -64,7 +68,7 @@ const Filter = ({navigation}) => {
                         thumbColor= '#3e3e3e' //Color for false
                         activeThumbColor='#FFFFFF'  //Color for true
                         trackColor= {{ false: "#929292", true: "#386641"}}
-                        ios_backgroundColor= "#3e3e3e"
+                        
                         onValueChange={() => handleToggleSwitch(stock.Symbol, stock.Active)}
                     />
                 </View>
@@ -72,6 +76,9 @@ const Filter = ({navigation}) => {
           </ScrollView>
           <HomeBar navigation={navigation} />
         </View>
+      </SafeAreaView>
+      </View>
+        
         )
 
 }
