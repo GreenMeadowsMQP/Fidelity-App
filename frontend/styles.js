@@ -303,6 +303,10 @@ export default StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontFamily: 'Nunito',
+  },
+  overlayText:{
+    fontSize: 14,
+    fontFamily: 'Nunito',
   }
   
 });
