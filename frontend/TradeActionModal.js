@@ -33,18 +33,19 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
     const action = isBuy ? 100 : 200;
     const reqAction = 'create';
     const orderType = 100;
-    let quantity = stockQuantity;
+    let quantity = parseFloat(stockQuantity);
     let quantityType = 100;
+    const accountNum = String(selectedAccount);
   
     // Check if stock quantity is a whole number
     if (!Number.isInteger(parseFloat(stockQuantity))) {
-      quantity = dollarValue;
+      quantity = parseFloat(dollarValue);
       quantityType = 200;
     }
   
     console.log("Submitting Order with parameters:");
     console.log("reqAction:", reqAction);
-    console.log("accountNum:", selectedAccount);
+    console.log("accountNum:", accountNum);
     console.log("orderType:", orderType);
     console.log("quantity:", quantity);
     console.log("action:", action);
@@ -52,17 +53,17 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
     console.log("quantityType:", quantityType);
   
     try {
-      const response = await axios.post('http://'+myIP+':3000/postOrder', null, {
-        params: {
-          reqAction,
-          accountNum: selectedAccount,
-          orderType,
-          quantity,
-          action,
-          symbol,
-          quantityType
-        }
-      });
+      const postData = {
+        reqAction:reqAction,
+        accountNum:selectedAccount,
+        orderType:orderType,
+        quantity:quantity,
+        action:action,
+        symbol:symbol,
+        quantityType:quantityType
+      };
+      
+      const response = await axios.post(`http://${myIP}:3000/postOrder`, postData);
       console.log("Order Response:", response.data);
       // Handle the response here
     } catch (error) {
@@ -70,7 +71,7 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
       // Handle errors here
     }
   };
-
+  
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
@@ -194,7 +195,7 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
           {/* Implement Picker or another dropdown component */}
           <View style ={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleSubmitOrder(true)}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText}>Buy</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => handleSubmitOrder(false)}>
             <Text style={styles.buttonText}>Sell</Text>

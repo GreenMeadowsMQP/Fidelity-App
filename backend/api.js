@@ -22,38 +22,43 @@ async function getToken() {
         throw error;
     }
 }
-async function postOrder(reqAction,accountNum,orderTpye,quantity,action,symbol,quantityType){
-    try{
-        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders",{
-            header:{
-                'accept':"application/json",
-                'x_gm_api_key': apiKey,
-                'x_gm)ext_token': apiToken,
-                'content-type':'application/json'
-            },
-            params:{
-                "requestAction":reqAction,
-                "accountNumber":accountNum,
-                "securityType":100,
-                "orderDetails":{
-                    "orderType":orderTpye,
-                    "quantity":quantity,
-                    "quantityType":quantityType,
-                    "timeInForce":100,//can be 300 check later
-                    "solicited":false,
-                    "action":action,
-                    "instrumentId":symbol,
-                    "currency":840,
-                    "tradeType":"CASH",
-                    "limitPrice":"",
-                    "stopPrice":""}
+async function postOrder(reqAction, accountNum, orderType, quantity, action, symbol, quantityType) {
+    try {
+        // Headers
+        const headers = {
+            'accept': 'application/json',
+            'x_gm_api_key': apiKey,
+            'x_gm_ext_token': apiToken,
+            'content-type': 'application/json'
+        };
+
+        // Request body
+        const reqData = {
+            requestAction: reqAction,
+            accountNumber: accountNum,
+            securityType: 100,
+            orderDetails: {
+                orderType: orderType,
+                quantity: quantity,
+                quantityType: quantityType,
+                timeInForce: 100, // can be 300, check later
+                solicited: false,
+                action: action,
+                instrumentId: symbol,
+                currency: 840,
+                tradeType: "CASH",
+                limitPrice: "", // Make sure to set appropriate values if needed
+                stopPrice: "" // Make sure to set appropriate values if needed
             }
-        })
-        orderResponse = response.data;
-        console.log("Order Info:\n",orderResponse);
-    }catch(error){
-        console.error("Error posting Trade on API",error);
-        throw error;
+        };
+
+        // Axios POST request
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders", reqData, { headers });
+        const orderResponse = response.data;
+        console.log("Order Info:\n", orderResponse);
+    } catch (error) {
+        console.error("Error posting Trade on API", error);
+        throw error; // Or handle the error as needed
     }
 }
 
