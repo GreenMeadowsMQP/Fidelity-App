@@ -13,12 +13,55 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
   const [selectedAccount, setSelectedAccount] = useState(null); // State for the selected account
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [lastTrade, setLastTrade] = useState(null);
- 
+  const [dollarValue,setDollarValue]= useState('');
+  const [stockQuantity,setStockQuantity] = useState('');
   const imageSources = {
     icon1: require('./assets/images/HomebarImages/square-plus.png'), // Replace with actual path
     icon2: require('./assets/images/HomebarImages/Vector.png'), // Replace with actual path
   };
+  const handleDollarChange = (value) => {
+    setDollarValue(value);
+    const quantity = value/ lastTrade;
+    setStockQuantity(quantity.toFixed(2));
+  }
+  const handleStockQuantityChange =(quantity) =>{
+    setStockQuantity(quantity);
+    const value = quantity * lastTrade;
+    setDollarValue(value.toFixed(2));
+  }
+  const handleSubmitOrder = async (action) => {
+    try {
+      let quantityToSend;
+      let quantityType;
+  
+      // Check if stockQuantity is a whole number
+      if (Number.isInteger(parseFloat(stockQuantity))) {
+        quantityToSend = parseFloat(stockQuantity); // Use stockQuantity as a number
+        quantityType = 100; // Type for quantity
+      } else {
+        quantityToSend = parseFloat(dollarValue); // Use dollarValue for non-whole numbers
+        quantityType = 200; // Type for value
+      }
 
+      // Make a POST request to the /postOrder endpoint
+      const payload = {
+        quantity:quantityToSend,
+        quantityType:quantityType,
+        action:action,
+        instrumentId: symbol,
+
+      }
+      const response = await axios.post(`http://${myIP}:3000/postOrder`,payload);
+      console.log("Order Response:", response.data);
+      // Handle the response here
+      // For example, you might want to display a success message or update the UI
+    } catch (error) {
+      console.error('Error posting order:', error);
+      // Handle errors here
+      // For example, you might want to display an error message
+    }
+  };
+  
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
@@ -136,16 +179,16 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
             ))}
           </Picker>
           
-          <TextInput style={styles.inputField } placeholder="$:" />
-          <TextInput style={styles.inputField } placeholder="Stock:" />
+          <TextInput style={styles.inputField } placeholder="$:"value={dollarValue.toString()}onChangeText={handleDollarChange} keyboardType='numeric'/>
+          <TextInput style={styles.inputField } placeholder="Stock:" value={stockQuantity.toString()}onChangeText={handleStockQuantityChange} keyboardType='numeric'/>
           
           {/* Implement Picker or another dropdown component */}
           <View style ={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => {}}>
+          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleSubmitOrder(100)}>
             <Text style={styles.buttonText}>Buy</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => {}}>
-            <Text style={styles.buttonText}>buy</Text>
+          <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => handleSubmitOrder(200)}>
+            <Text style={styles.buttonText}>Sell</Text>
           </TouchableOpacity>
           </View>
           <Text>{lastTrade !== null ? lastTrade : 'Loading...'}</Text>
