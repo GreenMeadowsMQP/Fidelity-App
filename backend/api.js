@@ -22,84 +22,45 @@ async function getToken() {
         throw error;
     }
 }
-async function postOrder(reqAction, accountNum, orderType, quantity, action, symbol, quantityType) {
+async function postOrder(quantity,quantityType,action,instrumentId) {
     try {
         // Headers
         const headers = {
-            'accept': 'application/json',
-            'x_gm_api_key': apiKey,
-            'x_gm_ext_token': apiToken,
-            'content-type': 'application/json'
-        };
-
+            "accept": "application/json",
+            "x_gm_api_key": apiKey,
+            "x_gm_ext_token": apiToken,
+            "content-type": "application/json",
+          };
         // Request body
-        const reqData = {
-            requestAction: reqAction,
-            accountNumber: accountNum,
-            securityType: 100,
-            orderDetails: {
-                orderType: orderType,
-                quantity: quantity,
-                quantityType: quantityType,
-                timeInForce: 100, // can be 300, check later
-                solicited: false,
-                action: action,
-                instrumentId: symbol,
-                currency: 840,
-                tradeType: "CASH",
-                limitPrice: "", // Make sure to set appropriate values if needed
-                stopPrice: "" // Make sure to set appropriate values if needed
-            }
-        };
+        const payload = {
+            "requestAction":"CREATE",
+            "accountNumber":7078556062,
+            "securityType":100,
+            "orderDetails":{
+                "orderType":100,
+                "quantity":quantity,//number
+                "quantityType":quantityType,// int 100 shares 200 dollar
+                "timeInForce":100,
+                "solicited":false,
+                "action":action,//int 100 buy 200 sell
+                "instrumentId":instrumentId,
+                "currency":840,
+                "tradeType":"CASH",
+                "limitPrice":"",
+                "stopPrice":""}
+          };
 
         // Axios POST request
-        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders", reqData, { headers });
+        const response = await axios.post("https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders", payload, { headers });
         const orderResponse = response.data;
         console.log("Order Info:\n", orderResponse);
+        console.log(response.status_code);
     } catch (error) {
         console.error("Error posting Trade on API", error);
         throw error; // Or handle the error as needed
     }
 }
-////
-/ Function to post order
-async function postOrder(token) {
-  const url = "https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders";
-  const payload = {
-    "requestAction":"CREATE",
-    "accountNumber":7078556062,
-    "securityType":100,
-    "orderDetails":{
-        "orderType":100,
-        "quantity":"1",
-        "quantityType":100,
-        "timeInForce":100,
-        "solicited":false,
-        "action":100,
-        "instrumentId":"GOOGL",
-        "currency":840,
-        "tradeType":"CASH",
-        "limitPrice":"",
-        "stopPrice":""}
-  };
-  const headers = {
-    "accept": "application/json",
-    "x_gm_api_key": x_gm_api_key,
-    "x_gm_ext_token": token,
-    "content-type": "application/json",
-  };
 
-  try {
-    const response = await axios.post(url, payload, { headers });
-    console.log("printing Order");
-    console.log(response.data);
-    console.log(response.status_code);
-  } catch (error) {
-    console.error('Error posting order:', error);
-  }
-}
-
-/////
 async function getNews(symbols) {
     try {
         console.log("Getting News API")

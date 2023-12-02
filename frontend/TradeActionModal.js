@@ -29,46 +29,36 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
     const value = quantity * lastTrade;
     setDollarValue(value.toFixed(2));
   }
-  const handleSubmitOrder = async (isBuy) => {
-    const action = isBuy ? 100 : 200;
-    const reqAction = 'create';
-    const orderType = 100;
-    let quantity = parseFloat(stockQuantity);
-    let quantityType = 100;
-    const accountNum = String(selectedAccount);
-  
-    // Check if stock quantity is a whole number
-    if (!Number.isInteger(parseFloat(stockQuantity))) {
-      quantity = parseFloat(dollarValue);
-      quantityType = 200;
-    }
-  
-    console.log("Submitting Order with parameters:");
-    console.log("reqAction:", reqAction);
-    console.log("accountNum:", accountNum);
-    console.log("orderType:", orderType);
-    console.log("quantity:", quantity);
-    console.log("action:", action);
-    console.log("symbol:", symbol);
-    console.log("quantityType:", quantityType);
-  
+  const handleSubmitOrder = async (action) => {
     try {
-      const postData = {
-        reqAction:reqAction,
-        accountNum:selectedAccount,
-        orderType:orderType,
-        quantity:quantity,
+      let quantityToSend;
+      let quantityType;
+  
+      // Check if stockQuantity is a whole number
+      if (Number.isInteger(parseFloat(stockQuantity))) {
+        quantityToSend = parseFloat(stockQuantity); // Use stockQuantity as a number
+        quantityType = 100; // Type for quantity
+      } else {
+        quantityToSend = parseFloat(dollarValue); // Use dollarValue for non-whole numbers
+        quantityType = 200; // Type for value
+      }
+
+      // Make a POST request to the /postOrder endpoint
+      const payload = {
+        quantity:quantityToSend,
+        quantityType:quantityType,
         action:action,
-        symbol:symbol,
-        quantityType:quantityType
-      };
-      
-      const response = await axios.post(`http://${myIP}:3000/postOrder`, postData);
+        instrumentId: symbol,
+
+      }
+      const response = await axios.post(`http://${myIP}:3000/postOrder`,payload);
       console.log("Order Response:", response.data);
       // Handle the response here
+      // For example, you might want to display a success message or update the UI
     } catch (error) {
       console.error('Error posting order:', error);
       // Handle errors here
+      // For example, you might want to display an error message
     }
   };
   
@@ -194,10 +184,10 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
           
           {/* Implement Picker or another dropdown component */}
           <View style ={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleSubmitOrder(true)}>
+          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleSubmitOrder(100)}>
             <Text style={styles.buttonText}>Buy</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => handleSubmitOrder(false)}>
+          <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => handleSubmitOrder(200)}>
             <Text style={styles.buttonText}>Sell</Text>
           </TouchableOpacity>
           </View>

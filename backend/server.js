@@ -20,16 +20,16 @@ app.get('/getToken', async (req, res) => {
 });
 app.post('/postOrder', async (req, res) => {
     try {
-        // Extract parameters from the request body
-        const { reqAction, accountNum, orderType, quantity, action, symbol, quantityType } = req.body;
+        // // Extract parameters from the request body
+        const {quantity,quantityType,action,instrumentId } = req.body;
         
-        // Validate the parameters
-        if (!reqAction || !accountNum || !orderType || !quantity || !action || !symbol || !quantityType) {
-            return res.status(400).send('Missing required parameters');
-        }
+        // // Validate the parameters
+        // if (!reqAction || !accountNum || !orderType || !quantity || !action || !symbol || !quantityType) {
+        //     return res.status(400).send('Missing required parameters');
+        // }
 
         // Call the postOrder function
-        const orderResponse = await postOrder(reqAction, accountNum, orderType, quantity, action, symbol, quantityType);
+        const orderResponse = await postOrder(quantity,quantityType,action,instrumentId);
 
         // Send the response back to the client
         res.json(orderResponse);
