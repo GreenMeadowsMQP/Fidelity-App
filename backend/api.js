@@ -61,7 +61,45 @@ async function postOrder(reqAction, accountNum, orderType, quantity, action, sym
         throw error; // Or handle the error as needed
     }
 }
+////
+/ Function to post order
+async function postOrder(token) {
+  const url = "https://gp-sandbox.fidelity.com/ftgw/fcat/order/v1/orders";
+  const payload = {
+    "requestAction":"CREATE",
+    "accountNumber":7078556062,
+    "securityType":100,
+    "orderDetails":{
+        "orderType":100,
+        "quantity":"1",
+        "quantityType":100,
+        "timeInForce":100,
+        "solicited":false,
+        "action":100,
+        "instrumentId":"GOOGL",
+        "currency":840,
+        "tradeType":"CASH",
+        "limitPrice":"",
+        "stopPrice":""}
+  };
+  const headers = {
+    "accept": "application/json",
+    "x_gm_api_key": x_gm_api_key,
+    "x_gm_ext_token": token,
+    "content-type": "application/json",
+  };
 
+  try {
+    const response = await axios.post(url, payload, { headers });
+    console.log("printing Order");
+    console.log(response.data);
+    console.log(response.status_code);
+  } catch (error) {
+    console.error('Error posting order:', error);
+  }
+}
+
+/////
 async function getNews(symbols) {
     try {
         console.log("Getting News API")
