@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'; 
 import Icon1Svg from './assets/images/square-plus.svg';
 import Icon2Svg from './assets/images/angle-small-down.svg';
+import styles from './styles';
 
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
@@ -153,7 +154,7 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
       onRequestClose={onClose}
     >
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Animated.View style={[styles.card, modalStyle]}>
+        <Animated.View style={[styles.tradecard, modalStyle]}>
           {/* Your modal content here */}
           <TouchableOpacity onPress={() => setShowAdvancedOptions(prev => !prev)} style={{ position: 'absolute', top: 25, left: 20 }}>
           {renderIcon('icon1')}
@@ -161,14 +162,27 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
           <TouchableOpacity onPress={handleModalClose} style={{ position: 'absolute', top: 15, right: 20 }}>
           {renderIcon('icon2')}
           </TouchableOpacity>
-          <Text>Buy / Sell </Text>
-          <Text>{symbol}</Text> 
+          <Text style={styles.boldText} >Trade</Text>
+          <View style={{flexDirection:"row", justifyContent:'space-between',width:'90%'}}>
+            <Text style={styles.boldText}>{symbol}</Text> 
+            <Text style={styles.boldText}>{lastTrade !== null ? lastTrade : 'Loading...'}</Text>
+          </View>
+          
           {/* Dropdown for account selection */}
-          <Text>Account</Text>
-          <Picker
+          
+          
+          
+          <TextInput style={styles.inputField } placeholder="$:"value={dollarValue.toString()}onChangeText={handleDollarChange} keyboardType='numeric'/>
+          <TextInput style={styles.inputField } placeholder="Stock:" value={stockQuantity.toString()}onChangeText={handleStockQuantityChange} keyboardType='numeric'/>
+          
+          <View style={styles.pickerContainer}>
+          <Text style={[styles.buyButton, styles.buttonText, {padding: 5, borderRadius: 5,marginRight:10}]}>
+              Account
+          </Text>
+          <Picker style={styles.picker}
             selectedValue={selectedAccount}
             onValueChange={(itemValue) => setSelectedAccount(itemValue)}
-            style={{ width: '100%', height: 300, zIndex: 1 }} // Ensure it has explicit dimensions
+            
           >
             {accounts.map(account => (
               <Picker.Item 
@@ -178,87 +192,30 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
               />
             ))}
           </Picker>
-          
-          <TextInput style={styles.inputField } placeholder="$:"value={dollarValue.toString()}onChangeText={handleDollarChange} keyboardType='numeric'/>
-          <TextInput style={styles.inputField } placeholder="Stock:" value={stockQuantity.toString()}onChangeText={handleStockQuantityChange} keyboardType='numeric'/>
-          
+          </View>
+         
           {/* Implement Picker or another dropdown component */}
           <View style ={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleSubmitOrder(100)}>
+          <TouchableOpacity style={[styles.tradebutton, styles.buyButton]} onPress={() => handleSubmitOrder(100)}>
             <Text style={styles.buttonText}>Buy</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => handleSubmitOrder(200)}>
+          <TouchableOpacity style={[styles.tradebutton, styles.sellButton]} onPress={() => handleSubmitOrder(200)}>
             <Text style={styles.buttonText}>Sell</Text>
           </TouchableOpacity>
           </View>
-          <Text>{lastTrade !== null ? lastTrade : 'Loading...'}</Text>
+          
           {showAdvancedOptions && (
           <View>
           {/* Place additional buttons or options here */}
           </View>
           )}
-          <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
+          {/* <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
           <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </Animated.View>
       </View>
     </Modal>
   );
 };
-const styles = StyleSheet.create({
-  
-  card: {
-    paddingTop:30,
-    height: '93%', 
-    backgroundColor: '#A7C957', 
-    borderTopRightRadius:30,
-    borderTopLeftRadius:30,
-    display:"flex",
-    paddingHorizontal:30,
-    gap:15,
-    alignItems:"center",
 
-  },
-  button:{
-    width:120,
-    height:40,
-    fontSize:25,
-    borderRadius:5,
-    color: "#F2E8CF",
-    justifyContent: 'center', 
-    alignItems: 'center'
-  },
-  buyButton:{
-    backgroundColor:'#386641'
-  },
-  sellButton:{
-    backgroundColor:'#BC4749'
-
-  },
-  cancellButton:{
-    backgroundColor:'#BC4749'
-
-  },
-  buttonText:{
-    color:'#F2E8CF',
-    textAlign:'center',
-    flexDirection:'column',
-    fontSize:25,
-  },
-  inputField:{
-    backgroundColor:'#F2E8CF',
-    borderRadius:5,
-    width:300,
-    height:40,
-    
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    gap:15,
-  },
-
-  // ... other styles ...
-});
 export default TradeActionModal;
