@@ -48,7 +48,7 @@ const Profile = ({ navigation }) => {
             console.log('Account Holdings: ', postResponse.data);
             console.log('Account Balance: ', postResponse2.data);
 
-            setAccountHoldings(postResponse.data.content);
+            setAccountHoldings(postResponse.data.content.sort((a, b) => (a.symbol === 'GCASH' ? 1 : b.symbol === 'GCASH' ? -1 : 0)));
             setAccountValue(postResponse2.data.content[0]);
           }
         } catch (error) {
