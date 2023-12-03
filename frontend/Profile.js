@@ -6,6 +6,8 @@ import axios from 'axios';
 import Header from './Header';
 import HomeBar from './HomeBar';
 import styles from './styles';
+import Overlay from './Overlay';
+
 
 const myIP = '192.168.1.117'; // CHANGE IP TO RUN LOCALLY
 
@@ -13,6 +15,9 @@ const Profile = ({ navigation }) => {
   const [accountNumbers, setAccountNumbers] = useState([]);
   const [accountHoldings, setAccountHoldings] = useState([]);
   const [accountValue, setAccountValue] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const openPopup = () => setShowPopup(true);
+  const closePopup = () => setShowPopup(false);
 
   const widthArray = [80, 80, 100, 80, 80, 80, 80, 100]
 
@@ -79,7 +84,7 @@ const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.unsafearea}>
       <View style={styles.container}>
-        <Header title={'Profile'} />
+        <Header title={'Profile'} onInfoPress={openPopup}/>
         <View style={[styles.tickerList, { flex: 1 }]}>
           <View style={styles.accountInfo}>
             <Text style={styles.whiteButtonText}>Account: {accountNumbers.accountNumber}</Text>
@@ -114,6 +119,14 @@ const Profile = ({ navigation }) => {
           )}
         </View>
         <HomeBar navigation={navigation} />
+
+        {showPopup && (
+        <Overlay onClose={closePopup}>
+          <Text style={styles.overlayText}>This is your profile page, where you can see your account holdings</Text>
+          <Text style={styles.overlayText}>Your account number and current value is shown at the top</Text>
+          <Text style={styles.overlayText}>You can go to a stock page by tapping on the symbol</Text>
+        </Overlay>
+      )}
       </View>
     </SafeAreaView>
   );

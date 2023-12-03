@@ -60,7 +60,7 @@ const Watchlist = ({navigation}) => {
     <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
       <Header title ={'Watchlist'} onInfoPress={openPopup}/>
-      <ScrollView style={styles.tickerList} contentContainerStyle={{flexGrow: 1, justifyContent: 'center' }}>
+      <ScrollView style={styles.tickerList} contentContainerStyle={{flexGrow: 1}}>
       {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
           <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
             <View style={styles.button}>
