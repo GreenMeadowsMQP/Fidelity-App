@@ -19,7 +19,7 @@ const Profile = ({ navigation }) => {
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
 
-  const widthArray = [80, 80, 100, 80, 80, 80, 80, 100]
+  const widthArray = [80, 100, 110, 80, 100, 80, 80, 100]
 
   const handleButtonPress = (holding, navigation) => {
     console.log("BUTTON PRESS LOG: ", holding)
@@ -88,7 +88,7 @@ const Profile = ({ navigation }) => {
         <View style={[styles.tickerList, { flex: 1 }]}>
           <View style={styles.accountInfo}>
             <Text style={styles.whiteButtonText}>Account: {accountNumbers.accountNumber}</Text>
-            <Text style={styles.whiteButtonText}>Value: {accountValue.accountNetworth}</Text>
+            <Text style={styles.AccountValueText}>${accountValue.accountNetworth ? accountValue.accountNetworth.toLocaleString('en-US') : accountValue.accountNetworth}</Text>
           </View>
 
           {Array.isArray(accountHoldings) && (

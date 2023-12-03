@@ -301,14 +301,20 @@ export default StyleSheet.create({
   },
   holdingsText:{
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Nunito',
     marginLeft: 5,
   },
   overlayText:{
     fontSize: 14,
     fontFamily: 'Nunito',
-  }
+  },
+  AccountValueText:{
+    color: '#FFFFFF',
+    fontSize: 42,
+    marginLeft: 5,
+    fontFamily: 'Nunito-Bold',
+  },
 
   
 });
