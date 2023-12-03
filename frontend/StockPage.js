@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import styles from './styles';
 import Header from './Header';
+import TradeActionModal from './TradeActionModal';
+
 
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
@@ -16,6 +18,9 @@ const StockPage = ({ route, navigation }) => {
     const [volumeProduct, setVolumeProduct] = useState([]);
     const [companyInfo, setCompanyInfo] = useState([]);
     const [watchlistStatus, setWatchlistStatus] = useState();
+
+    const [showTradeModal, setShowTradeModal] = useState(false);
+
 
     const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
     const numericChange = typeof change === 'string' ? parseFloat(change) : change;
@@ -142,62 +147,64 @@ const StockPage = ({ route, navigation }) => {
       <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
 
-<Header title ={symbol}>
-  <Pressable onPress={() => navigation.goBack()}>
-    <Image source={require("./assets/images/backarrow.png")} style={styles.buttonBackground} />
-  </Pressable>
-</Header>
+        <Header title ={symbol}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <Image source={require("./assets/images/backarrow.png")} style={styles.buttonBackground} />
+          </Pressable>
+        </Header>
 
 
 
-<View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
-  
-  <View>
-    {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
-    {companyInfo && companyInfo.legalName && (
-      <Text style={styles.symbolTextWL}>{companyInfo.legalName}</Text>
-    )}
+        <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
+          
+          <View>
+            {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
+            {companyInfo && companyInfo.legalName && (
+              <Text style={styles.symbolTextWL}>{companyInfo.legalName}</Text>
+            )}
 
-    {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
-      <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
-    )}
-    <Text style={styles.symbolTextWL}>{numericPrice.toFixed(2)}</Text>
-    <Text style={[styles.infoTextWL, getChangeStyle(numericChange)]}> {numericChange > 0 ? `+${numericChange.toFixed(2)}`:numericChange.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
-  </View>
+            {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
+              <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
+            )}
+            <Text style={styles.symbolTextWL}>{numericPrice.toFixed(2)}</Text>
+            <Text style={[styles.infoTextWL, getChangeStyle(numericChange)]}> {numericChange > 0 ? `+${numericChange.toFixed(2)}`:numericChange.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
+          </View>
 
-  <StockGraph item={myItem}/>
+          <StockGraph item={myItem}/>
 
-  <Text style={styles.infoTextWL}>Last: {numericPrice.toFixed(2)}</Text>
-  <Text style={styles.infoTextWL}>Volume: {volumeProduct.today}</Text>
-  {/* <Text style={styles.infoText}>P/E: pe ratio</Text> */}
-  <Text style={styles.infoTextWL}>Market Cap: {pricingProduct.marketCap}</Text>
-  <Text style={styles.infoTextWL}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
-  <Text style={styles.infoTextWL}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
+          <Text style={styles.infoTextWL}>Last: {numericPrice.toFixed(2)}</Text>
+          <Text style={styles.infoTextWL}>Volume: {volumeProduct.today}</Text>
+          {/* <Text style={styles.infoText}>P/E: pe ratio</Text> */}
+          <Text style={styles.infoTextWL}>Market Cap: {pricingProduct.marketCap}</Text>
+          <Text style={styles.infoTextWL}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
+          <Text style={styles.infoTextWL}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
 
-  <View style={{alignItems: 'center'}}>
-    <Pressable style={styles.buySellButton} onPress={() => console.log('Buy sell button!')}>
-    <Text style={styles.whiteButtonText}>Buy/Sell</Text>
-    </Pressable>
+          <View style={{alignItems: 'center'}}>
+            <Pressable style={styles.buySellButton} onPress={() => setShowTradeModal(true)}>
+            <Text style={styles.whiteButtonText}>Buy/Sell</Text>
+            </Pressable>
 
-    <Pressable
-      style={{
-        backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
-        ...styles.addRemoveButton,
-      }}
-      onPress={() => (watchlistStatus ? deleteWatchlist() : addWatchlist())}
-    >
-      <Text style={styles.whiteButtonText}>
-        {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
-      </Text>
-    </Pressable>
+                <Pressable
+                  style={{
+                    backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
+                    ...styles.addRemoveButton,
+                  }}
+                  onPress={() => (watchlistStatus ? deleteWatchlist() : addWatchlist())}
+                >
+                  <Text style={styles.whiteButtonText}>
+                    {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
+                  </Text>
+                </Pressable>
 
-    <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>
-    <Text style={styles.whiteButtonText}> Back </Text>
-    </Pressable>
-  </View>
+                <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>
+                <Text style={styles.whiteButtonText}> Back </Text>
+                </Pressable>
+          </View>
 
-</View>
-</View>
+        </View>
+        
+        <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={symbol}/> 
+      </View>
       </SafeAreaView>
       </View>
         
