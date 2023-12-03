@@ -6,11 +6,17 @@ import HomeBar from './HomeBar';
 import styles from './styles';
 import axios from 'axios';
 import Header from './Header';
+import Overlay from './Overlay';
+
 
 const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 const Watchlist = ({navigation}) => {
   const [symbolNames, setSymbolNames] = useState([]);
+  
+  const [showPopup, setShowPopup] = useState(false);
+  const openPopup = () => setShowPopup(true);
+  const closePopup = () => setShowPopup(false);
 
   const handleButtonPress = (symbolData) => {
     console.log(`Button ${symbolData.symbol} pressed`);
@@ -53,30 +59,39 @@ const Watchlist = ({navigation}) => {
   <View style={styles.unsafearea}>
     <SafeAreaView style={{flex:1}}>
     <View style={styles.container}>
-    <Header title ={'Watchlist'}/>
-    <ScrollView style={styles.tickerList} contentContainerStyle={{flexGrow: 1, justifyContent: 'center' }}>
-    {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
-        <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
-          <View style={styles.button}>
-          {symbolData.symbol !== null ? (
-                <>
-                  <Text style={styles.boldText}>{symbolData.symbol}</Text>
-                  <View style={styles.rightcontainer}>
-                    <Text style={styles.boldText}>{symbolData.price.toFixed(2)} </Text>
-                    <Text style={[styles.boldText, getButtonStyle(symbolData.change)]}>
-                      {symbolData.change > 0 ? `+${symbolData.change.toFixed(2)}`:symbolData.change.toFixed(2)}
-                    </Text>
-                  </View>
-                </>
-              ) : (
-                <Text style={styles.loadingText}>Loading...</Text>
-              )}
-          </View>
-        </Pressable>
-      ))}
-    </ScrollView>
-    <HomeBar navigation={navigation} />
-  </View>
+      <Header title ={'Watchlist'} onInfoPress={openPopup}/>
+      <ScrollView style={styles.tickerList} contentContainerStyle={{flexGrow: 1, justifyContent: 'center' }}>
+      {Array.isArray(symbolNames) && symbolNames.map((symbolData, index) => (
+          <Pressable key={index} onPress={() => handleButtonPress(symbolData)}>
+            <View style={styles.button}>
+            {symbolData.symbol !== null ? (
+                  <>
+                    <Text style={styles.boldText}>{symbolData.symbol}</Text>
+                    <View style={styles.rightcontainer}>
+                      <Text style={styles.boldText}>{symbolData.price.toFixed(2)} </Text>
+                      <Text style={[styles.boldText, getButtonStyle(symbolData.change)]}>
+                        {symbolData.change > 0 ? `+${symbolData.change.toFixed(2)}`:symbolData.change.toFixed(2)}
+                      </Text>
+                    </View>
+                  </>
+                ) : (
+                  <Text style={styles.loadingText}>Loading...</Text>
+                )}
+            </View>
+          </Pressable>
+        ))}
+      </ScrollView>
+      <HomeBar navigation={navigation} />
+
+      {showPopup && (
+        <Overlay onClose={closePopup}>
+          <Text style={styles.overlayText}>This is your watchlist, where you can keep track of stocks you are interested in</Text>
+          <Text style={styles.overlayText}>Tap any stock to view more information about it</Text>
+          <Text style={styles.overlayText}>You can add or remove stocks from their stock page</Text>
+        </Overlay>
+      )}
+
+    </View>
     </SafeAreaView>
   </View>
  

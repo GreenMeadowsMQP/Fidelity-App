@@ -18,23 +18,25 @@ app.get('/getToken', async (req, res) => {
         res.status(500).send('Error fetching token.');
     }
 });
-app.post('/postorder',async(req,res)=>{
-    try{
-        const{reqAction,accountNum,orderType,quantity,action,symbol} = req.query;
-        if(!reqAction||!accountNum||!orderType||!quantity||!action||!symbol){
-            return res.status(400).send('Missing required query parameters');
-        }
-        const order = await postOrder(reqAction,accountNum,orderType,quantity,action,symbol);
-        res.json(orderResponse)
-        console.log("Getting Order Response")
-        console.log(orderResponse)
-    }catch(error){
-        console.error('Error fetching order data in express:', error);
-        res.status(500).send('Error fetching order data in express.');
+app.post('/postOrder', async (req, res) => {
+    try {
+        // // Extract parameters from the request body
+        const {quantity,quantityType,action,instrumentId } = req.body;
+        
+        // // Validate the parameters
+        // if (!reqAction || !accountNum || !orderType || !quantity || !action || !symbol || !quantityType) {
+        //     return res.status(400).send('Missing required parameters');
+        // }
+
+        // Call the postOrder function
+        const orderResponse = await postOrder(quantity,quantityType,action,instrumentId);
+
+        // Send the response back to the client
+        res.json(orderResponse);
+    } catch (error) {
+        console.error('Error in /postOrder endpoint:', error);
+        res.status(500).send('Error processing order.');
     }
-
-
-
 });
 app.get('/getGraphData', async (req, res) => {
     try {

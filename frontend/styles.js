@@ -304,6 +304,10 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Nunito',
     marginLeft: 5,
+  },
+  overlayText:{
+    fontSize: 14,
+    fontFamily: 'Nunito',
   }
 
   
