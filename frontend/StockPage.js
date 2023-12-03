@@ -17,11 +17,13 @@ const StockPage = ({ route, navigation }) => {
     const [companyInfo, setCompanyInfo] = useState([]);
     const [watchlistStatus, setWatchlistStatus] = useState();
 
+    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+    const numericChange = typeof change === 'string' ? parseFloat(change) : change;
     
     const myItem = {
         symbol:symbol,
-        price:price,
-        change:change
+        price:numericPrice,
+        change:numericChange
     }
 
     const symbolPayload = {
@@ -94,7 +96,7 @@ const StockPage = ({ route, navigation }) => {
       fetchData();
     }, []);
 
-    const percentChange = change/price * 100;
+    const percentChange = numericChange/numericPrice * 100;
 
     const getChangeStyle = (change) => {
       if (parseFloat(change) >= 0) {
@@ -159,13 +161,13 @@ const StockPage = ({ route, navigation }) => {
     {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
       <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
     )}
-    <Text style={styles.symbolTextWL}>{price.toFixed(2)}</Text>
-    <Text style={[styles.infoTextWL, getChangeStyle(change)]}> {change > 0 ? `+${change.toFixed(2)}`:change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
+    <Text style={styles.symbolTextWL}>{numericPrice.toFixed(2)}</Text>
+    <Text style={[styles.infoTextWL, getChangeStyle(numericChange)]}> {numericChange > 0 ? `+${numericChange.toFixed(2)}`:numericChange.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
   </View>
 
   <StockGraph item={myItem}/>
 
-  <Text style={styles.infoTextWL}>Last: {price.toFixed(2)}</Text>
+  <Text style={styles.infoTextWL}>Last: {numericPrice.toFixed(2)}</Text>
   <Text style={styles.infoTextWL}>Volume: {volumeProduct.today}</Text>
   {/* <Text style={styles.infoText}>P/E: pe ratio</Text> */}
   <Text style={styles.infoTextWL}>Market Cap: {pricingProduct.marketCap}</Text>

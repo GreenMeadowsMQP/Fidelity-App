@@ -16,13 +16,14 @@ const Profile = ({ navigation }) => {
 
   const widthArray = [80, 80, 100, 80, 80, 80, 80, 100]
 
-  const handleButtonPress = (holding) => {
+  const handleButtonPress = (holding, navigation) => {
     console.log("BUTTON PRESS LOG: ", holding)
-    if (holding.symbol !== 'GCASH') {
-      console.log(`Button ${holding.symbol} pressed`);
-      const symbol = holding.symbol;
-      const price = holding.lastPrice;
-      const change = holding.lastPriceChange;
+    if (holding[0] !== 'GCASH' && holding[0] !== undefined) {
+      console.log(`Button ${holding[0]} pressed`);
+      const symbol = holding[0];
+      const price = holding[2];
+      const change = holding[3];
+      console.log('Symb: ', symbol, ' Price: ', price, ' Change: ', change)
       navigation.navigate('StockPage', { symbol, price, change });
     }
   };
@@ -59,7 +60,7 @@ const Profile = ({ navigation }) => {
     };
 
     fetchData();
-  }, []);
+      }, []);
 
   console.log('acccount holdings var: ', accountHoldings);
 
@@ -89,24 +90,24 @@ const Profile = ({ navigation }) => {
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
               <View>
                 {/* Header of table */}
-                <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
+                <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
                   <Row data={tableHead} widthArr={widthArray} style={styles.cellStyle} textStyle={styles.holdingsText} />
                 </Table>
                 {/* Data Rows in table */}
                 <Table flex={1}>
-                {
-                  tableData.map((rowData, index) => (
-                    <Row
-                      key={index}
-                      data={rowData}
-                      style={styles.cellStyle2}
-                      widthArr={widthArray}
-                      textStyle={styles.holdingsText}
-                      onPress={() => handleButtonPress(rowData[0])}
-                    />
-                  ))
-                }
-                
+                  {
+                    tableData.map((rowData, index) => (
+                      <Row
+                        key={index}
+                        data={rowData}
+                        style={styles.cellStyle2}
+                        widthArr={widthArray}
+                        textStyle={styles.holdingsText}
+                        onPress={() => handleButtonPress(rowData, navigation)}
+                      />
+                    ))
+                  }
+
                 </Table>
               </View>
             </ScrollView>
