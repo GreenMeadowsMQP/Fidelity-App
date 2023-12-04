@@ -8,7 +8,7 @@ import { myIP } from './config';
 
 
 function StockGraph(item) {
-    const [selectedTimeframe, setSelectedTimeframe] = useState('Live'); // Default to 1M
+    const [selectedTimeframe, setSelectedTimeframe] = useState('1M'); // Default to 1M
     const [timeframeGraphData, setTimeframeGraphData] = useState([]);
 
     useEffect(() => {
