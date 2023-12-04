@@ -28,6 +28,7 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
   const[lastTrade,setLastTrade]=useState([]);
   const pan = useRef(new Animated.ValueXY()).current;
   const { width, height } = Dimensions.get('screen');
+  const [showNewsArticle, setShowNewsArticle] = useState(false);
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: Animated.event(
@@ -38,7 +39,9 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
       acceptSwipe(dx, dy);
     },
   });
-
+  const toggleNewsArticle = () => {
+    setShowNewsArticle(!showNewsArticle);
+  };
   const acceptSwipe = (dx, dy) => {
     const isHorizSwipe = Math.abs(dx) > width * 0.25; // consider a swipe if it's more than half the width of the screen
     const isVertSwipe = dy < -height * 0.2;
@@ -205,9 +208,19 @@ const SwipeableCard = ({ item,onSwipe,style,onUpSwipe}) => {
         <Text style={styles.symbolTextWL}>{lastTrade ? `$${lastTrade}` : 'Loading...'}</Text> 
       </View>
       
-      <Text style={styles.infoTextWL}>{item.headline}</Text>
+      {!showNewsArticle && <Text style={styles.infoTextWL}>{item.headline}</Text>}
       
-      <StockGraph item={item}/>   
+      <View style={styles.cardContent}>
+        <Pressable onPress={toggleNewsArticle} style={styles.toggleButton}>
+          <Text style={{padding:5}}>{showNewsArticle ? "Show Graph" : "Read More"}</Text>
+        </Pressable>
+
+        {showNewsArticle ? (
+          <Text style={styles.infoTextWL}>{item.summary}</Text>
+        ) : (
+          <StockGraph item={item}/> // Assuming this is how you render the graph
+        )}
+      </View>
 
       <View style={styles.toolbar}>
         {/* Button 1 */}

@@ -5,8 +5,8 @@ import HomeBar from './HomeBar';
 import styles from './styles';
 import axios from 'axios';
 import Header from './Header';
+import { myIP } from './config';
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const Filter = ({navigation}) => {
