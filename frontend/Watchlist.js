@@ -83,16 +83,17 @@ const Watchlist = ({navigation}) => {
       </ScrollView>
       <HomeBar navigation={navigation} />
 
-      {showPopup && (
+      
+
+    </View>
+    </SafeAreaView>
+    {showPopup && (
         <Overlay onClose={closePopup}>
           <Text style={styles.overlayText}>This is your watchlist, where you can keep track of stocks you are interested in</Text>
           <Text style={styles.overlayText}>Tap any stock to view more information about it</Text>
           <Text style={styles.overlayText}>You can add or remove stocks from their stock page</Text>
         </Overlay>
       )}
-
-    </View>
-    </SafeAreaView>
   </View>
  
   )

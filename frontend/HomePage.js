@@ -149,7 +149,13 @@ const HomePage = ({ route, navigation }) => {
       <HomeBar navigation={navigation} />
       <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={currentSymbol}/> 
 
-      {showPopup && (
+      
+
+    </View>
+
+
+    </SafeAreaView>
+    {showPopup && (
         <Overlay onClose={closePopup}>
           <Text style={styles.overlayText}>Swipe Left: Ignore Stock</Text>
           <Text style={styles.overlayText}>Swipe Right: Add to Watchlist</Text>
@@ -157,11 +163,6 @@ const HomePage = ({ route, navigation }) => {
           <Text style={styles.overlayText}>The buttons at the bottom of the card correspond to each swipe</Text>
         </Overlay>
       )}
-
-    </View>
-
-
-    </SafeAreaView>
     </View>
     
   );
