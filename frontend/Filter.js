@@ -6,6 +6,9 @@ import styles from './styles';
 import axios from 'axios';
 import Header from './Header';
 
+const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
+
+
 const Filter = ({navigation}) => {
 
   const [stocks, setStocks] = useState([]);
@@ -16,7 +19,7 @@ const Filter = ({navigation}) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/getAllSymbols');
+      const response = await axios.get('http://' + myIP + ':3000/getAllSymbols');
       setStocks(response.data.sort((a, b) => {
         const stockA = a.Symbol;
         const stockB = b.Symbol;
@@ -41,7 +44,7 @@ const Filter = ({navigation}) => {
             Symbol: symbol,
             Active: !isActive
         }
-      await axios.post('http://localhost:3000/updateStockStatus', payload);
+      await axios.post('http://' + myIP + ':3000/updateStockStatus', payload);
       setStocks(prevStocks =>
         prevStocks.map(stock =>
           stock.Symbol === symbol ? { ...stock, Active: !isActive } : stock

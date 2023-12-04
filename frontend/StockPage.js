@@ -28,8 +28,8 @@ const StockPage = ({ route, navigation }) => {
     };
     const myItem = {
         symbol:symbol,
-        price:price,
-        change:change
+        price:numericPrice,
+        change:numericChange
     }
 
     const symbolPayload = {
@@ -40,11 +40,31 @@ const StockPage = ({ route, navigation }) => {
       const fetchData = async () => {
         try {
           const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
-          // console.log(response.data.content[0])          
-          setPricingProduct(response.data.content[0]); 
+          // console.log(response.data.content[0])
+          if(response.data.content[0] !== null && response.data.content[0] !== undefined ){
+            setPricingProduct(response.data.content[0]);
+          }else{
+            const emptyPricingProduct = {
+              marketCap: null,
+              highPrice: null,
+              lowPrice: null,
+              week52High: null,
+              week52Low: null,
+            }
+            setPricingProduct(emptyPricingProduct);
+          }          
+           
           const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
-          // console.log(response2.data.content[0])          
-          setVolumeProduct(response2.data.content[0]); 
+          // console.log(response2.data.content[0])
+          
+          if(response2.data.content[0] !== null && response2.data.content[0] !== undefined ){
+            setVolumeProduct(response2.data.content[0]);
+          }else{
+            const emptyVolumeProduct = {
+              today: null,
+            }
+            setVolumeProduct(emptyVolumeProduct);
+          } 
 
           await axios.post('http://' + myIP + ':3000/isOnWatchlist',  symbolPayload).then((resp) => {
             console.log('Watchlist status: ', resp.data)
@@ -55,8 +75,21 @@ const StockPage = ({ route, navigation }) => {
 
           try{
           const response3 = await axios.get('http://' + myIP + ':3000/getCompanyInfo?symbols=' + symbol);
-          console.log("company info: ", response3.data.content[0])          
-          setCompanyInfo(response3.data.content[0]); }
+          
+          if(response3.data.content[0] !== undefined  && response3.data.content[0] !== null  ){
+            console.log("company info: ", response3.data.content[0])
+
+            setCompanyInfo(response3.data.content[0]);
+          }else{
+            const emptyCompanyInfo = {
+              legalName: "...",
+              stockExchange: "...",
+              sector: "...",
+            }
+            setCompanyInfo(emptyCompanyInfo);
+          } 
+        
+          }
           catch(error){
             console.error('Error fetching Company Info:', error);
           }
@@ -69,7 +102,7 @@ const StockPage = ({ route, navigation }) => {
       fetchData();
     }, []);
 
-    const percentChange = change/price * 100;
+    const percentChange = numericChange/numericPrice * 100;
 
     const getChangeStyle = (change) => {
       if (parseFloat(change) >= 0) {
@@ -115,11 +148,11 @@ const StockPage = ({ route, navigation }) => {
       <SafeAreaView style={{flex:1}}>
       <View style={styles.container}>
 
-<Header title ={symbol}>
-  <Pressable onPress={() => navigation.goBack()}>
-    <Image source={require("./assets/images/backarrow.png")} style={styles.buttonBackground} />
-  </Pressable>
-</Header>
+        <Header title ={symbol}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <Image source={require("./assets/images/backarrow.png")} style={styles.buttonBackground} />
+          </Pressable>
+        </Header>
 
 
 
@@ -131,46 +164,48 @@ const StockPage = ({ route, navigation }) => {
       <Text style={styles.symbolTextWL}>{companyInfo.legalName}</Text>
     )}
 
-    {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
-      <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
-    )}
-    <Text style={styles.symbolTextWL}>{price.toFixed(2)}</Text>
-    <Text style={[styles.infoTextWL, getChangeStyle(change)]}> {change > 0 ? `+${change.toFixed(2)}`:change.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
-  </View>
+            {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
+              <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
+            )}
+            <Text style={styles.symbolTextWL}>{numericPrice.toFixed(2)}</Text>
+            <Text style={[styles.infoTextWL, getChangeStyle(numericChange)]}> {numericChange > 0 ? `+${numericChange.toFixed(2)}`:numericChange.toFixed(2)} ({percentChange.toFixed(2)}%)</Text>
+          </View>
 
-  <StockGraph item={myItem}/>
+          <StockGraph item={myItem}/>
 
-  <Text style={styles.infoTextWL}>Last: {price.toFixed(2)}</Text>
-  <Text style={styles.infoTextWL}>Volume: {volumeProduct.today}</Text>
-  {/* <Text style={styles.infoText}>P/E: pe ratio</Text> */}
-  <Text style={styles.infoTextWL}>Market Cap: {pricingProduct.marketCap}</Text>
-  <Text style={styles.infoTextWL}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
-  <Text style={styles.infoTextWL}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
+          <Text style={styles.infoTextWL}>Last: {numericPrice.toFixed(2)}</Text>
+          <Text style={styles.infoTextWL}>Volume: {volumeProduct.today}</Text>
+          {/* <Text style={styles.infoText}>P/E: pe ratio</Text> */}
+          <Text style={styles.infoTextWL}>Market Cap: {pricingProduct.marketCap}</Text>
+          <Text style={styles.infoTextWL}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
+          <Text style={styles.infoTextWL}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
 
   <View style={{alignItems: 'center'}}>
   <Pressable style={styles.buySellButton} onPress={openTradeModal}>
               <Text style={styles.whiteButtonText}>Buy/Sell</Text>
             </Pressable>
 
-    <Pressable
-      style={{
-        backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
-        ...styles.addRemoveButton,
-      }}
-      onPress={() => (watchlistStatus ? deleteWatchlist() : addWatchlist())}
-    >
-      <Text style={styles.whiteButtonText}>
-        {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
-      </Text>
-    </Pressable>
+                <Pressable
+                  style={{
+                    backgroundColor: watchlistStatus ? '#FF0000' : '#386641',
+                    ...styles.addRemoveButton,
+                  }}
+                  onPress={() => (watchlistStatus ? deleteWatchlist() : addWatchlist())}
+                >
+                  <Text style={styles.whiteButtonText}>
+                    {watchlistStatus ? 'Remove from Watchlist' : 'Add to Watchlist'}
+                  </Text>
+                </Pressable>
 
-    <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>
-    <Text style={styles.whiteButtonText}> Back </Text>
-    </Pressable>
-  </View>
+                <Pressable style={styles.buySellButton} onPress={() => navigation.goBack()}>
+                <Text style={styles.whiteButtonText}> Back </Text>
+                </Pressable>
+          </View>
 
-</View>
-</View>
+        </View>
+        
+        <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={symbol}/> 
+      </View>
       </SafeAreaView>
       <TradeActionModal visible={showTradeModal} onClose={closeTradeModal} symbol={symbol} />
       </View>
