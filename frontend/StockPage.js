@@ -43,20 +43,20 @@ const StockPage = ({ route, navigation }) => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          // const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
-          // // console.log(response.data.content[0])
-          // if(response.data.content !== null && response.data.content !== undefined ){
-          //   setPricingProduct(response.data.content[0]);
-          // }else{
-          //   const emptyPricingProduct = {
-          //     marketCap: null,
-          //     highPrice: null,
-          //     lowPrice: null,
-          //     week52High: null,
-          //     week52Low: null,
-          //   }
-          //   setPricingProduct(emptyPricingProduct);
-          // }          
+          const response = await axios.get('http://' + myIP + ':3000/getPricingProduct?symbols=' + symbol);
+          // console.log(response.data.content[0])
+          if(response.data.content !== null && response.data.content !== undefined ){
+            setPricingProduct(response.data.content[0]);
+          }else{
+            const emptyPricingProduct = {
+              marketCap: null,
+              highPrice: null,
+              lowPrice: null,
+              week52High: null,
+              week52Low: null,
+            }
+            setPricingProduct(emptyPricingProduct);
+          }          
            
           const response2 = await axios.get('http://' + myIP + ':3000/getVolumeProduct?symbols=' + symbol);
           // console.log(response2.data.content[0])
