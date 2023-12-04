@@ -16,6 +16,9 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
   const [lastTrade, setLastTrade] = useState(null);
   const [dollarValue,setDollarValue]= useState('');
   const [stockQuantity,setStockQuantity] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+
   const imageSources = {
     icon1: require('./assets/images/HomebarImages/square-plus.png'), // Replace with actual path
     icon2: require('./assets/images/HomebarImages/Vector.png'), // Replace with actual path
@@ -53,7 +56,22 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
 
       }
       const response = await axios.post(`http://${myIP}:3000/postOrder`,payload);
-      console.log("Order Response:", response.data);
+      console.log("Order Response:", response.data.content);
+      // Log the specific details you're trying to set
+    // console.log("Setting Order Details with:", {
+    //   orderId: response.data.content.orderId,
+    //   securityName: response.securityName,
+    //   orderPrice: response.acceptedPrc,
+    // });
+    //   setOrderDetails({
+    //     orderId: response.data.content.orderId,
+    //     securityName: response.data.securityName,
+    //     orderPrice: response.data.acceptedPrc, // assuming this is the order price
+    //     // ... any other details you want to include
+    //   });
+      setShowConfirmation(true);
+      setDollarValue('');
+    setStockQuantity('');
       // Handle the response here
       // For example, you might want to display a success message or update the UI
     } catch (error) {
@@ -128,6 +146,31 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
     }
   };
 
+    const renderConfirmationModal = () => {
+      return (
+        <Modal
+          visible={showConfirmation}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setShowConfirmation(false)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.confirmationModal}>
+              <Text style={styles.modalText}>Order Confirmed</Text>
+            
+              <TouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setShowConfirmation(false)}
+              >
+                <Text style={styles.textStyle}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      );
+    };
+    
+
   const handleModalClose = () => {
     Animated.timing(animation, {
       toValue: 0,
@@ -156,6 +199,7 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <Animated.View style={[styles.tradecard, modalStyle]}>
           {/* Your modal content here */}
+          
           <TouchableOpacity onPress={() => setShowAdvancedOptions(prev => !prev)} style={{ position: 'absolute', top: 25, left: 20 }}>
           {renderIcon('icon1')}
           </TouchableOpacity>
@@ -171,12 +215,12 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
           {/* Dropdown for account selection */}
           
           
-          
+          {renderConfirmationModal()}
           <TextInput style={styles.inputField } placeholder="$:"value={dollarValue.toString()}onChangeText={handleDollarChange} keyboardType='numeric'/>
           <TextInput style={styles.inputField } placeholder="Stock:" value={stockQuantity.toString()}onChangeText={handleStockQuantityChange} keyboardType='numeric'/>
           
           <View style={styles.pickerContainer}>
-          <View style={{ backgroundColor: '#386641', padding: 5,height:"100%", borderRadius: 5, marginRight: 10 }}>
+          <View style={{ backgroundColor: '#386641', padding: 5,paddingHorizontal:20,height:"100%", borderRadius: 5, }}>
           <Text style={styles.buttonText}>Account</Text>
           </View>
 

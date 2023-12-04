@@ -130,15 +130,17 @@ const Profile = ({ navigation }) => {
         </View>
         <HomeBar navigation={navigation} />
 
-        {showPopup && (
+        
+      </View>
+      {showPopup && (
         <Overlay onClose={closePopup}>
           <Text style={styles.overlayText}>This is your profile page, where you can see your account holdings</Text>
           <Text style={styles.overlayText}>Your account number and current value is shown at the top</Text>
           <Text style={styles.overlayText}>You can go to a stock page by tapping on the symbol</Text>
         </Overlay>
       )}
-      </View>
     </SafeAreaView>
+    
   );
 };
 
