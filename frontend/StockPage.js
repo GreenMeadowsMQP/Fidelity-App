@@ -5,10 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import styles from './styles';
 import Header from './Header';
-import TradeActionModal from './TradeActionModal';
+import TradeActionModal from './TradeActionModal'; 
+import { myIP } from './config';
 
-
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const StockPage = ({ route, navigation }) => {
@@ -18,13 +17,15 @@ const StockPage = ({ route, navigation }) => {
     const [volumeProduct, setVolumeProduct] = useState([]);
     const [companyInfo, setCompanyInfo] = useState([]);
     const [watchlistStatus, setWatchlistStatus] = useState();
-
     const [showTradeModal, setShowTradeModal] = useState(false);
-
-
-    const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
-    const numericChange = typeof change === 'string' ? parseFloat(change) : change;
-    
+    const openTradeModal = () => {
+      setShowTradeModal(true);
+    };
+  
+    // Function to close the TradeActionModal
+    const closeTradeModal = () => {
+      setShowTradeModal(false);
+    };
     const myItem = {
         symbol:symbol,
         price:numericPrice,
@@ -155,13 +156,13 @@ const StockPage = ({ route, navigation }) => {
 
 
 
-        <View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
-          
-          <View>
-            {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
-            {companyInfo && companyInfo.legalName && (
-              <Text style={styles.symbolTextWL}>{companyInfo.legalName}</Text>
-            )}
+<View style={{width: '100%', height: '90%', backgroundColor: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
+  
+  <View>
+    {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
+    {companyInfo && companyInfo.legalName && (
+      <Text style={styles.symbolTextWL}>{companyInfo.legalName}</Text>
+    )}
 
             {companyInfo && companyInfo.stockExchange && companyInfo.sector && (
               <Text style={styles.infoTextWL}>{companyInfo.stockExchange} - {companyInfo.sector}</Text>
@@ -179,9 +180,9 @@ const StockPage = ({ route, navigation }) => {
           <Text style={styles.infoTextWL}>Day High/Low: {pricingProduct.lowPrice}  -  {pricingProduct.highPrice}</Text>
           <Text style={styles.infoTextWL}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
 
-          <View style={{alignItems: 'center'}}>
-            <Pressable style={styles.buySellButton} onPress={() => setShowTradeModal(true)}>
-            <Text style={styles.whiteButtonText}>Buy/Sell</Text>
+  <View style={{alignItems: 'center'}}>
+  <Pressable style={styles.buySellButton} onPress={openTradeModal}>
+              <Text style={styles.whiteButtonText}>Buy/Sell</Text>
             </Pressable>
 
                 <Pressable
@@ -206,6 +207,7 @@ const StockPage = ({ route, navigation }) => {
         <TradeActionModal visible={showTradeModal}onClose={() => setShowTradeModal(false)}symbol={symbol}/> 
       </View>
       </SafeAreaView>
+      <TradeActionModal visible={showTradeModal} onClose={closeTradeModal} symbol={symbol} />
       </View>
         
         

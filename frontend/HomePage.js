@@ -10,10 +10,10 @@ import Header from './Header';
 import axios from 'axios';
 import styles from './styles';
 import Overlay from './Overlay';
+import { myIP } from './config';
 
 
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 export let cards = [];

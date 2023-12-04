@@ -10,6 +10,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F2E8CF',
   },
+  //for ios outside of safezone
   unsafearea:{
     flex:1,
     backgroundColor:'#F2E8CF',
@@ -38,6 +39,12 @@ export default StyleSheet.create({
     height: 50,
     width: '100%',
   },
+  pickerContainer:{
+      flexDirection: 'row', // Align children side by side
+      alignItems: 'center', // Align children vertically in the center
+      justifyContent: 'space-between', // Space out children evenly
+      width: '90%', // Container takes full width of its parent
+  },
   // Used for positioning elements absolutely within a relative container
   absoluteFill: {
     position: 'absolute',
@@ -55,6 +62,20 @@ export default StyleSheet.create({
     // padding:5,
     elevation: 5, // Common shadow/elevation style
     marginBottom:5
+  },
+  tradecard: {
+    width: '100%',
+    paddingTop:30,
+    zIndex:3,
+    height: Dimensions.get('window').height*0.888,
+    backgroundColor: '#A7C957', 
+    borderTopRightRadius:30,
+    borderTopLeftRadius:30,
+    display:"flex",
+    paddingHorizontal:30,
+    gap:15,
+    alignItems:"center",
+
   },
   //ticker List for watchlist
   tickerList: {
@@ -212,6 +233,34 @@ export default StyleSheet.create({
           flexDirection: 'row',
           justifyContent: 'center', 
         },
+    tradebutton:{
+      width:120,
+      height:40,
+      fontSize:25,
+      borderRadius:5,
+      color: "#F2E8CF",
+      justifyContent: 'center', 
+      alignItems: 'center'
+  },
+  buyButton:{
+    backgroundColor:'#386641'
+  },
+  sellButton:{
+    backgroundColor:'#BC4749'
+
+  },
+  buttonText:{
+    color:'#F2E8CF',
+    textAlign:'center',
+    flexDirection:'column',
+    fontSize:25,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    gap:15,
+  },
         
 
   //--------------------------- INPUT FIELDS --------------------------------------
@@ -219,9 +268,25 @@ export default StyleSheet.create({
   inputField: {
     backgroundColor: '#F2E8CF',
     borderRadius: 5,
-    width: 300,
+    width: '90%',
     height: 40,
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: '#386641',
+    fontFamily: 'Nunito',
   },
+  picker:{
+    
+    
+    backgroundColor:'#F2E8CF',
+    borderRadius:10,
+    // borderWidth: 0, // No border
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: '#386641',
+    fontFamily: 'Nunito',
+  }
+  ,
 
   //--------------------------- TEXT --------------------------------------
 
@@ -237,6 +302,12 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     color: '#F2E8CF',
+    fontFamily: 'Nunito',
+  },
+  boldTextG: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#386641',
     fontFamily: 'Nunito',
   },
   // Text style for timeframe buttons

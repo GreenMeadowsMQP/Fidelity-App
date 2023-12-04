@@ -7,9 +7,9 @@ import Header from './Header';
 import HomeBar from './HomeBar';
 import styles from './styles';
 import Overlay from './Overlay';
+import { myIP } from './config';
 
 
-const myIP = '192.168.1.117'; // CHANGE IP TO RUN LOCALLY
 
 const Profile = ({ navigation }) => {
   const [accountNumbers, setAccountNumbers] = useState([]);

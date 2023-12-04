@@ -1,0 +1,1 @@
+export const myIP = '192.168.1.32'; // Your IP address

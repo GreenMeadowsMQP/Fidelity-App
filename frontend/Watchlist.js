@@ -8,8 +8,8 @@ import axios from 'axios';
 import Header from './Header';
 import Overlay from './Overlay';
 
+import { myIP } from './config';
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 const Watchlist = ({navigation}) => {
   const [symbolNames, setSymbolNames] = useState([]);
