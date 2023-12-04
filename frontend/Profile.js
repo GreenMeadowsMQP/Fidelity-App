@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Table, Row, Rows } from 'react-native-table-component';
@@ -33,37 +34,46 @@ const Profile = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
+      console.log('Get Account Nums Response: ', response);
+      console.log('Get Account Nums Response DATA: ', response.data);
+      setAccountNumbers(response.data.accounts[0]);
+
       try {
-        const response = await axios.get('http://' + myIP + ':3000/getAccountNumber');
-        console.log('Get Account Nums Response: ', response);
-        console.log('Get Account Nums Response DATA: ', response.data);
-        setAccountNumbers(response.data.accounts[0]);
+        if (response.data.accounts[0].accountNumber !== undefined) {
+          const dataToSend = {
+            account: response.data.accounts[0].accountNumber,
+          };
+          console.log('account num: ', response.data.accounts[0].accountNumber);
+          const postResponse = await axios.post('http://' + myIP + ':3000/getPositions', dataToSend);
+          const postResponse2 = await axios.post('http://' + myIP + ':3000/getAccountBalance', dataToSend);
 
-        try {
-          if (response.data.accounts[0].accountNumber !== undefined) {
-            const dataToSend = {
-              account: response.data.accounts[0].accountNumber,
-            };
-            console.log('account num: ', response.data.accounts[0].accountNumber);
-            const postResponse = await axios.post('http://' + myIP + ':3000/getPositions', dataToSend);
-            const postResponse2 = await axios.post('http://' + myIP + ':3000/getAccountBalance', dataToSend);
+          console.log('Account Holdings: ', postResponse.data);
+          console.log('Account Balance: ', postResponse2.data);
 
-            console.log('Account Holdings: ', postResponse.data);
-            console.log('Account Balance: ', postResponse2.data);
-
-            setAccountHoldings(postResponse.data.content.sort((a, b) => (a.symbol === 'GCASH' ? 1 : b.symbol === 'GCASH' ? -1 : 0)));
-            setAccountValue(postResponse2.data.content[0]);
-          }
-        } catch (error) {
-          console.error('Error fetching account info:', error);
+          setAccountHoldings(postResponse.data.content.sort((a, b) => (a.symbol === 'GCASH' ? 1 : b.symbol === 'GCASH' ? -1 : 0)));
+          setAccountValue(postResponse2.data.content[0]);
         }
       } catch (error) {
-        console.error('Error fetching account numbers:', error);
+        console.error('Error fetching account info:', error);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching account numbers:', error);
+    }
+  };
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchData(); // Trigger the data fetching when the screen comes into focus
+      return () => {
+        // Clean up any subscriptions or resources if needed
+      };
+    }, [])
+  );
+
+  useEffect(() => {
     fetchData();
       }, []);
 
