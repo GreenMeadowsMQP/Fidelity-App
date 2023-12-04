@@ -20,7 +20,7 @@ const Profile = ({ navigation }) => {
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
 
-  const widthArray = [80, 100, 110, 80, 100, 80, 80, 100]
+  const widthArray = [80, 100, 110, 80, 100, 80, 80, 100, 100]
 
   const handleButtonPress = (holding, navigation) => {
     console.log("BUTTON PRESS LOG: ", holding)
@@ -79,7 +79,7 @@ const Profile = ({ navigation }) => {
 
   console.log('acccount holdings var: ', accountHoldings);
 
-  const tableHead = ['Symbol', 'Shares', 'Current Price', 'Change', 'Value', 'Today\'s Gain/Loss', 'Total Gain/Loss', 'Cost Basis'];
+  const tableHead = ['Symbol', 'Shares', 'Current Price', 'Change', 'Value', 'Today\'s Gain/Loss', 'Total Gain/Loss', 'Cost Basis', 'Avg. Cost Per Share'];
   const tableData = accountHoldings.map(holding => [
     holding.symbol,
     holding.tdQuantity.toString(),
@@ -89,6 +89,7 @@ const Profile = ({ navigation }) => {
     holding.todayGainLoss.toFixed(2),
     holding.totalGainLoss.toFixed(2),
     holding.costBasis.toFixed(2),
+    (holding.costBasis/holding.tdQuantity).toFixed(2),
   ]);
 
   return (
