@@ -5,8 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import styles from './styles';
 import Header from './Header';
+import TradeActionModal from './TradeActionModal'; 
+import { myIP } from './config';
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const StockPage = ({ route, navigation }) => {
@@ -16,8 +17,15 @@ const StockPage = ({ route, navigation }) => {
     const [volumeProduct, setVolumeProduct] = useState([]);
     const [companyInfo, setCompanyInfo] = useState([]);
     const [watchlistStatus, setWatchlistStatus] = useState();
-
-    
+    const [showTradeModal, setShowTradeModal] = useState(false);
+    const openTradeModal = () => {
+      setShowTradeModal(true);
+    };
+  
+    // Function to close the TradeActionModal
+    const closeTradeModal = () => {
+      setShowTradeModal(false);
+    };
     const myItem = {
         symbol:symbol,
         price:price,
@@ -115,7 +123,7 @@ const StockPage = ({ route, navigation }) => {
 
 
 
-<View style={{width: '100%', height: '90%', background: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
+<View style={{width: '100%', height: '90%', backgroundColor: '#A7C957', borderTopLeftRadius: 38, borderTopRightRadius: 38,flex: 1}}>
   
   <View>
     {/* <Text style={styles.symbolTextWL}>{symbol}</Text> */}
@@ -140,9 +148,9 @@ const StockPage = ({ route, navigation }) => {
   <Text style={styles.infoTextWL}>52 Week High/Low: {pricingProduct.week52Low}  -  {pricingProduct.week52High}</Text>
 
   <View style={{alignItems: 'center'}}>
-    <Pressable style={styles.buySellButton} onPress={() => console.log('Buy sell button!')}>
-    <Text style={styles.whiteButtonText}>Buy/Sell</Text>
-    </Pressable>
+  <Pressable style={styles.buySellButton} onPress={openTradeModal}>
+              <Text style={styles.whiteButtonText}>Buy/Sell</Text>
+            </Pressable>
 
     <Pressable
       style={{
@@ -164,6 +172,7 @@ const StockPage = ({ route, navigation }) => {
 </View>
 </View>
       </SafeAreaView>
+      <TradeActionModal visible={showTradeModal} onClose={closeTradeModal} symbol={symbol} />
       </View>
         
         

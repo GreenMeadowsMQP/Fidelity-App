@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Modal, Animated, Text, Image, Button, TextInput, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios'; 
 import Icon1Svg from './assets/images/square-plus.svg';
 import Icon2Svg from './assets/images/angle-small-down.svg';
 import styles from './styles';
-
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
+import { myIP } from './config';
 
 const TradeActionModal = ({ visible, onClose,symbol }) => {
   const [animation] = useState(new Animated.Value(0));
@@ -162,10 +162,10 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
           <TouchableOpacity onPress={handleModalClose} style={{ position: 'absolute', top: 15, right: 20 }}>
           {renderIcon('icon2')}
           </TouchableOpacity>
-          <Text style={styles.boldText} >Trade</Text>
+          <Text style={styles.boldTextG} >Trade</Text>
           <View style={{flexDirection:"row", justifyContent:'space-between',width:'90%'}}>
-            <Text style={styles.boldText}>{symbol}</Text> 
-            <Text style={styles.boldText}>{lastTrade !== null ? lastTrade : 'Loading...'}</Text>
+            <Text style={styles.boldTextG}>{symbol}</Text> 
+            <Text style={styles.boldTextG}>{lastTrade !== null ? lastTrade : 'Loading...'}</Text>
           </View>
           
           {/* Dropdown for account selection */}
@@ -176,22 +176,19 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
           <TextInput style={styles.inputField } placeholder="Stock:" value={stockQuantity.toString()}onChangeText={handleStockQuantityChange} keyboardType='numeric'/>
           
           <View style={styles.pickerContainer}>
-          <Text style={[styles.buyButton, styles.buttonText, {padding: 5, borderRadius: 5,marginRight:10}]}>
-              Account
-          </Text>
-          <Picker style={styles.picker}
-            selectedValue={selectedAccount}
-            onValueChange={(itemValue) => setSelectedAccount(itemValue)}
-            
-          >
-            {accounts.map(account => (
-              <Picker.Item 
-                key={account.accountNumber} 
-                label={account.nickname ? account.nickname : account.accountNumber.toString()} 
-                value={account.accountNumber} 
-              />
-            ))}
-          </Picker>
+          <View style={{ backgroundColor: '#386641', padding: 5,height:"100%", borderRadius: 5, marginRight: 10 }}>
+          <Text style={styles.buttonText}>Account</Text>
+          </View>
+
+            <RNPickerSelect
+              style={pickerSelectStyles}
+              value={selectedAccount}
+              onValueChange={(value) => setSelectedAccount(value)}
+              items={accounts.map(account => ({
+                label: account.nickname ? account.nickname : account.accountNumber.toString(),
+                value: account.accountNumber,
+              }))}
+            />
           </View>
          
           {/* Implement Picker or another dropdown component */}
@@ -217,5 +214,26 @@ const TradeActionModal = ({ visible, onClose,symbol }) => {
     </Modal>
   );
 };
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 4,
+    color: 'black',
+    backgroundColor:'#F2E8CF',
+    paddingRight: 40, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
 
 export default TradeActionModal;

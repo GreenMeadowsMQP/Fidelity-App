@@ -3,8 +3,8 @@ import { StyleSheet, View, Text ,Pressable} from 'react-native';
 import { Chart, Line, Area, HorizontalAxis, VerticalAxis,Tooltip } from 'react-native-responsive-linechart';
 import axios from 'axios';
 import moment from 'moment';
+import { myIP } from './config';
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 function StockGraph(item) {

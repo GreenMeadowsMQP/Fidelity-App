@@ -64,10 +64,10 @@ export default StyleSheet.create({
     marginBottom:5
   },
   tradecard: {
-    width: '98%',
+    width: '100%',
     paddingTop:30,
     zIndex:3,
-    height: Dimensions.get('window').height*0.90,
+    height: Dimensions.get('window').height*0.888,
     backgroundColor: '#A7C957', 
     borderTopRightRadius:30,
     borderTopLeftRadius:30,
@@ -276,11 +276,11 @@ export default StyleSheet.create({
     fontFamily: 'Nunito',
   },
   picker:{
-    flex:2,
-    height:40,
+    
+    
     backgroundColor:'#F2E8CF',
     borderRadius:10,
-    borderWidth: 0, // No border
+    // borderWidth: 0, // No border
     fontWeight: 'bold',
     fontSize: 20,
     color: '#386641',
@@ -302,6 +302,12 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     color: '#F2E8CF',
+    fontFamily: 'Nunito',
+  },
+  boldTextG: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#386641',
     fontFamily: 'Nunito',
   },
   // Text style for timeframe buttons

@@ -5,9 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import Header from './Header';
 import styles from './styles';
+import { myIP } from './config';
 
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 
 
 const Profile = ({navigation}) => {

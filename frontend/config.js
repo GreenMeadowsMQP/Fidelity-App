@@ -1,0 +1,1 @@
+export const myIP = 'localhost'; // Your IP address

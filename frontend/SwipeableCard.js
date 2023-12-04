@@ -6,13 +6,13 @@ import axios from 'axios';
 import moment from 'moment';
 import StockGraph from './StockGraph';
 import styles from './styles';
+import { myIP } from './config';
 // Import SVGs
 import Button1IconSvg from './assets/images/ToolbarImages/cross-circle.svg';
 import Button2IconSvg from './assets/images/ToolbarImages/usd-circle.svg';
 import Button3IconSvg from './assets/images/ToolbarImages/add.svg';
 import OverlayIconSvg from './assets/images/ToolbarImages/Circle.svg';
 
-const myIP = 'localhost'; //CHANGE IP TO RUN LOCALLY
 // Button and overlay images
 const buttonImages = {
   button1: require('./assets/images/ToolbarImages/Vector.png'),
