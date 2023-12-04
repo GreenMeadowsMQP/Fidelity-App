@@ -105,7 +105,7 @@ const getButtonStyle = (change) => {
     };
   } else if (parseFloat(change) < 0) {
     return {
-      color: '#FF0000', // Make Red
+      color: '#FF5757', // Make Red
     };
   }
   // Default style for no change
